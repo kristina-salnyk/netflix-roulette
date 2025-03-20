@@ -16,6 +16,7 @@ const theme = Object.freeze({
     4: '4px',
     8: '8px',
     16: '16px',
+    30: '30px',
     32: '32px',
     48: '48px',
     64: '64px',
