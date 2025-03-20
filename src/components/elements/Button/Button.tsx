@@ -4,16 +4,19 @@ import {ButtonStyled} from './Button.styled'
 export interface ButtonProps {
     text: string
     mode: 'filled' | 'outlined';
-    onClick: () => void
+    type?: 'button' | 'submit' | 'reset'
     disabled?: boolean
     className?: string;
+    onClick?: () => void
 
 }
 
-export const Button: FC<ButtonProps> = ({text, mode, onClick, disabled, className}) => {
-  return <ButtonStyled type='button'
+export const Button: FC<ButtonProps> = ({text, mode, onClick, type = 'button', disabled, className}) => {
+  return <ButtonStyled type={type}
     mode={mode}
-    onClick={onClick}
     disabled={disabled}
-    className={className}>{text}</ButtonStyled>
+    className={className}
+    onClick={onClick}>
+    {text}
+  </ButtonStyled>
 }

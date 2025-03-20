@@ -10,6 +10,7 @@ const theme = Object.freeze({
     darkGray: '#424242',
     black: '#232323',
     white: '#FFFFFF',
+    input: 'rgba(35,35,35,0.8)'
   },
   spacing: {
     4: '4px',
