@@ -1,9 +1,13 @@
 import React from 'react'
-import {Button} from './components/elements/Button/Button'
+import {ThemeProvider} from 'styled-components'
+import theme from './styles/theme'
+import {Counter} from './components/elements/Counter/Counter'
 
 function App() {
   return (
-    <Button label='+' type='filled'/>
+    <ThemeProvider theme={theme}>
+      <Counter/>
+    </ThemeProvider>
   )
 }
 

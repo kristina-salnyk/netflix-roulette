@@ -1,10 +1,19 @@
 import React, {FC} from 'react'
+import {ButtonStyled} from './Button.styled'
 
-interface ButtonProps {
-    label: string;
-    type: 'filled' | 'outline';
+export interface ButtonProps {
+    text: string
+    mode: 'filled' | 'outlined';
+    onClick: () => void
+    disabled?: boolean
+    className?: string;
+
 }
 
-export const Button: FC<ButtonProps> = ({label}) => {
-  return <button type='button'>{label}</button>
+export const Button: FC<ButtonProps> = ({text, mode, onClick, disabled, className}) => {
+  return <ButtonStyled type='button'
+    mode={mode}
+    onClick={onClick}
+    disabled={disabled}
+    className={className}>{text}</ButtonStyled>
 }
