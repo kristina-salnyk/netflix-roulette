@@ -23,7 +23,8 @@ export default [
       '@typescript-eslint/ban-types': 'off',
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
-      'eol-last': ['error', 'always']
+      'eol-last': ['error', 'always'],
+      'react/jsx-max-props-per-line': ['error', {maximum: 1, when: 'multiline'}],
     }
   },
 ]
