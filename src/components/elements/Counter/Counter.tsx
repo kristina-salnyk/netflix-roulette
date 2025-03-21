@@ -1,5 +1,5 @@
 import React, {createElement} from 'react'
-import {SquareButton} from '../SquareButton/SquareButton'
+import {SquareButton} from '../SquareButton'
 import {CounterStyled} from './Counter.styled'
 
 

@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import {ThemeProvider} from 'styled-components'
 import theme from './styles/theme'
-import {Counter} from './components/elements/Counter/Counter'
-import {SearchForm} from './components/elements/SearchForm/SearchForm'
-import {GenreSelect} from './components/elements/GenreSelect/GenreSelect'
+import {Counter} from './components/elements/Counter'
+import {SearchForm} from './components/elements/SearchForm'
+import {GenreSelect} from './components/elements/GenreSelect'
 import {GENRES} from './constants'
 
 function App() {

@@ -1,5 +1,5 @@
 import React, {FC} from 'react'
-import {ButtonProps} from '../Button/Button'
+import {ButtonProps} from '../Button'
 import {TabButtonStyled} from './TabButton.styled'
 
 export interface TabButtonProps extends ButtonProps {

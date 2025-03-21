@@ -1,6 +1,6 @@
 import React, {FC} from 'react'
 import {GenreSelectStyled} from './GenreSelect.styled'
-import {TabButton} from '../TabButton/TabButton'
+import {TabButton} from '../TabButton'
 
 interface GenreSelectProps {
     genres: string[];

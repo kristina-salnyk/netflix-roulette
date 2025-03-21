@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {Button} from '../Button/Button'
+import {Button} from '../Button'
 
 export const SquareButtonStyled = styled(Button)`
     padding: ${({theme}) => theme.spacing[8]} ${({theme}) => theme.spacing[16]};
