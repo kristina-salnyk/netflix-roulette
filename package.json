@@ -27,8 +27,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@types/jest": "^29.5.14",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
+    "cypress": "^14.2.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-import": "^2.31.0",
@@ -58,5 +60,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@components(.*)$": "<rootDir>/src/components/$1",
+      "^@styles(.*)$": "<rootDir>/src/styles/$1",
+      "^@utils(.*)$": "<rootDir>/src/utils/$1"
+    }
   }
 }

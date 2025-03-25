@@ -41,12 +41,14 @@ export class Counter extends React.Component<CounterProps, CounterState> {
         mode: 'outlined',
         disabled: isDisabled,
         onClick: this.handleDecrement,
+        testId: 'decrement-button'
       }),
-      count,
+      createElement('span', {'data-testid': 'count-value'}, count),
       createElement(SquareButton, {
         text: '+',
         mode: 'filled',
         onClick: this.handleIncrement,
+        testId: 'increment-button'
       })
     )
   }

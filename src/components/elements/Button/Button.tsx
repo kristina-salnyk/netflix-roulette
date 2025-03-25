@@ -8,15 +8,17 @@ export interface ButtonProps {
     disabled?: boolean
     className?: string;
     onClick?: () => void
+    testId?: string
 
 }
 
-export const Button: FC<ButtonProps> = ({text, mode, onClick, type = 'button', disabled, className}) => {
+export const Button: FC<ButtonProps> = ({text, mode, onClick, type = 'button', disabled, className, testId}) => {
   return <ButtonStyled type={type}
     mode={mode}
     disabled={disabled}
     className={className}
-    onClick={onClick}>
+    onClick={onClick}
+    data-testid={testId}>
     {text}
   </ButtonStyled>
 }
