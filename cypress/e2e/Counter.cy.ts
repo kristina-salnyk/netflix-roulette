@@ -3,7 +3,7 @@ describe('Counter', () => {
     cy.visit('http://localhost:3000')
   })
 
-  it('should render component with initial count value', () => {
+  it('should display counter with zero count value', () => {
     cy.get('[data-testid="count-value"]').should('exist').and('have.text', '0')
   })
 
