@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
     "eslint": "eslint src",
     "eslint:fix": "eslint --fix src",
-    "test:nowatch": "react-scripts test --watchAll=false --passWithNoTests",
+    "test:nowatch": "craco test --watchAll=false --passWithNoTests",
     "prepare": "husky",
     "prepublish": "npm run eslint:fix && npm run test:nowatch",
     "storybook": "storybook dev -p 6006",
@@ -28,6 +28,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "@eslint/js": "^9.22.0",
     "@storybook/addon-essentials": "^8.6.12",
     "@storybook/addon-interactions": "^8.6.12",
