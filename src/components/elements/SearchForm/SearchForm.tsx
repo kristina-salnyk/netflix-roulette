@@ -1,6 +1,6 @@
 import React, {FC, FormEvent} from 'react'
-import {Button} from '../Button'
-import {Input} from '../Input'
+import {Button} from '@components/elements/Button'
+import {Input} from '@components/elements/Input'
 import {SearchFormStyled} from './SearchForm.styled'
 
 interface SearchFormProps {

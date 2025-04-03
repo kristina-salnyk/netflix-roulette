@@ -5,9 +5,47 @@ import {withThemeFromJSXProvider} from '@storybook/addon-themes'
 import theme from '../src/styles/theme'
 
 const GlobalStyles = createGlobalStyle`
-    body {
-        font-family: Noto Sans, "sans-serif";
+    * {
+        box-sizing: border-box;
     }
+
+    body {
+        margin: 0;
+        font-family: Noto Sans, "sans-serif";
+        background-color: #424242;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    code {
+        font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+        font-size: 16px;
+    }
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    span {
+        margin: 0;
+        padding: 0;
+        caret-color: transparent;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
 `
 
 const preview: Preview = {
