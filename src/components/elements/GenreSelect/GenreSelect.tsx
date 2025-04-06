@@ -16,7 +16,6 @@ export const GenreSelect: FC<GenreSelectProps> = ({genres, selectedGenre, onSele
       {genres.map((genre) => (
         <li key={genre}>
           <TabButton text={genre}
-            mode='outlined'
             onClick={() => onSelect(genre)}
             className={clsx({'selected': genre === selectedGenre})}/>
         </li>

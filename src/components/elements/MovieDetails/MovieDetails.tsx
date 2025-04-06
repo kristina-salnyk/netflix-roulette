@@ -1,5 +1,6 @@
-import React, {FC} from 'react'
+import React, {FC, useState} from 'react'
 import {Movie} from '@type/Movie'
+import moviePlaceholder from '@images/movie-placeholder.png'
 import {
   MovieDescription,
   MovieDetailsStyled,
@@ -17,9 +18,13 @@ interface MovieDetailProps {
 }
 
 export const MovieDetails: FC<MovieDetailProps> = ({movie}) => {
+  const [movieImage, setMovieImage] = useState(movie.imageUrl || moviePlaceholder)
+
   return (
     <MovieDetailsStyled>
-      <MovieImage src={movie.imageUrl}/>
+      <MovieImage src={movieImage}
+        onError={() => setMovieImage(moviePlaceholder)}
+        alt={movie.title}/>
       <MovieInfo>
         <MovieHeading>
           <MovieTitle>{movie.title}</MovieTitle>

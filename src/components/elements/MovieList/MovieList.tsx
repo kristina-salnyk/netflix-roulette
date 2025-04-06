@@ -1,21 +1,35 @@
-import React, {FC} from 'react'
-import {Movie} from '@type/Movie'
+import React, {FC, useState} from 'react'
+import {GENRES, MOVIES, SORT_OPTIONS} from '@constants'
+import {filterSortMovieList} from '@utils/filterSortMovieList'
 import {MovieTile} from '@components/elements/MovieTile'
-import {ListItem, MovieListStyled} from './MovieList.styled'
+import {GenreSelect} from '@components/elements/GenreSelect'
+import {SortControl} from '@components/elements/SortControl'
+import {ListControls, ListItem, MovieListStyled} from './MovieList.styled'
 
 interface MovieListProps {
-    movies: Movie[]
+    searchQuery: string
     onMovieClick: (movieId: string) => void;
 }
 
-export const MovieList: FC<MovieListProps> = ({movies, onMovieClick}) => {
+export const MovieList: FC<MovieListProps> = ({searchQuery, onMovieClick}) => {
+  const [selectedGenre, setSelectedGenre] = useState(GENRES[0])
+  const [sortBy, setSortBy] = useState(SORT_OPTIONS[0].value)
+
+  const movies = filterSortMovieList(MOVIES, searchQuery, selectedGenre, sortBy)
+
   return (
-    <MovieListStyled>
-      {movies.map(item => (
-        <ListItem key={item.id}>
-          <MovieTile movie={item} onClick={onMovieClick}/>
-        </ListItem>
-      ))}
-    </MovieListStyled>
+    <div>
+      <ListControls>
+        <GenreSelect genres={GENRES} selectedGenre={selectedGenre} onSelect={setSelectedGenre}/>
+        <SortControl options={SORT_OPTIONS} sortBy={sortBy} onSelect={setSortBy}/>
+      </ListControls>
+      <MovieListStyled>
+        {movies.map(item => (
+          <ListItem key={item.id}>
+            <MovieTile movie={item} onClick={onMovieClick}/>
+          </ListItem>
+        ))}
+      </MovieListStyled>
+    </div>
   )
 }

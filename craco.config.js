@@ -12,6 +12,7 @@ module.exports = {
       '@type': resolvePath('./src/type'),
       '@constants': resolvePath('./src/constants'),
       '@icons': resolvePath('./src/assets/icons'),
+      '@images': resolvePath('./src/assets/images'),
     }
   },
 }

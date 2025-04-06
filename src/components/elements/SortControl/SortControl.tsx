@@ -1,18 +1,19 @@
 import React, {FC} from 'react'
-import {SORT_OPTIONS} from '@constants'
+import {SelectOption} from '@type/SelectOption'
 import {Select} from '@components/elements/Select'
 import {SortControlStyled, SortLabel} from './SortControl.styled'
 
 interface SortControlProps {
+    options: SelectOption[]
     sortBy: string
     onSelect: (value: string) => void
 }
 
-export const SortControl: FC<SortControlProps> = ({sortBy, onSelect}) => {
+export const SortControl: FC<SortControlProps> = ({options, sortBy, onSelect}) => {
   return (
     <SortControlStyled>
       <SortLabel>Sort by</SortLabel>
-      <Select options={SORT_OPTIONS} selectedValue={sortBy} onSelect={onSelect}/>
+      <Select options={options} selectedValue={sortBy} onSelect={onSelect}/>
     </SortControlStyled>
   )
 }
