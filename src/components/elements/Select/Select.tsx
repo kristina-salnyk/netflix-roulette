@@ -44,14 +44,14 @@ export const Select: FC<SelectProps> = ({options, selectedValue, onSelect}) => {
 
   return (
     <SelectStyled ref={ref}>
-      <SelectButton type='button' onClick={handleToggle}>
-        <span>{option?.label}</span>
+      <SelectButton type='button' onClick={handleToggle} data-testid='select-button'>
+        <span data-testid='select-value'>{option?.label}</span>
         <SelectIcon>&#9660;</SelectIcon>
       </SelectButton>
-      {isOpen && <SelectOptions>
+      {isOpen && <SelectOptions data-testid='select-options'>
         {options.map(option => (
           <li key={option.value}>
-            <Option onClick={() => handleSelect(option.value)}>
+            <Option onClick={() => handleSelect(option.value)} data-testid='select-option'>
               {option.label}
             </Option>
           </li>

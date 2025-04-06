@@ -16,15 +16,16 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onClick}) => {
   }
 
   return (
-    <MovieTileStyled onClick={handleClick}>
+    <MovieTileStyled onClick={handleClick} data-testid='movie-tile'>
       <MovieImage src={movieImage}
         onError={() => setMovieImage(moviePlaceholder)}
-        alt={movie.title}/>
+        alt={movie.title}
+        data-testid='movie-image'/>
       <MovieDescription>
-        <MovieTitle>{movie.title}</MovieTitle>
-        <MovieRelease>{movie.releaseYear}</MovieRelease>
+        <MovieTitle data-testid='movie-title'>{movie.title}</MovieTitle>
+        <MovieRelease data-testid='movie-release-year'>{movie.releaseYear}</MovieRelease>
       </MovieDescription>
-      <MovieGenres>{movie.genres.join(', ')}</MovieGenres>
+      <MovieGenres data-testid='movie-genres'>{movie.genres.join(', ')}</MovieGenres>
     </MovieTileStyled>
   )
 }

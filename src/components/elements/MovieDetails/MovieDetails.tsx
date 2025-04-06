@@ -21,21 +21,22 @@ export const MovieDetails: FC<MovieDetailProps> = ({movie}) => {
   const [movieImage, setMovieImage] = useState(movie.imageUrl || moviePlaceholder)
 
   return (
-    <MovieDetailsStyled>
+    <MovieDetailsStyled data-testid='movie-details'>
       <MovieImage src={movieImage}
         onError={() => setMovieImage(moviePlaceholder)}
-        alt={movie.title}/>
+        alt={movie.title}
+        data-testid='movie-image'/>
       <MovieInfo>
         <MovieHeading>
-          <MovieTitle>{movie.title}</MovieTitle>
-          <MovieRating>{movie.rating}</MovieRating>
+          <MovieTitle data-testid='movie-title'>{movie.title}</MovieTitle>
+          <MovieRating data-testid='movie-rating'>{movie.rating}</MovieRating>
         </MovieHeading>
-        <MovieGenres>{movie.genres.join(', ')}</MovieGenres>
+        <MovieGenres data-testid='movie-genres'>{movie.genres.join(', ')}</MovieGenres>
         <MovieMeta>
-          <span>{movie.releaseYear}</span>
-          <span>{movie.duration}</span>
+          <span data-testid='movie-release-year'>{movie.releaseYear}</span>
+          <span data-testid='movie-duration'>{movie.duration}</span>
         </MovieMeta>
-        <MovieDescription>{movie.description}</MovieDescription>
+        <MovieDescription data-testid='movie-description'>{movie.description}</MovieDescription>
       </MovieInfo>
     </MovieDetailsStyled>
   )
