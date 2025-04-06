@@ -8,7 +8,10 @@ module.exports = {
     alias: {
       '@components': resolvePath('./src/components'),
       '@styles': resolvePath('./src/styles'),
-      '@utils': resolvePath('./src/utils')
+      '@utils': resolvePath('./src/utils'),
+      '@type': resolvePath('./src/type'),
+      '@constants': resolvePath('./src/constants'),
+      '@icons': resolvePath('./src/assets/icons'),
     }
   },
 }

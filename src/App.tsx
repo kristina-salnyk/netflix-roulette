@@ -1,31 +1,40 @@
 import React, {useState} from 'react'
 import {ThemeProvider} from 'styled-components'
 import theme from '@styles/theme'
+import {GENRES, MOVIES, SORT_OPTIONS} from '@constants'
 import {Counter} from '@components/elements/Counter'
 import {SearchForm} from '@components/elements/SearchForm'
-import {GenreSelect} from '@components/elements/GenreSelect'
-import {GENRES, MOVIES} from './constants'
-import {MovieTile} from '@components/elements/MovieTile'
+import {MovieDetails} from '@components/elements/MovieDetails'
+import {MovieList} from '@components/elements/MovieList'
+import {Container} from '@components/elements/Container'
+import {ListControls} from 'src/components/elements/ListControls'
+import {filterSortMovieList} from '@utils/filterSortMovieList'
 
 function App() {
-  const [selectedGenre, setSelectedGenre] = useState('Action')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedGenre, setSelectedGenre] = useState(GENRES[0])
+  const [sortBy, setSortBy] = useState(SORT_OPTIONS[0].value)
+  const [selectedMovieId, setSelectedMovieId] = useState('')
 
-  const handleSearch = (query: string) => {
-    console.log('Searching...', query)
-  }
+  const selectedMovie = MOVIES.find((movie) => {
+    return movie.id === selectedMovieId
+  })
 
-  const handleSelect = (genre: string) => {
-    setSelectedGenre(genre)
-  }
+  const movieList = filterSortMovieList(MOVIES, searchQuery, selectedGenre, sortBy)
 
   return (
     <ThemeProvider theme={theme}>
-      <Counter/>
-      <SearchForm initialQuery='cat' onSearch={handleSearch}/>
-      <GenreSelect genres={GENRES} selectedGenre={selectedGenre} onSelect={handleSelect}/>
-      <MovieTile movie={MOVIES[0]} onClick={() => console.log('Movie clicked')}/>
-      <MovieTile movie={MOVIES[1]} onClick={() => console.log('Movie clicked')}/>
-      <MovieTile movie={MOVIES[2]} onClick={() => console.log('Movie clicked')}/>
+      <Container>
+        <Counter/>
+        {selectedMovie ?
+          <MovieDetails movie={selectedMovie}/> :
+          <SearchForm onSearch={setSearchQuery}/>}
+        <ListControls selectedGenre={selectedGenre}
+          sortBy={sortBy}
+          onGenreSelect={setSelectedGenre}
+          onSortBySelect={setSortBy}/>
+        <MovieList movies={movieList} onMovieClick={setSelectedMovieId}/>
+      </Container>
     </ThemeProvider>
   )
 }

@@ -13,12 +13,14 @@ export interface ButtonProps {
 }
 
 export const Button: FC<ButtonProps> = ({text, mode, onClick, type = 'button', disabled, className, testId}) => {
-  return <ButtonStyled type={type}
-    mode={mode}
-    disabled={disabled}
-    className={className}
-    onClick={onClick}
-    data-testid={testId}>
-    {text}
-  </ButtonStyled>
+  return (
+    <ButtonStyled type={type}
+      mode={mode}
+      disabled={disabled}
+      className={className}
+      onClick={onClick}
+      data-testid={testId}>
+      {text}
+    </ButtonStyled>
+  )
 }

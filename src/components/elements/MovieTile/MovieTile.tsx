@@ -1,19 +1,25 @@
 import React, {FC} from 'react'
+import {Movie} from '@type/Movie'
+import {MovieDescription, MovieGenres, MovieImage, MovieRelease, MovieTileStyled, MovieTitle} from './MovieTile.styled'
 
 interface MovieTileProps {
-    movie: {
-        name: string;
-        releaseYear: number;
-        imageUrl: string;
-        genres: string[];
-    },
-    onClick: () => void;
+    movie: Movie,
+    onClick: (movieId: string) => void;
 }
 
-export const MovieTile: FC<MovieTileProps> = () => {
+export const MovieTile: FC<MovieTileProps> = ({movie, onClick}) => {
+  const handleClick = () => {
+    onClick(movie.id)
+  }
+
   return (
-    <div>
-      <h1>MovieTile</h1>
-    </div>
+    <MovieTileStyled onClick={handleClick}>
+      <MovieImage src={movie.imageUrl}/>
+      <MovieDescription>
+        <MovieTitle>{movie.title}</MovieTitle>
+        <MovieRelease>{movie.releaseYear}</MovieRelease>
+      </MovieDescription>
+      <MovieGenres>{movie.genres.join(', ')}</MovieGenres>
+    </MovieTileStyled>
   )
 }

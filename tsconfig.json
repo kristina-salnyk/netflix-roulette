@@ -22,6 +22,15 @@
       ],
       "@utils/*": [
         "src/utils/*"
+      ],
+      "@type/*": [
+        "src/type/*"
+      ],
+      "@constants": [
+        "src/constants"
+      ],
+      "@icons/*": [
+        "src/assets/icons/*"
       ]
     }
   },

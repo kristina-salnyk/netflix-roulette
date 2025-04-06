@@ -7,7 +7,7 @@ export const ButtonStyled = styled.button<{ mode: 'filled' | 'outlined' }>`
     background-color: ${({theme, mode}) => (mode === 'filled') ? theme.colors.accent : 'transparent'};
     color: ${({theme, mode}) => (mode === 'filled') ? theme.colors.white : theme.colors.accent};
     border-radius: ${({theme}) => theme.shape.borderRadius.s};
-    border: ${({theme}) => `${theme.shape.borderWidth} solid ${theme.colors.accent}`};
+    border: ${({theme}) => `${theme.shape.borderWidth.m} solid ${theme.colors.accent}`};
     text-transform: uppercase;
     cursor: ${({disabled}) => `${disabled ? 'auto' : 'pointer'}`};
     transition: opacity ${({theme}) => theme.animation.cubicBezier};

@@ -11,10 +11,12 @@ interface InputProps {
 }
 
 export const Input: FC<InputProps> = ({type = 'text', name, placeholder, defaultValue = '', onChange, className}) => {
-  return <InputStyled name={name}
-    type={type}
-    placeholder={placeholder}
-    defaultValue={defaultValue}
-    onChange={onChange}
-    className={className}/>
+  return (
+    <InputStyled name={name}
+      type={type}
+      placeholder={placeholder}
+      defaultValue={defaultValue}
+      onChange={onChange}
+      className={className}/>
+  )
 }

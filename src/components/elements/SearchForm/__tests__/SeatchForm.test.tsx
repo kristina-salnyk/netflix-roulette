@@ -1,7 +1,7 @@
 import {screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
-import {SearchForm} from '../SearchForm'
+import {SearchForm} from '@components/elements/SearchForm'
 
 describe('SearchForm', () => {
   it('should render component with initial input value', () => {

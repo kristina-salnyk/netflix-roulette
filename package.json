@@ -20,7 +20,9 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "clsx": "^2.1.1",
     "eslint-plugin-react-hooks": "^5.2.0",
+    "polished": "^4.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "5.0.1",
@@ -81,7 +83,10 @@
     "moduleNameMapper": {
       "^@components(.*)$": "<rootDir>/src/components/$1",
       "^@styles(.*)$": "<rootDir>/src/styles/$1",
-      "^@utils(.*)$": "<rootDir>/src/utils/$1"
+      "^@utils(.*)$": "<rootDir>/src/utils/$1",
+      "^@type(.*)$": "<rootDir>/src/type/$1",
+      "^@constants(.*)$": "<rootDir>/src/constants",
+      "^@icons(.*)$": "<rootDir>/src/assets/icons/$1"
     }
   }
 }

@@ -11,7 +11,7 @@ const GlobalStyles = createGlobalStyle`
 
     body {
         margin: 0;
-        font-family: Noto Sans, "sans-serif";
+        font-family: Noto Sans, sans-serif;
         background-color: #424242;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
