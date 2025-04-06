@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react'
+import React, {FC, useEffect, useState} from 'react'
 import {Movie} from '@type/Movie'
 import moviePlaceholder from '@images/movie-placeholder.png'
 import {
@@ -19,6 +19,10 @@ interface MovieDetailProps {
 
 export const MovieDetails: FC<MovieDetailProps> = ({movie}) => {
   const [movieImage, setMovieImage] = useState(movie.imageUrl || moviePlaceholder)
+
+  useEffect(() => {
+    setMovieImage(movie.imageUrl || moviePlaceholder)
+  }, [movie.imageUrl])
 
   return (
     <MovieDetailsStyled data-testid='movie-details'>

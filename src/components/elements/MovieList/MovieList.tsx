@@ -15,6 +15,14 @@ export const MovieList: FC<MovieListProps> = ({searchQuery, onMovieClick}) => {
   const [selectedGenre, setSelectedGenre] = useState(GENRES[0])
   const [sortBy, setSortBy] = useState(SORT_OPTIONS[0].value)
 
+  const onEditClick = (movieId: string) => {
+    console.log('Edit movie with ID:', movieId)
+  }
+
+  const onDeleteClick = (movieId: string) => {
+    console.log('Delete movie with ID:', movieId)
+  }
+
   const movies = filterSortMovieList(MOVIES, searchQuery, selectedGenre, sortBy)
 
   return (
@@ -26,7 +34,10 @@ export const MovieList: FC<MovieListProps> = ({searchQuery, onMovieClick}) => {
       <MovieListStyled data-testid='movie-list'>
         {movies.map(item => (
           <ListItem key={item.id}>
-            <MovieTile movie={item} onClick={onMovieClick}/>
+            <MovieTile movie={item}
+              onMovieClick={onMovieClick}
+              onEditClick={onEditClick}
+              onDeleteClick={onDeleteClick}/>
           </ListItem>
         ))}
       </MovieListStyled>

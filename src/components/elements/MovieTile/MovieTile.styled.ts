@@ -3,8 +3,15 @@ import {transparentize} from 'polished'
 import {MOVIE_TILE_HEIGHT, MOVIE_TILE_WIDTH} from '@constants'
 
 export const MovieTileStyled = styled.div`
+    position: relative;
     width: ${MOVIE_TILE_WIDTH}px;
     cursor: pointer;
+
+    &:hover {
+        .menu {
+            display: block;
+        }
+    }
 `
 
 export const MovieImage = styled.img`
@@ -39,4 +46,44 @@ export const MovieGenres = styled.p`
     font-size: ${({theme}) => theme.typography.size[14]};
     font-weight: ${({theme}) => theme.typography.weight.medium};
     color: ${({theme}) => transparentize(0.5, theme.colors.white)};
+`
+export const TileMenu = styled.div`
+    display: none;
+    position: absolute;
+    top: ${({theme}) => theme.spacing[16]};
+    right: ${({theme}) => theme.spacing[16]};
+`
+
+export const MenuButton = styled.button`
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        opacity: ${({theme}) => theme.animation.opacity};
+    }
+`
+
+export const MenuOptions = styled.ul`
+    padding: ${({theme}) => theme.spacing[8]};
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 120px;
+    background-color: ${({theme}) => theme.colors.control};
+    border-radius: ${({theme}) => theme.shape.borderRadius.s};
+    z-index: 1;
+`
+export const Option = styled.div`
+    padding: ${({theme}) => theme.spacing[8]} ${({theme}) => theme.spacing[16]};
+    font-size: ${({theme}) => theme.typography.size[16]};
+    font-weight: ${({theme}) => theme.typography.weight.medium};
+    color: ${({theme}) => transparentize(0.4, theme.colors.white)};
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+        opacity: ${({theme}) => theme.animation.opacity};
+    }
 `

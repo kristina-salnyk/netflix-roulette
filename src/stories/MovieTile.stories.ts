@@ -8,7 +8,11 @@ const meta = {
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
   argTypes: {},
-  args: {onClick: fn()},
+  args: {
+    onMovieClick: fn(),
+    onEditClick: fn(),
+    onDeleteClick: fn()
+  },
 } satisfies Meta<typeof MovieTile>
 
 export default meta

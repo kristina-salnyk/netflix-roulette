@@ -34,7 +34,7 @@ export const SelectOptions = styled.ul`
     right: 0;
     top: calc(100% + ${({theme}) => theme.spacing[8]});
     width: 200px;
-    background-color: ${({theme}) => theme.colors.input};
+    background-color: ${({theme}) => theme.colors.control};
     border-radius: ${({theme}) => theme.shape.borderRadius.s};
     z-index: 1;
 `

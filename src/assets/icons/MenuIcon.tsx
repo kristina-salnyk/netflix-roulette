@@ -3,9 +3,9 @@ import {FC} from 'react'
 import {useTheme} from 'styled-components'
 import {IconProps} from '@type/IconProps'
 
-export const Edit: FC<IconProps> = ({height = 36, width = 36, color, className}) => {
+export const MenuIcon: FC<IconProps> = ({height = 36, width = 36, color, className}) => {
   const theme = useTheme()
-  const fill = color ?? theme.colors.icon
+  const fill = color ?? theme.colors.control
 
   return (
     <svg

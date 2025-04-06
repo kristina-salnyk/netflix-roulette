@@ -15,16 +15,16 @@ const mockMovie =
       description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
     }
 
-const onClickMock = jest.fn()
+const onMovieClickMock = jest.fn()
 
 describe('MovieTile', () => {
   test('should render component', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onClick: onClickMock, testId: 'movie-tile'})
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock, testId: 'movie-tile'})
     expect(screen.getByTestId('movie-tile')).toBeInTheDocument()
   })
 
   test('should render movie image', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onClick: onClickMock, testId: 'movie-tile'})
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onCMovielick: onMovieClickMock, testId: 'movie-tile'})
 
     const movieImage = screen.getByTestId('movie-image')
     expect(movieImage).toBeInTheDocument()
@@ -32,7 +32,7 @@ describe('MovieTile', () => {
   })
 
   test('should render movie title', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onClick: onClickMock, testId: 'movie-tile'})
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock, testId: 'movie-tile'})
 
     const movieTitle = screen.getByTestId('movie-title')
     expect(movieTitle).toBeInTheDocument()
@@ -40,7 +40,7 @@ describe('MovieTile', () => {
   })
 
   test('should render movie release year', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onClick: onClickMock, testId: 'movie-tile'})
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock, testId: 'movie-tile'})
 
     const movieReleaseYear = screen.getByTestId('movie-release-year')
     expect(movieReleaseYear).toBeInTheDocument()
@@ -48,7 +48,7 @@ describe('MovieTile', () => {
   })
 
   test('should render movie genres', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onClick: onClickMock, testId: 'movie-tile'})
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock, testId: 'movie-tile'})
 
     const movieGenres = screen.getByTestId('movie-genres')
     expect(movieGenres).toBeInTheDocument()
@@ -56,11 +56,11 @@ describe('MovieTile', () => {
   })
 
   test('should call onClick when movie tile is clicked', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onClick: onClickMock, testId: 'movie-tile'})
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock, testId: 'movie-tile'})
 
     const movieTile = screen.getByTestId('movie-tile')
     userEvent.click(movieTile)
 
-    expect(onClickMock).toHaveBeenCalledWith('1')
+    expect(onMovieClickMock).toHaveBeenCalledWith('1')
   })
 })

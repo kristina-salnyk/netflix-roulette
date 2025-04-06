@@ -2,6 +2,7 @@ import globals from 'globals'
 import pluginJs from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import pluginReact from 'eslint-plugin-react'
+import pluginReactHooks from 'eslint-plugin-react-hooks'
 
 
 /** @type {import('eslint').Linter.Config[]} */
@@ -14,6 +15,9 @@ export default [
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
   {
+    plugins: {
+      'react-hooks': pluginReactHooks,
+    },
     rules: {
       'no-unused-vars': 'off',
       'no-undef': 'off',
@@ -26,6 +30,8 @@ export default [
       'react/prop-types': 'off',
       'eol-last': ['error', 'always'],
       'react/jsx-max-props-per-line': ['error', {maximum: 1, when: 'multiline'}],
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'error',
     }
   },
 ]
