@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from 'react'
+import React, {FC, useEffect, useState} from 'react'
 import {SelectOption} from '@type/SelectOption'
 import {Option, SelectButton, SelectIcon, SelectOptions, SelectStyled} from './Select.styled'
 
@@ -10,32 +10,31 @@ interface SelectProps {
 
 export const Select: FC<SelectProps> = ({options, selectedValue, onSelect}) => {
   const [isOpen, setIsOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleClickOrEscape = (event: MouseEvent | KeyboardEvent) => {
-      if (event instanceof MouseEvent && !ref.current?.contains(event.target as Node)) {
+    const handleClickOutside = (event: MouseEvent | KeyboardEvent) => {
+      if (event instanceof MouseEvent) {
         setIsOpen(false)
-      }
-
-      if (event instanceof KeyboardEvent && event.key === 'Escape') {
+      } else if (event.key === 'Escape') {
         setIsOpen(false)
       }
     }
 
-    document.addEventListener('mousedown', handleClickOrEscape)
-    document.addEventListener('keydown', handleClickOrEscape)
+    document.addEventListener('click', handleClickOutside)
+    document.addEventListener('keydown', handleClickOutside)
     return () => {
-      document.removeEventListener('mousedown', handleClickOrEscape)
-      document.removeEventListener('keydown', handleClickOrEscape)
+      document.removeEventListener('click', handleClickOutside)
+      document.removeEventListener('keydown', handleClickOutside)
     }
   }, [])
 
-  const handleToggle = () => {
+  const handleToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation()
     setIsOpen((prevState) => !prevState)
   }
 
-  const handleSelect = (value: string) => {
+  const handleSelect = (event: React.MouseEvent<HTMLDivElement>, value: string) => {
+    event.stopPropagation()
     onSelect(value)
     setIsOpen(false)
   }
@@ -43,7 +42,7 @@ export const Select: FC<SelectProps> = ({options, selectedValue, onSelect}) => {
   const option = options.find(option => option.value === selectedValue)
 
   return (
-    <SelectStyled ref={ref}>
+    <SelectStyled>
       <SelectButton type='button' onClick={handleToggle} data-testid='select-button'>
         <span data-testid='select-value'>{option?.label}</span>
         <SelectIcon>&#9660;</SelectIcon>
@@ -51,7 +50,9 @@ export const Select: FC<SelectProps> = ({options, selectedValue, onSelect}) => {
       {isOpen && <SelectOptions data-testid='select-options'>
         {options.map(option => (
           <li key={option.value}>
-            <Option onClick={() => handleSelect(option.value)} data-testid='select-option'>
+            <Option
+              onClick={(event: React.MouseEvent<HTMLDivElement>) => handleSelect(event, option.value)}
+              data-testid='select-option'>
               {option.label}
             </Option>
           </li>

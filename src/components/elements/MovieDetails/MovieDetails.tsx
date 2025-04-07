@@ -18,7 +18,7 @@ interface MovieDetailProps {
 }
 
 export const MovieDetails: FC<MovieDetailProps> = ({movie}) => {
-  const [movieImage, setMovieImage] = useState(movie.imageUrl || moviePlaceholder)
+  const [movieImage, setMovieImage] = useState('')
 
   useEffect(() => {
     setMovieImage(movie.imageUrl || moviePlaceholder)
@@ -26,7 +26,7 @@ export const MovieDetails: FC<MovieDetailProps> = ({movie}) => {
 
   return (
     <MovieDetailsStyled data-testid='movie-details'>
-      <MovieImage src={movieImage}
+      <MovieImage src={movieImage || moviePlaceholder}
         onError={() => setMovieImage(moviePlaceholder)}
         alt={movie.title}
         data-testid='movie-image'/>

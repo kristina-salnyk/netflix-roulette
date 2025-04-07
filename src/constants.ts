@@ -7,12 +7,19 @@ export const RATING_ICON_HEIGHT = 48
 export const MOVIE_TILE_WIDTH = 322
 export const MOVIE_TILE_HEIGHT = 455
 
+export const DEFAULT_GENRE = 'All'
 export const GENRES = ['All', 'Action', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Thriller']
 
+export const SORT_VALUES = {
+  RELEASE_YEAR: 'releaseYear',
+  RATING: 'rating',
+  TITLE: 'title',
+}
+
 export const SORT_OPTIONS = [
-  {label: 'Release date', value: 'releaseYear'},
-  {label: 'Rating', value: 'rating'},
-  {label: 'Title', value: 'title'},
+  {label: 'Release date', value: SORT_VALUES.RELEASE_YEAR},
+  {label: 'Rating', value: SORT_VALUES.RATING},
+  {label: 'Title', value: SORT_VALUES.TITLE},
 ]
 
 export const MOVIES = [
