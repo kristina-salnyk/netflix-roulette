@@ -1,7 +1,6 @@
 import {fireEvent, screen} from '@testing-library/react'
 import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
-import theme from '@styles/theme'
-import {GenreSelect} from '../GenreSelect'
+import {GenreSelect} from '@components/elements/GenreSelect'
 
 const genresMock = ['Action', 'Comedy', 'Drama', 'Horror']
 
@@ -16,7 +15,7 @@ describe('GenreSelect', () => {
 
   it('should highlight selected genre', () => {
     renderWithThemeProvider(GenreSelect, {genres: genresMock, selectedGenre: 'Comedy'})
-    expect(screen.getByText('Comedy')).toHaveStyle({'border-bottom-color': theme.colors.accent})
+    expect(screen.getByText('Comedy')).toHaveClass('selected')
   })
 
   it('should call onSelect with selected genre when genre is clicked', () => {

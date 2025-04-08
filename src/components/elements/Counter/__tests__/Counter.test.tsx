@@ -1,6 +1,6 @@
 import {fireEvent, screen} from '@testing-library/react'
 import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
-import {Counter} from '../Counter'
+import {Counter} from '@components/elements/Counter'
 
 describe('Counter', () => {
   it('should render component with initial count value', () => {

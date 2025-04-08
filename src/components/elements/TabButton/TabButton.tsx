@@ -1,11 +1,9 @@
 import React, {FC} from 'react'
-import {ButtonProps} from '../Button'
+import {ButtonProps} from '@components/elements/Button'
 import {TabButtonStyled} from './TabButton.styled'
 
-export interface TabButtonProps extends ButtonProps {
-    selected?: boolean;
-}
+type TabButtonProps = Omit<ButtonProps, 'mode'>;
 
 export const TabButton: FC<TabButtonProps> = (props) => {
-  return <TabButtonStyled {...props}/>
+  return <TabButtonStyled {...props} mode="outlined"/>
 }

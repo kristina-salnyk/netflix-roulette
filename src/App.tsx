@@ -1,27 +1,30 @@
 import React, {useState} from 'react'
 import {ThemeProvider} from 'styled-components'
-import theme from './styles/theme'
-import {Counter} from './components/elements/Counter'
-import {SearchForm} from './components/elements/SearchForm'
-import {GenreSelect} from './components/elements/GenreSelect'
-import {GENRES} from './constants'
+import theme from '@styles/theme'
+import {MOVIES} from '@constants'
+import {Counter} from '@components/elements/Counter'
+import {SearchForm} from '@components/elements/SearchForm'
+import {MovieDetails} from '@components/elements/MovieDetails'
+import {MovieList} from '@components/elements/MovieList'
+import {Container} from '@components/elements/Container'
 
 function App() {
-  const [selectedGenre, setSelectedGenre] = useState('Action')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedMovieId, setSelectedMovieId] = useState('')
 
-  const handleSearch = (query: string) => {
-    console.log('Searching...', query)
-  }
-
-  const handleSelect = (genre: string) => {
-    setSelectedGenre(genre)
-  }
+  const selectedMovie = MOVIES.find((movie) => {
+    return movie.id === selectedMovieId
+  })
 
   return (
     <ThemeProvider theme={theme}>
-      <Counter/>
-      <SearchForm initialQuery='cat' onSearch={handleSearch}/>
-      <GenreSelect genres={GENRES} selectedGenre={selectedGenre} onSelect={handleSelect}/>
+      <Container>
+        <Counter/>
+        {selectedMovie ?
+          <MovieDetails movie={selectedMovie}/> :
+          <SearchForm onSearch={setSearchQuery}/>}
+        <MovieList searchQuery={searchQuery} onMovieClick={setSelectedMovieId}/>
+      </Container>
     </ThemeProvider>
   )
 }

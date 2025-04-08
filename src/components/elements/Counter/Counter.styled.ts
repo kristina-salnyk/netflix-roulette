@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const CounterStyled = styled.div`
-    padding: ${({theme}) => theme.spacing[16]};
+    padding: 0 ${({theme}) => theme.spacing[16]};
     display: flex;
     justify-content: center;
     align-items: center;
