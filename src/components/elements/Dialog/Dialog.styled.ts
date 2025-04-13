@@ -22,7 +22,7 @@ export const DialogStyled = styled.div`
     min-width: ${DIALOG_WIDTH}px;
     position: relative;
 `
-export const DialogContent = styled.div`
+export const DialogWrapper = styled.div`
     padding: ${({theme}) => `${theme.spacing[64]} ${theme.spacing[48]} ${theme.spacing[48]}`};
     max-height: calc(100vh - 2 * ${({theme}) => theme.spacing[64]});
     overflow-y: auto;

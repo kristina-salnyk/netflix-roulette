@@ -1,10 +1,8 @@
-import React, {FC, ReactNode} from 'react'
+import React, {FC, ReactNode, useState} from 'react'
 import {createPortal} from 'react-dom'
 import FocusTrap from 'focus-trap-react'
 import {CloseIcon} from '@icons/CloseIcon'
-import {DialogCloseButton, DialogContent, DialogStyled, DialogTitle, Overlay} from './Dialog.styled'
-
-const dialogRoot = document.getElementById('dialog-root')
+import {DialogCloseButton, DialogStyled, DialogTitle, DialogWrapper, Overlay} from './Dialog.styled'
 
 interface DialogProps {
     title: string
@@ -13,18 +11,20 @@ interface DialogProps {
 }
 
 export const Dialog: FC<DialogProps> = ({title, children, onClose}) => {
+  const [dialogRoot] = useState(document.getElementById('dialog-root'))
+
   return (
     dialogRoot && createPortal(
       <Overlay>
         <FocusTrap>
-          <DialogStyled>
-            <DialogContent>
-              <DialogCloseButton onClick={onClose}>
+          <DialogStyled data-testid='dialog'>
+            <DialogWrapper>
+              <DialogCloseButton onClick={onClose} data-testId='dialog-close-button'>
                 <CloseIcon/>
               </DialogCloseButton>
-              <DialogTitle>{title}</DialogTitle>
+              <DialogTitle data-testid='dialog-title'>{title}</DialogTitle>
               {children}
-            </DialogContent>
+            </DialogWrapper>
           </DialogStyled>
         </FocusTrap>
       </Overlay>,

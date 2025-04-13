@@ -35,7 +35,7 @@ describe('MovieDetails', () => {
     expect(screen.getByTestId('movie-details')).toBeInTheDocument()
   })
 
-  test('should render component with movie image', () => {
+  test('should render movie image', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
 
     const movieImage = screen.getByTestId('movie-image')
