@@ -1,22 +1,36 @@
-import React, {FC} from 'react'
-import {InputStyled} from './Input.styled'
+import React, {FC, InputHTMLAttributes, useRef} from 'react'
+import {CalendarIcon} from '@icons/CalerdarIcon'
+import {InputButton, InputLabel, InputStyled, InputWrapper} from './Input.styled'
 
-interface InputProps {
-    name: string;
-    type?: string;
-    defaultValue?: string;
-    placeholder?: string;
-    className?: string;
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+    label?: string
+    testId?: string
 }
 
-export const Input: FC<InputProps> = ({type = 'text', name, placeholder, defaultValue = '', onChange, className}) => {
+export const Input: FC<InputProps> = ({type = 'text', label, testId, ...props}) => {
+  const ref = useRef<HTMLInputElement>(null)
+
+  const handleButtonClick = () => {
+    if (!ref.current) {
+      return
+    }
+
+    if (ref.current.showPicker) {
+      ref.current.showPicker()
+    } else {
+      ref.current.blur()
+    }
+  }
+
   return (
-    <InputStyled name={name}
-      type={type}
-      placeholder={placeholder}
-      defaultValue={defaultValue}
-      onChange={onChange}
-      className={className}/>
+    <div>
+      {label && <InputLabel htmlFor={props.name}>{label}</InputLabel>}
+      <InputWrapper>
+        <InputStyled ref={ref} type={type} data-testid={testId} {...props}/>
+        {type === 'date' && <InputButton onClick={handleButtonClick}>
+          <CalendarIcon/>
+        </InputButton>}
+      </InputWrapper>
+    </div>
   )
 }

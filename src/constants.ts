@@ -7,6 +7,13 @@ export const RATING_ICON_HEIGHT = 48
 export const MOVIE_TILE_WIDTH = 322
 export const MOVIE_TILE_HEIGHT = 455
 
+export const DIALOG_WIDTH = 580
+
+export const MOVIE_FORM_LEFT_COLUMN_WIDTH = 480
+export const MOVIE_FORM_RIGHT_COLUMN_WIDTH = 300
+
+export const SEARCH_FORM_WIDTH = 800
+
 export const DEFAULT_GENRE = 'All'
 export const GENRES = ['All', 'Action', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Thriller']
 

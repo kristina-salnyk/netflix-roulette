@@ -12,7 +12,7 @@ export const Select: FC<SelectProps> = ({options, selectedValue, onSelect}) => {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent | KeyboardEvent) => {
+    const handleOutsideClick = (event: MouseEvent | KeyboardEvent) => {
       if (event instanceof MouseEvent) {
         setIsOpen(false)
       } else if (event.key === 'Escape') {
@@ -20,11 +20,11 @@ export const Select: FC<SelectProps> = ({options, selectedValue, onSelect}) => {
       }
     }
 
-    document.addEventListener('click', handleClickOutside)
-    document.addEventListener('keydown', handleClickOutside)
+    document.addEventListener('click', handleOutsideClick)
+    document.addEventListener('keydown', handleOutsideClick)
     return () => {
-      document.removeEventListener('click', handleClickOutside)
-      document.removeEventListener('keydown', handleClickOutside)
+      document.removeEventListener('click', handleOutsideClick)
+      document.removeEventListener('keydown', handleOutsideClick)
     }
   }, [])
 

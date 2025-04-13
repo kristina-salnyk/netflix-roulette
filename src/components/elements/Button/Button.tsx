@@ -1,26 +1,15 @@
-import React, {FC} from 'react'
+import React, {ButtonHTMLAttributes, FC} from 'react'
 import {ButtonStyled} from './Button.styled'
 
-export interface ButtonProps {
-    text: string
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     mode: 'filled' | 'outlined';
-    type?: 'button' | 'submit' | 'reset'
-    disabled?: boolean
-    className?: string;
-    onClick?: () => void
     testId?: string
-
 }
 
-export const Button: FC<ButtonProps> = ({text, mode, onClick, type = 'button', disabled, className, testId}) => {
+export const Button: FC<ButtonProps> = ({type = 'button', mode, testId, ...props}) => {
   return (
-    <ButtonStyled type={type}
-      mode={mode}
-      disabled={disabled}
-      className={className}
-      onClick={onClick}
-      data-testid={testId}>
-      {text}
+    <ButtonStyled type={type} mode={mode} data-testid={testId} {...props}>
+      {props.children}
     </ButtonStyled>
   )
 }

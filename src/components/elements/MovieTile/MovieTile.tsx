@@ -18,8 +18,8 @@ import {
 interface MovieTileProps {
     movie: Movie,
     onMovieClick: (movieId: string) => void;
-    onEditClick: (movieId: string) => void;
-    onDeleteClick: (movieId: string) => void;
+    onEditClick: () => void;
+    onDeleteClick: () => void;
 }
 
 export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClick, onEditClick}) => {
@@ -31,7 +31,7 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
   }, [movie.imageUrl])
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent | KeyboardEvent) => {
+    const handleOutsideClick = (event: MouseEvent | KeyboardEvent) => {
       if (event instanceof MouseEvent) {
         setIsMenuOpen(false)
       } else if (event.key === 'Escape') {
@@ -39,11 +39,11 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
       }
     }
 
-    document.addEventListener('click', handleClickOutside)
-    document.addEventListener('keydown', handleClickOutside)
+    document.addEventListener('click', handleOutsideClick)
+    document.addEventListener('keydown', handleOutsideClick)
     return () => {
-      document.removeEventListener('click', handleClickOutside)
-      document.removeEventListener('keydown', handleClickOutside)
+      document.removeEventListener('click', handleOutsideClick)
+      document.removeEventListener('keydown', handleOutsideClick)
     }
   }, [])
 
@@ -60,13 +60,13 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
 
   const handleEditClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
-    onEditClick(movie.id)
+    onEditClick()
     setIsMenuOpen(false)
   }
 
   const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
-    onDeleteClick(movie.id)
+    onDeleteClick()
     setIsMenuOpen(false)
   }
 

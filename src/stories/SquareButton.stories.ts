@@ -16,21 +16,21 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    text: '+',
+    children: '+',
     mode: 'filled',
   },
 }
 
 export const Secondary: Story = {
   args: {
-    text: '+',
+    children: '+',
     mode: 'outlined',
   },
 }
 
 export const Disabled: Story = {
   args: {
-    text: '+',
+    children: '+',
     mode: 'filled',
     disabled: true,
   }
