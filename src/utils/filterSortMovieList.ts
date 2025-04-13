@@ -15,8 +15,11 @@ export const filterSortMovieList = (movies: Movie[], searchQuery: string, select
 
   return filteredMovies.sort((a, b) => {
     switch (sortBy) {
-      case SORT_VALUES.RELEASE_YEAR:
-        return b.releaseYear - a.releaseYear
+      case SORT_VALUES.RELEASE_YEAR: {
+        const dateA = new Date(a.releaseDate).getTime()
+        const dateB = new Date(b.releaseDate).getTime()
+        return (isNaN(dateB) ? 0 : dateB) - (isNaN(dateA) ? 0 : dateA)
+      }
       case SORT_VALUES.TITLE:
         return a.title.localeCompare(b.title)
       case SORT_VALUES.RATING:

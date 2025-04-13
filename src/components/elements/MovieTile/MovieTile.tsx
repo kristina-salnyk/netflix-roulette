@@ -2,6 +2,7 @@ import React, {FC, useEffect, useState} from 'react'
 import {Movie} from '@type/Movie'
 import moviePlaceholder from '@images/movie-placeholder.png'
 import {MenuIcon} from '@icons/MenuIcon'
+import {getYearFromDate} from '@utils/getYearFromDate'
 import {
   MenuButton,
   MenuOptions,
@@ -70,6 +71,8 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
     setIsMenuOpen(false)
   }
 
+  const releaseYear = getYearFromDate(movie.releaseDate)
+
   return (
     <MovieTileStyled onClick={handleMovieClick} data-testid='movie-tile'>
       <MovieImage src={movieImage || moviePlaceholder}
@@ -78,7 +81,7 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
         data-testid='movie-image'/>
       <MovieDescription>
         <MovieTitle data-testid='movie-title'>{movie.title}</MovieTitle>
-        <MovieRelease data-testid='movie-release-year'>{movie.releaseYear}</MovieRelease>
+        {releaseYear && <MovieRelease data-testid='movie-release-year'>{releaseYear}</MovieRelease>}
       </MovieDescription>
       <MovieGenres data-testid='movie-genres'>{movie.genres.join(', ')}</MovieGenres>
       <TileMenu className='menu'>

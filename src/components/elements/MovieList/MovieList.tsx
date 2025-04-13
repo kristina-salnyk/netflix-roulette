@@ -55,6 +55,7 @@ export const MovieList: FC<MovieListProps> = ({searchQuery, onMovieClick}) => {
   const handleMovieFormSubmit = (movie: Movie) => {
     editMovieById(editingMovieId, movie)
     setEditingMovieId('')
+    setIsEditDialogOpen(false)
   }
 
   const filteredMovies = filterSortMovieList(movies, searchQuery, selectedGenre, sortBy)

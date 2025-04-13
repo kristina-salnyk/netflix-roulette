@@ -26,10 +26,10 @@ export const MovieForm: FC<MovieFormProps> = ({initialMovie, onSubmit}) => {
       title: formData.get('movie-title')?.toString() || '',
       imageUrl: formData.get('movie-image-url')?.toString() || '',
       rating: Number.parseFloat(formData.get('movie-rating')?.toString() || '0'),
-      duration: formData.get('movie-duration')?.toString() || '',
+      duration: Number.parseFloat(formData.get('movie-duration')?.toString() || '0'),
       description: formData.get('movie-description')?.toString() || '',
-      releaseYear: 0,
-      genres: []
+      releaseDate: formData.get('movie-release-date')?.toString() || '',
+      genres: [...(initialMovie?.genres || [])]
     }
 
     onSubmit(movie)
@@ -59,7 +59,8 @@ export const MovieForm: FC<MovieFormProps> = ({initialMovie, onSubmit}) => {
             name='movie-release-date'
             type='date'
             label='Release date'
-            testId='movie-release-date'/>
+            testId='movie-release-date'
+            defaultValue={initialMovie?.releaseDate}/>
           <Input required
             name='movie-rating'
             type='number'

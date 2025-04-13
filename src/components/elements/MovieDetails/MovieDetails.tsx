@@ -1,6 +1,8 @@
 import React, {FC, useEffect, useState} from 'react'
 import {Movie} from '@type/Movie'
 import moviePlaceholder from '@images/movie-placeholder.png'
+import {getFormattedDuration} from '@utils/getFormattedDuration'
+import {getYearFromDate} from '@utils/getYearFromDate'
 import {
   MovieDescription,
   MovieDetailsStyled,
@@ -24,6 +26,9 @@ export const MovieDetails: FC<MovieDetailProps> = ({movie}) => {
     setMovieImage(movie.imageUrl || moviePlaceholder)
   }, [movie.imageUrl])
 
+  const releaseYear = getYearFromDate(movie.releaseDate)
+  const duration = getFormattedDuration(movie.duration)
+
   return (
     <MovieDetailsStyled data-testid='movie-details'>
       <MovieImage src={movieImage || moviePlaceholder}
@@ -37,8 +42,8 @@ export const MovieDetails: FC<MovieDetailProps> = ({movie}) => {
         </MovieHeading>
         <MovieGenres data-testid='movie-genres'>{movie.genres.join(', ')}</MovieGenres>
         <MovieMeta>
-          <span data-testid='movie-release-year'>{movie.releaseYear}</span>
-          <span data-testid='movie-duration'>{movie.duration}</span>
+          {releaseYear && <span data-testid='movie-release-year'>{releaseYear}</span>}
+          {duration && <span data-testid='movie-duration'>{duration}</span>}
         </MovieMeta>
         <MovieDescription data-testid='movie-description'>{movie.description}</MovieDescription>
       </MovieInfo>
