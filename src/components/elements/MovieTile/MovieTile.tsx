@@ -18,8 +18,8 @@ import {
 interface MovieTileProps {
     movie: Movie,
     onMovieClick: (movieId: string) => void;
-    onEditClick: () => void;
-    onDeleteClick: () => void;
+    onEditClick: (movieId: string) => void;
+    onDeleteClick: (movieId: string) => void;
 }
 
 export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClick, onEditClick}) => {
@@ -60,13 +60,13 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
 
   const handleEditClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
-    onEditClick()
+    onEditClick(movie.id)
     setIsMenuOpen(false)
   }
 
   const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
-    onDeleteClick()
+    onDeleteClick(movie.id)
     setIsMenuOpen(false)
   }
 

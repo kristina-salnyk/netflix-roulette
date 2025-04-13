@@ -1,6 +1,7 @@
 import React, {FC, useEffect, useState} from 'react'
 import {Movie} from '@type/Movie'
 import {GENRES, MOVIES, SORT_OPTIONS} from '@constants'
+import {getMovieById} from '@utils/getMovieById'
 import {filterSortMovieList} from '@utils/filterSortMovieList'
 import {MovieTile} from '@components/elements/MovieTile'
 import {GenreSelect} from '@components/elements/GenreSelect'
@@ -17,37 +18,47 @@ interface MovieListProps {
 export const MovieList: FC<MovieListProps> = ({searchQuery, onMovieClick}) => {
   const [selectedGenre, setSelectedGenre] = useState(GENRES[0])
   const [sortBy, setSortBy] = useState(SORT_OPTIONS[0].value)
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [editingMovieId, setEditingMovieId] = useState('')
+  const [deletingMovieId, setDeletingMovieId] = useState('')
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
 
+
   useEffect(() => {
-    if (isDeleteDialogOpen || isEditDialogOpen) {
+    if (editingMovieId || deletingMovieId) {
       document.body.style.overflow = 'hidden'
     }
     return () => {
       document.body.style.overflow = 'auto'
     }
-  }, [isDeleteDialogOpen, isEditDialogOpen])
+  }, [deletingMovieId, editingMovieId])
 
-  const handleDeleteDialogToggle = () => {
-    setIsDeleteDialogOpen((prevState) => !prevState)
+  const handleDeleteDialogOpen = (movieId: string) => {
+    setDeletingMovieId(movieId)
   }
 
-  const handleEditDialogToggle = () => {
-    setIsEditDialogOpen((prevState) => !prevState)
+  const handleEditDialogOpen = (movieId: string) => {
+    setEditingMovieId(movieId)
+    setIsEditDialogOpen(true)
   }
 
-  const handleDeleteClick = (movieId: string) => {
-    console.log('Delete movie with id:', movieId)
-    handleDeleteDialogToggle()
+  const handleEditDialogClose = () => {
+    setEditingMovieId('')
+    setIsEditDialogOpen(false)
+  }
+
+
+  const handleDeleteClick = () => {
+    console.log('Delete movie with id:', deletingMovieId)
+    setDeletingMovieId('')
   }
 
   const handleMovieFormSubmit = (movie: Movie) => {
     console.log('Save movie:', movie)
-    handleEditDialogToggle()
+    setEditingMovieId('')
   }
 
   const movies = filterSortMovieList(MOVIES, searchQuery, selectedGenre, sortBy)
+  const editingMovie = getMovieById(editingMovieId)
 
   return (
     <div>
@@ -60,19 +71,18 @@ export const MovieList: FC<MovieListProps> = ({searchQuery, onMovieClick}) => {
           <ListItem key={item.id}>
             <MovieTile movie={item}
               onMovieClick={onMovieClick}
-              onEditClick={handleEditDialogToggle}
-              onDeleteClick={handleDeleteDialogToggle}/>
-            {isDeleteDialogOpen && <Dialog title='Delete movie' onClose={handleDeleteDialogToggle}>
-              <DialogTextContent>Are you sure you want to delete this movie?</DialogTextContent>
-              <DialogButton mode='filled' onClick={() => handleDeleteClick(item.id)}>Confirm</DialogButton>
-            </Dialog>}
-            {isEditDialogOpen && <Dialog title='Edit movie' onClose={handleEditDialogToggle}>
-              <MovieForm initialMovie={item} onSubmit={handleMovieFormSubmit}/>
-            </Dialog>}
+              onEditClick={handleEditDialogOpen}
+              onDeleteClick={handleDeleteDialogOpen}/>
           </ListItem>
         ))}
       </MovieListStyled>
-
+      {deletingMovieId && <Dialog title='Delete movie' onClose={() => setDeletingMovieId('')}>
+        <DialogTextContent>Are you sure you want to delete this movie?</DialogTextContent>
+        <DialogButton mode='filled' onClick={handleDeleteClick}>Confirm</DialogButton>
+      </Dialog>}
+      {isEditDialogOpen && <Dialog title='Edit movie' onClose={handleEditDialogClose}>
+        <MovieForm initialMovie={editingMovie} onSubmit={handleMovieFormSubmit}/>
+      </Dialog>}
     </div>
   )
 }

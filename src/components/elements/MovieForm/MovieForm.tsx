@@ -1,8 +1,6 @@
 import React, {FC} from 'react'
 import {Movie} from '@type/Movie'
-import {SORT_OPTIONS} from '@constants'
 import {Input} from '@components/elements/Input'
-import {Select} from '@components/elements/Select'
 import {Button} from '@components/elements/Button'
 import {TextArea} from '@components/elements/TextArea'
 import {
@@ -38,6 +36,7 @@ export const MovieForm: FC<MovieFormProps> = ({initialMovie, onSubmit}) => {
   }
 
   return (
+  //TODO: Add custom multiple select for genres
     <FormStyled onSubmit={handleFormSubmit} data-testid='movie-form'>
       <FormColumns>
         <LeftColumn>
@@ -54,10 +53,6 @@ export const MovieForm: FC<MovieFormProps> = ({initialMovie, onSubmit}) => {
             testId='movie-image-url'
             placeholder='https://'
             defaultValue={initialMovie?.imageUrl}/>
-          <Select options={SORT_OPTIONS}
-            selectedValue='rating'
-            onSelect={() => {
-            }}/>
         </LeftColumn>
         <RightColumn>
           <Input required
