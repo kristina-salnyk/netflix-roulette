@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
 import {MovieList} from '@components/elements/MovieList'
 import {filterSortMovieList} from '@utils/filterSortMovieList'
+import {useMovies} from '@contexts/MoviesContext'
 
 const mockMovies = [
   {
@@ -40,9 +41,22 @@ jest.mock('@utils/filterSortMovieList', () => ({
   filterSortMovieList: jest.fn(),
 }))
 
+jest.mock('@contexts/MoviesContext')
+
 const onMovieClickMock = jest.fn()
 
+const useMoviesMock = useMovies as jest.MockedFunction<typeof useMovies>
+
 describe('MovieList', () => {
+  beforeEach(() => {
+    useMoviesMock.mockReturnValue({
+      movies: mockMovies,
+      deleteMovieById: jest.fn(),
+      getMovieById: jest.fn(),
+      editMovieById: jest.fn(),
+    })
+  })
+
   test('should render component', () => {
     (filterSortMovieList as jest.Mock).mockReturnValueOnce(mockMovies)
     renderWithThemeProvider(MovieList, {searchQuery: '', onMovieClick: onMovieClickMock})

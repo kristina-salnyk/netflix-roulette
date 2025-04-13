@@ -1,7 +1,6 @@
 import React, {FC, useEffect, useState} from 'react'
 import {Movie} from '@type/Movie'
-import {GENRES, MOVIES, SORT_OPTIONS} from '@constants'
-import {getMovieById} from '@utils/getMovieById'
+import {GENRES, SORT_OPTIONS} from '@constants'
 import {filterSortMovieList} from '@utils/filterSortMovieList'
 import {MovieTile} from '@components/elements/MovieTile'
 import {GenreSelect} from '@components/elements/GenreSelect'
@@ -9,6 +8,7 @@ import {SortControl} from '@components/elements/SortControl'
 import {Dialog} from '@components/elements/Dialog'
 import {MovieForm} from '@components/elements/MovieForm'
 import {DialogButton, DialogTextContent, ListControls, ListItem, MovieListStyled} from './MovieList.styled'
+import {useMovies} from '@contexts/MoviesContext'
 
 interface MovieListProps {
     searchQuery: string
@@ -21,7 +21,7 @@ export const MovieList: FC<MovieListProps> = ({searchQuery, onMovieClick}) => {
   const [editingMovieId, setEditingMovieId] = useState('')
   const [deletingMovieId, setDeletingMovieId] = useState('')
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
-
+  const {movies, deleteMovieById, getMovieById, editMovieById} = useMovies()
 
   useEffect(() => {
     if (editingMovieId || deletingMovieId) {
@@ -48,16 +48,17 @@ export const MovieList: FC<MovieListProps> = ({searchQuery, onMovieClick}) => {
 
 
   const handleDeleteClick = () => {
-    console.log('Delete movie with id:', deletingMovieId)
+    deleteMovieById(deletingMovieId)
     setDeletingMovieId('')
   }
 
   const handleMovieFormSubmit = (movie: Movie) => {
-    console.log('Save movie:', movie)
+    editMovieById(editingMovieId, movie)
     setEditingMovieId('')
   }
 
-  const movies = filterSortMovieList(MOVIES, searchQuery, selectedGenre, sortBy)
+  const filteredMovies = filterSortMovieList(movies, searchQuery, selectedGenre, sortBy)
+
   const editingMovie = getMovieById(editingMovieId)
 
   return (
@@ -67,7 +68,7 @@ export const MovieList: FC<MovieListProps> = ({searchQuery, onMovieClick}) => {
         <SortControl options={SORT_OPTIONS} sortBy={sortBy} onSelect={setSortBy}/>
       </ListControls>
       <MovieListStyled data-testid='movie-list'>
-        {movies.map(item => (
+        {filteredMovies.map(item => (
           <ListItem key={item.id}>
             <MovieTile movie={item}
               onMovieClick={onMovieClick}
