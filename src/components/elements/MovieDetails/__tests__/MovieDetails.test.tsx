@@ -8,7 +8,7 @@ const mockMovie =
     {
       id: '1',
       title: 'Inception',
-      releaseYear: 2010,
+      releaseDate: '2010-07-16',
       imageUrl: 'https://m.media-amazon.com/images/S/pv-target-images/cc72ff2193c0f7a85322aee988d6fe1ae2cd9f8800b6ff6e8462790fe2aacaf3.jpg',
       genres: ['Action', 'Sci-Fi'],
       rating: 7.8,
