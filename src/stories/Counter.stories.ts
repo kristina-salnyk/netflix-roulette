@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from '@storybook/react'
 import {Counter} from '@components/elements/Counter'
 
 const meta = {
-  title: 'Counter',
+  title: 'Library/Counter',
   component: Counter,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],

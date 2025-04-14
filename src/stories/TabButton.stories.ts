@@ -3,7 +3,7 @@ import {fn} from '@storybook/test'
 import {TabButton} from '@components/elements/TabButton'
 
 const meta = {
-  title: 'TabButton',
+  title: 'Library/TabButton',
   component: TabButton,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],

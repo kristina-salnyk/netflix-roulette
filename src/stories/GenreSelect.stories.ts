@@ -3,7 +3,7 @@ import {fn} from '@storybook/test'
 import {GenreSelect} from '@components/elements/GenreSelect'
 
 const meta = {
-  title: 'GenreSelect',
+  title: 'Library/GenreSelect',
   component: GenreSelect,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],

@@ -3,7 +3,7 @@ import {MovieForm} from '@components/elements/MovieForm'
 import {fn} from '@storybook/test'
 
 const meta = {
-  title: 'MovieForm',
+  title: 'Library/MovieForm',
   component: MovieForm,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],

@@ -3,7 +3,7 @@ import {fn} from '@storybook/test'
 import {TextArea} from '@components/elements/TextArea'
 
 const meta = {
-  title: 'TextArea',
+  title: 'Library/TextArea',
   component: TextArea,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],

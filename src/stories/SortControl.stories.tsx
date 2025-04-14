@@ -4,7 +4,7 @@ import {SelectOption} from '@type/SelectOption'
 import {SortControl} from '@components/elements/SortControl'
 
 const meta = {
-  title: 'SortControl',
+  title: 'Library/SortControl',
   component: SortControl,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],

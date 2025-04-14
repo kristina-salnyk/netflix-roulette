@@ -6,7 +6,7 @@ import {DialogButton, DialogTextContent} from '@components/elements/MovieList/Mo
 import {MovieForm} from '@components/elements/MovieForm'
 
 const meta = {
-  title: 'Dialog',
+  title: 'Library/Dialog',
   component: Dialog,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],

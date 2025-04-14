@@ -3,7 +3,7 @@ import {fn} from '@storybook/test'
 import {MovieTile} from '@components/elements/MovieTile'
 
 const meta = {
-  title: 'MovieTile',
+  title: 'Library/MovieTile',
   component: MovieTile,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],

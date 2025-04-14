@@ -3,7 +3,7 @@ import {fn} from '@storybook/test'
 import {SquareButton} from '@components/elements/SquareButton'
 
 const meta = {
-  title: 'SquareButton',
+  title: 'Library/SquareButton',
   component: SquareButton,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
