@@ -36,4 +36,12 @@ export const WithInputType: Story = {
   },
 }
 
+export const WithLabel: Story = {
+  args: {
+    name: 'title',
+    label: 'Title',
+    placeholder: 'Enter title',
+  },
+}
+
 

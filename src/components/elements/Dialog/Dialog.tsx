@@ -19,7 +19,7 @@ export const Dialog: FC<DialogProps> = ({title, children, onClose}) => {
         <FocusTrap>
           <DialogStyled data-testid='dialog'>
             <DialogWrapper>
-              <DialogCloseButton onClick={onClose} data-testId='dialog-close-button'>
+              <DialogCloseButton onClick={onClose} data-testid='dialog-close-button'>
                 <CloseIcon/>
               </DialogCloseButton>
               <DialogTitle data-testid='dialog-title'>{title}</DialogTitle>

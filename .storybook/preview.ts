@@ -68,4 +68,9 @@ const preview: Preview = {
   })]
 }
 
+const dialogRoot = document.createElement('div')
+dialogRoot.id = 'dialog-root'
+document.body.appendChild(dialogRoot)
+
+
 export default preview
