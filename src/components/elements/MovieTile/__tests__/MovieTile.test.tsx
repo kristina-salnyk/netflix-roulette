@@ -28,46 +28,39 @@ describe('MovieTile', () => {
   })
 
   test('should render component', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock, testId: 'movie-tile'})
-    expect(screen.getByTestId('movie-tile')).toBeInTheDocument()
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
+    expect(screen.getByRole('group', {name: /Movie tile/i})).toBeInTheDocument()
   })
 
   test('should render movie image', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock, testId: 'movie-tile'})
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
 
-    const movieImage = screen.getByTestId('movie-image')
+    const movieImage = screen.getByAltText(/Inception/i)
     expect(movieImage).toBeInTheDocument()
     expect(movieImage).toHaveAttribute('src', mockMovie.imageUrl)
   })
 
   test('should render movie title', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock, testId: 'movie-tile'})
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
 
-    const movieTitle = screen.getByTestId('movie-title')
+    const movieTitle = screen.getByRole('heading', {name: /Inception/i})
     expect(movieTitle).toBeInTheDocument()
-    expect(movieTitle).toHaveTextContent(/Inception/i)
   })
 
   test('should render movie release year', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock, testId: 'movie-tile'})
-
-    const movieReleaseYear = screen.getByTestId('movie-release-year')
-    expect(movieReleaseYear).toBeInTheDocument()
-    expect(movieReleaseYear).toHaveTextContent(/2010/i)
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
+    expect(screen.getByText(/2010/i)).toBeInTheDocument()
   })
 
   test('should render movie genres', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock, testId: 'movie-tile'})
-
-    const movieGenres = screen.getByTestId('movie-genres')
-    expect(movieGenres).toBeInTheDocument()
-    expect(movieGenres).toHaveTextContent(/Action, Sci-Fi/i)
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
+    expect(screen.getByText(/Action, Sci-Fi/i)).toBeInTheDocument()
   })
 
   test('should call onClick when movie tile is clicked', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock, testId: 'movie-tile'})
+    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
 
-    const movieTile = screen.getByTestId('movie-tile')
+    const movieTile = screen.getByRole('group', {name: /Movie tile/i})
     userEvent.click(movieTile)
 
     expect(onMovieClickMock).toHaveBeenCalledWith('1')

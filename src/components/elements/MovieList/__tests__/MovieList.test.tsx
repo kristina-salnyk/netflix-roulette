@@ -61,21 +61,21 @@ describe('MovieList', () => {
     (filterSortMovieList as jest.Mock).mockReturnValueOnce(mockMovies)
     renderWithThemeProvider(MovieList, {searchQuery: '', onMovieClick: onMovieClickMock})
 
-    expect(screen.getByTestId('movie-list')).toBeInTheDocument()
+    expect(screen.getByRole('list', {name: /Movie list/i})).toBeInTheDocument()
   })
 
   test('should render list controls', () => {
     (filterSortMovieList as jest.Mock).mockReturnValueOnce(mockMovies)
     renderWithThemeProvider(MovieList, {searchQuery: '', onMovieClick: onMovieClickMock})
 
-    expect(screen.getByTestId('list-controls')).toBeInTheDocument()
+    expect(screen.getByRole('region', {name: /List controls/i})).toBeInTheDocument()
   })
 
   test('should render movie tiles', () => {
     (filterSortMovieList as jest.Mock).mockReturnValueOnce(mockMovies)
     renderWithThemeProvider(MovieList, {searchQuery: '', onMovieClick: onMovieClickMock})
 
-    const movieTiles = screen.getAllByTestId('movie-tile')
+    const movieTiles = screen.getAllByRole('group', {name: /Movie tile/i})
     expect(movieTiles).toHaveLength(3)
   })
 
@@ -83,7 +83,7 @@ describe('MovieList', () => {
     (filterSortMovieList as jest.Mock).mockReturnValueOnce(mockMovies)
     renderWithThemeProvider(MovieList, {searchQuery: '', onMovieClick: onMovieClickMock})
 
-    const movieTiles = screen.getAllByTestId('movie-tile')
+    const movieTiles = screen.getAllByRole('group', {name: /Movie tile/i})
     userEvent.click(movieTiles[0])
 
     expect(onMovieClickMock).toHaveBeenCalledWith('1')

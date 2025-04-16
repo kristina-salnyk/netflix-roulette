@@ -30,22 +30,21 @@ export const MovieDetails: FC<MovieDetailProps> = ({movie}) => {
   const duration = getFormattedDuration(movie.duration)
 
   return (
-    <MovieDetailsStyled data-testid='movie-details'>
+    <MovieDetailsStyled role="region" aria-label="Movie details">
       <MovieImage src={movieImage || moviePlaceholder}
         onError={() => setMovieImage(moviePlaceholder)}
-        alt={movie.title}
-        data-testid='movie-image'/>
+        alt={movie.title}/>
       <MovieInfo>
         <MovieHeading>
-          <MovieTitle data-testid='movie-title'>{movie.title}</MovieTitle>
-          <MovieRating data-testid='movie-rating'>{movie.rating}</MovieRating>
+          <MovieTitle>{movie.title}</MovieTitle>
+          <MovieRating>{movie.rating}</MovieRating>
         </MovieHeading>
-        <MovieGenres data-testid='movie-genres'>{movie.genres.join(', ')}</MovieGenres>
+        <MovieGenres>{movie.genres.join(', ')}</MovieGenres>
         <MovieMeta>
-          {releaseYear && <span data-testid='movie-release-year'>{releaseYear}</span>}
-          {duration && <span data-testid='movie-duration'>{duration}</span>}
+          {releaseYear && <span>{releaseYear}</span>}
+          {duration && <span>{duration}</span>}
         </MovieMeta>
-        <MovieDescription data-testid='movie-description'>{movie.description}</MovieDescription>
+        <MovieDescription>{movie.description}</MovieDescription>
       </MovieInfo>
     </MovieDetailsStyled>
   )

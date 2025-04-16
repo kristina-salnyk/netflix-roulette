@@ -4,10 +4,9 @@ import {InputButton, InputLabel, InputStyled, InputWrapper} from './Input.styled
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string
-    testId?: string
 }
 
-export const Input: FC<InputProps> = ({type = 'text', label, testId, ...props}) => {
+export const Input: FC<InputProps> = ({type = 'text', label, ...props}) => {
   const ref = useRef<HTMLInputElement>(null)
 
   const handleButtonClick = () => {
@@ -26,7 +25,7 @@ export const Input: FC<InputProps> = ({type = 'text', label, testId, ...props}) 
     <div>
       {label && <InputLabel htmlFor={props.name}>{label}</InputLabel>}
       <InputWrapper>
-        <InputStyled ref={ref} type={type} data-testid={testId} {...props}/>
+        <InputStyled id={props.name} ref={ref} type={type} {...props}/>
         {type === 'date' && <InputButton onClick={handleButtonClick}>
           <CalendarIcon/>
         </InputButton>}

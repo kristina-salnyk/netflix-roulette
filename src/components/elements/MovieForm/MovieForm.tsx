@@ -37,20 +37,18 @@ export const MovieForm: FC<MovieFormProps> = ({initialMovie, onSubmit}) => {
 
   return (
   //TODO: Add custom multiple select for genres
-    <FormStyled onSubmit={handleFormSubmit} data-testid='movie-form'>
+    <FormStyled role='form' onSubmit={handleFormSubmit}>
       <FormColumns>
         <LeftColumn>
           <Input required
             name='movie-title'
             label='Tilte'
-            testId='movie-title'
             minLength={3}
             maxLength={200}
             defaultValue={initialMovie?.title}/>
           <Input maxLength={500}
             name='movie-image-url'
             label='Movie URL'
-            testId='movie-image-url'
             placeholder='https://'
             defaultValue={initialMovie?.imageUrl}/>
         </LeftColumn>
@@ -59,13 +57,11 @@ export const MovieForm: FC<MovieFormProps> = ({initialMovie, onSubmit}) => {
             name='movie-release-date'
             type='date'
             label='Release date'
-            testId='movie-release-date'
             defaultValue={initialMovie?.releaseDate}/>
           <Input required
             name='movie-rating'
             type='number'
             label='Rating'
-            testId='movie-rating'
             min={0}
             max={10}
             step={0.1}
@@ -74,7 +70,6 @@ export const MovieForm: FC<MovieFormProps> = ({initialMovie, onSubmit}) => {
             name='movie-duration'
             type='number'
             label='Runtime'
-            testId='movie-duration'
             min={0}
             max={1000}
             placeholder='minutes'
@@ -84,14 +79,13 @@ export const MovieForm: FC<MovieFormProps> = ({initialMovie, onSubmit}) => {
       <TextArea required
         name='movie-description'
         label='Overview'
-        testId='movie-description'
         rows={4}
         maxLength={1000}
         placeholder='Movie description'
         defaultValue={initialMovie?.description}/>
       <FormControls>
-        <Button type='reset' mode='outlined' testId='form-reset-button'>Reset</Button>
-        <Button type='submit' mode='filled' testId='form-submit-button'>Submit</Button>
+        <Button type='reset' mode='outlined'>Reset</Button>
+        <Button type='submit' mode='filled'>Submit</Button>
       </FormControls>
     </FormStyled>
   )

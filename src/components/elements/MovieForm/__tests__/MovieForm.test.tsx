@@ -18,90 +18,84 @@ const mockMovie =
 describe('MovieForm', () => {
   test('should render component', () => {
     renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
-    expect(screen.getByTestId('movie-form')).toBeInTheDocument()
+    expect(screen.getByRole('form')).toBeInTheDocument()
   })
 
   test('should render title input', () => {
     renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
-    const titleInput = screen.getByTestId('movie-title')
-    expect(titleInput).toBeInTheDocument()
+    expect(screen.getByRole('textbox', {name: /Tilte/i})).toBeInTheDocument()
   })
 
   test('should render image URL input', () => {
     renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
-    const imageUrlInput = screen.getByTestId('movie-image-url')
-    expect(imageUrlInput).toBeInTheDocument()
+    expect(screen.getByRole('textbox', {name: /Movie URL/i})).toBeInTheDocument()
   })
 
   test('should render release date input', () => {
     renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
-    const releaseDateInput = screen.getByTestId('movie-release-date')
-    expect(releaseDateInput).toBeInTheDocument()
+    expect(screen.getByLabelText(/Release date/i)).toBeInTheDocument()
   })
 
   test('should render rating input', () => {
     renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
-    const ratingInput = screen.getByTestId('movie-rating')
-    expect(ratingInput).toBeInTheDocument()
+    expect(screen.getByRole('spinbutton', {name: /Rating/i})).toBeInTheDocument()
   })
 
   test('should render duration input', () => {
     renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
-    const durationInput = screen.getByTestId('movie-duration')
-    expect(durationInput).toBeInTheDocument()
+    expect(screen.getByRole('spinbutton', {name: /Runtime/i})).toBeInTheDocument()
   })
 
   test('should render description input', () => {
     renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
-    const descriptionInput = screen.getByTestId('movie-description')
-    expect(descriptionInput).toBeInTheDocument()
+    expect(screen.getByRole('textbox', {name: /Overview/i})).toBeInTheDocument()
   })
 
   test('should render form with initial movie data', () => {
     renderWithThemeProvider(MovieForm, {initialMovie: mockMovie, onSubmit: jest.fn()})
 
-    const movieTitleInput = screen.getByTestId('movie-title')
-    expect(movieTitleInput).toHaveValue('Inception')
+    const movieTitleInput = screen.getByDisplayValue(/Inception/i)
+    expect(movieTitleInput).toBeInTheDocument()
 
-    const movieImageUrlInput = screen.getByTestId('movie-image-url')
-    expect(movieImageUrlInput).toHaveValue('https://m.media-amazon.com/images/S/pv-target-images/cc72ff2193c0f7a85322aee988d6fe1ae2cd9f8800b6ff6e8462790fe2aacaf3.jpg')
+    const movieImageUrlInput = screen.getByDisplayValue(mockMovie.imageUrl)
+    expect(movieImageUrlInput).toBeInTheDocument()
 
-    const movieReleaseDateInput = screen.getByTestId('movie-release-date')
-    expect(movieReleaseDateInput).toHaveValue('2010-01-01')
+    const movieReleaseDateInput = screen.getByDisplayValue(/2010-01-01/i)
+    expect(movieReleaseDateInput).toBeInTheDocument()
 
-    const movieRatingInput = screen.getByTestId('movie-rating')
-    expect(movieRatingInput).toHaveValue(7.8)
+    const movieRatingInput = screen.getByDisplayValue(7.8)
+    expect(movieRatingInput).toBeInTheDocument()
 
-    const movieDurationInput = screen.getByTestId('movie-duration')
-    expect(movieDurationInput).toHaveValue(148)
+    const movieDurationInput = screen.getByDisplayValue(148)
+    expect(movieDurationInput).toBeInTheDocument()
 
-    const movieDescriptionInput = screen.getByTestId('movie-description')
-    expect(movieDescriptionInput).toHaveValue(mockMovie.description)
+    const movieDescriptionInput = screen.getByDisplayValue(mockMovie.description)
+    expect(movieDescriptionInput).toBeInTheDocument()
   })
 
   test('should call onSubmit with form data', () => {
     const onSubmitMock = jest.fn()
     renderWithThemeProvider(MovieForm, {onSubmit: onSubmitMock})
 
-    const titleInput = screen.getByTestId('movie-title')
+    const titleInput = screen.getByRole('textbox', {name: /Tilte/i})
     userEvent.type(titleInput, 'Inception')
 
-    const imageUrlInput = screen.getByTestId('movie-image-url')
+    const imageUrlInput = screen.getByRole('textbox', {name: /Movie URL/i})
     userEvent.type(imageUrlInput, 'https://example.com/image.jpg')
 
-    const releaseDateInput = screen.getByTestId('movie-release-date')
+    const releaseDateInput = screen.getByLabelText(/Release date/i)
     userEvent.type(releaseDateInput, '2010-01-01')
 
-    const ratingInput = screen.getByTestId('movie-rating')
+    const ratingInput = screen.getByRole('spinbutton', {name: /Rating/i})
     userEvent.type(ratingInput, '8.5')
 
-    const durationInput = screen.getByTestId('movie-duration')
+    const durationInput = screen.getByRole('spinbutton', {name: /Runtime/i})
     userEvent.type(durationInput, '120')
 
-    const descriptionInput = screen.getByTestId('movie-description')
+    const descriptionInput = screen.getByRole('textbox', {name: /Overview/i})
     userEvent.type(descriptionInput, 'A mind-bending thriller')
 
-    const submitButton = screen.getByTestId('form-submit-button')
+    const submitButton = screen.getByRole('button', {name: /Submit/i})
     userEvent.click(submitButton)
 
     expect(onSubmitMock).toHaveBeenCalledWith({

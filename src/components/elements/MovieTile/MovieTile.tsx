@@ -74,26 +74,25 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
   const releaseYear = getYearFromDate(movie.releaseDate)
 
   return (
-    <MovieTileStyled onClick={handleMovieClick} data-testid='movie-tile'>
+    <MovieTileStyled role='group' aria-label='Movie tile' onClick={handleMovieClick}>
       <MovieImage src={movieImage || moviePlaceholder}
         onError={() => setMovieImage(moviePlaceholder)}
-        alt={movie.title}
-        data-testid='movie-image'/>
+        alt={movie.title}/>
       <MovieDescription>
-        <MovieTitle data-testid='movie-title'>{movie.title}</MovieTitle>
-        {releaseYear && <MovieRelease data-testid='movie-release-year'>{releaseYear}</MovieRelease>}
+        <MovieTitle>{movie.title}</MovieTitle>
+        {releaseYear && <MovieRelease>{releaseYear}</MovieRelease>}
       </MovieDescription>
-      <MovieGenres data-testid='movie-genres'>{movie.genres.join(', ')}</MovieGenres>
+      <MovieGenres>{movie.genres.join(', ')}</MovieGenres>
       <TileMenu className='menu'>
-        <MenuButton type='button' onClick={handleMenuToggle} data-testid='menu-button'>
+        <MenuButton type='button' onClick={handleMenuToggle}>
           <MenuIcon/>
         </MenuButton>
-        {isMenuOpen && <MenuOptions data-testid='menu-options'>
+        {isMenuOpen && <MenuOptions>
           <li>
-            <Option onClick={handleEditClick} data-testid='edit-button'>Edit</Option>
+            <Option onClick={handleEditClick}>Edit</Option>
           </li>
           <li>
-            <Option onClick={handleDeleteClick} data-testid='delete-button'>Delete</Option>
+            <Option onClick={handleDeleteClick}>Delete</Option>
           </li>
         </MenuOptions>
         }

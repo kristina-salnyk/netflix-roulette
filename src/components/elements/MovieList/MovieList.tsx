@@ -64,11 +64,11 @@ export const MovieList: FC<MovieListProps> = ({searchQuery, onMovieClick}) => {
 
   return (
     <div>
-      <ListControls data-testid='list-controls'>
+      <ListControls role='region' aria-label='List controls'>
         <GenreSelect genres={GENRES} selectedGenre={selectedGenre} onSelect={setSelectedGenre}/>
         <SortControl options={SORT_OPTIONS} sortBy={sortBy} onSelect={setSortBy}/>
       </ListControls>
-      <MovieListStyled data-testid='movie-list'>
+      <MovieListStyled aria-label='Movie list'>
         {filteredMovies.map(item => (
           <ListItem key={item.id}>
             <MovieTile movie={item}

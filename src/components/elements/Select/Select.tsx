@@ -43,16 +43,15 @@ export const Select: FC<SelectProps> = ({options, selectedValue, onSelect}) => {
 
   return (
     <SelectStyled>
-      <SelectButton type='button' onClick={handleToggle} data-testid='select-button'>
-        <span data-testid='select-value'>{option?.label}</span>
+      <SelectButton type='button' onClick={handleToggle}>
+        <span>{option?.label}</span>
         <SelectIcon>&#9660;</SelectIcon>
       </SelectButton>
-      {isOpen && <SelectOptions data-testid='select-options'>
+      {isOpen && <SelectOptions>
         {options.map(option => (
           <li key={option.value}>
-            <Option
-              onClick={(event: React.MouseEvent<HTMLDivElement>) => handleSelect(event, option.value)}
-              data-testid='select-option'>
+            <Option role='option'
+              onClick={(event: React.MouseEvent<HTMLDivElement>) => handleSelect(event, option.value)}>
               {option.label}
             </Option>
           </li>

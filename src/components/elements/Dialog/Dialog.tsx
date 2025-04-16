@@ -1,4 +1,4 @@
-import React, {FC, ReactNode, useState} from 'react'
+import React, {FC, ReactNode} from 'react'
 import {createPortal} from 'react-dom'
 import FocusTrap from 'focus-trap-react'
 import {CloseIcon} from '@icons/CloseIcon'
@@ -10,19 +10,19 @@ interface DialogProps {
     onClose: () => void
 }
 
-export const Dialog: FC<DialogProps> = ({title, children, onClose}) => {
-  const [dialogRoot] = useState(document.getElementById('dialog-root'))
+const dialogRoot = document.getElementById('dialog-root')
 
+export const Dialog: FC<DialogProps> = ({title, children, onClose}) => {
   return (
     dialogRoot && createPortal(
       <Overlay>
         <FocusTrap>
-          <DialogStyled data-testid='dialog'>
+          <DialogStyled role='dialog'>
             <DialogWrapper>
-              <DialogCloseButton onClick={onClose} data-testid='dialog-close-button'>
+              <DialogCloseButton aria-label='Close' onClick={onClose}>
                 <CloseIcon/>
               </DialogCloseButton>
-              <DialogTitle data-testid='dialog-title'>{title}</DialogTitle>
+              <DialogTitle>{title}</DialogTitle>
               {children}
             </DialogWrapper>
           </DialogStyled>

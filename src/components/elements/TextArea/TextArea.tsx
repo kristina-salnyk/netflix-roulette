@@ -3,14 +3,13 @@ import {TextAreaLabel, TextAreaStyled} from './TextArea.styled'
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
     label?: string;
-    testId?: string;
 }
 
-export const TextArea: FC<TextAreaProps> = ({label, testId, ...props}) => {
+export const TextArea: FC<TextAreaProps> = ({label, ...props}) => {
   return (
     <div>
       {label && <TextAreaLabel htmlFor={props.name}>{label}</TextAreaLabel>}
-      <TextAreaStyled data-testid={testId} {...props}></TextAreaStyled>
+      <TextAreaStyled id={props.name} {...props}></TextAreaStyled>
     </div>
   )
 }

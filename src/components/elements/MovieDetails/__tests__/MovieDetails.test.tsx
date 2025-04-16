@@ -32,13 +32,15 @@ describe('MovieDetails', () => {
 
   test('should render component', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-    expect(screen.getByTestId('movie-details')).toBeInTheDocument()
+
+    const movieDetails = screen.getByRole('region', {name: /Movie details/i})
+    expect(movieDetails).toBeInTheDocument()
   })
 
   test('should render movie image', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
 
-    const movieImage = screen.getByTestId('movie-image')
+    const movieImage = screen.getByAltText(/Inception/i)
     expect(movieImage).toBeInTheDocument()
     expect(movieImage).toHaveAttribute('src', mockMovie.imageUrl)
   })
@@ -46,48 +48,33 @@ describe('MovieDetails', () => {
   test('should render movie title', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
 
-    const movieTitle = screen.getByTestId('movie-title')
+    const movieTitle = screen.getByRole('heading', {name: /Inception/i})
     expect(movieTitle).toBeInTheDocument()
-    expect(movieTitle).toHaveTextContent(/Inception/i)
   })
 
   test('should render movie rating', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-
-    const movieRating = screen.getByTestId('movie-rating')
-    expect(movieRating).toBeInTheDocument()
-    expect(movieRating).toHaveTextContent(/7.8/i)
+    expect(screen.getByText(/7.8/i)).toBeInTheDocument()
   })
 
   test('should render movie genres', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-
-    const movieGenres = screen.getByTestId('movie-genres')
-    expect(movieGenres).toBeInTheDocument()
-    expect(movieGenres).toHaveTextContent(/Action, Sci-Fi/i)
+    expect(screen.getByText(/Action, Sci-Fi/i)).toBeInTheDocument()
   })
 
   test('should render movie release year', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-
-    const movieReleaseYear = screen.getByTestId('movie-release-year')
-    expect(movieReleaseYear).toBeInTheDocument()
-    expect(movieReleaseYear).toHaveTextContent(/2010/i)
+    expect(screen.getByText(/2010/i)).toBeInTheDocument()
   })
 
   test('should render movie duration', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-
-    const movieDuration = screen.getByTestId('movie-duration')
-    expect(movieDuration).toBeInTheDocument()
-    expect(movieDuration).toHaveTextContent(/2h 28m/i)
+    expect(screen.getByText(/2h 28m/i)).toBeInTheDocument()
   })
 
   test('should render movie description', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-
-    const movieDescription = screen.getByTestId('movie-description')
-    expect(movieDescription).toBeInTheDocument()
+    expect(screen.getByText(mockMovie.description)).toBeInTheDocument()
   })
 
 })

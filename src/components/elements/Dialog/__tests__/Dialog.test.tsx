@@ -2,7 +2,13 @@ import React, {ReactNode} from 'react'
 import {screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
-import {Dialog} from '@components/elements/Dialog'
+
+const dialogRoot = document.createElement('div')
+dialogRoot.setAttribute('id', 'dialog-root')
+document.body.appendChild(dialogRoot)
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const Dialog = require('@components/elements/Dialog').Dialog
 
 jest.mock('react-dom', () => {
   return {
@@ -17,12 +23,6 @@ jest.mock('focus-trap-react', () => ({
 }))
 
 describe('Dialog', () => {
-  beforeAll(() => {
-    const dialogRoot = document.createElement('div')
-    dialogRoot.setAttribute('id', 'dialog-root')
-    document.body.appendChild(dialogRoot)
-  })
-
   it('should render component', async () => {
     renderWithThemeProvider(Dialog, {
       title: 'Dialog Title',
@@ -30,7 +30,7 @@ describe('Dialog', () => {
       children: <div>Dialog Content </div>
     })
 
-    expect(screen.getByTestId('dialog')).toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
   it('should render dialog title', () => {
@@ -40,21 +40,19 @@ describe('Dialog', () => {
       children: <div>Dialog Content</div>,
     })
 
-    const dialogTitle = screen.getByTestId('dialog-title')
+    const dialogTitle = screen.getByRole('heading', {name: /Dialog Title/i})
     expect(dialogTitle).toBeInTheDocument()
-    expect(dialogTitle).toHaveTextContent(/Dialog Title/i)
   })
 
   it('should render dialog content', () => {
     renderWithThemeProvider(Dialog, {
       title: 'Dialog Title',
       onClose: jest.fn(),
-      children: <div data-testid='dialog-content'>Dialog Content</div>,
+      children: <div>Dialog Content</div>,
     })
 
-    const dialogContent = screen.getByTestId('dialog-content')
+    const dialogContent = screen.getByText(/Dialog Content/i)
     expect(dialogContent).toBeInTheDocument()
-    expect(dialogContent).toHaveTextContent(/Dialog Content/i)
   })
 
   it('should call onClose when close button is clicked', () => {
@@ -65,7 +63,7 @@ describe('Dialog', () => {
       children: <div>Dialog Content</div>,
     })
 
-    const closeButton = screen.getByTestId('dialog-close-button')
+    const closeButton = screen.getByRole('button', {name: /Close/i})
     userEvent.click(closeButton)
 
     expect(onCloseMock).toHaveBeenCalledTimes(1)
