@@ -15,53 +15,53 @@ describe('Select', () => {
   test('should render component with provided options', () => {
     renderWithThemeProvider(Select, {options: mockOptions, selectedValue: 'foo', onSelect: onSelectMock})
 
-    expect(screen.getByTestId('select-value')).toBeInTheDocument()
-    expect(screen.getByTestId('select-button')).toBeInTheDocument()
+    expect(screen.getByText(/Foo/i)).toBeInTheDocument()
+    expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
   test('should display options when select button is clicked', () => {
     renderWithThemeProvider(Select, {options: mockOptions, selectedValue: 'foo', onSelect: onSelectMock})
 
-    const selectButton = screen.getByTestId('select-button')
+    const selectButton = screen.getByRole('button')
     userEvent.click(selectButton)
 
-    expect(screen.getAllByTestId('select-option')).toHaveLength(mockOptions.length)
+    expect(screen.getAllByRole('option')).toHaveLength(mockOptions.length)
   })
 
   test('should call onSelect when select option is clicked', () => {
     renderWithThemeProvider(Select, {options: mockOptions, selectedValue: 'foo', onSelect: onSelectMock})
 
-    const selectButton = screen.getByTestId('select-button')
+    const selectButton = screen.getByRole('button')
     userEvent.click(selectButton)
 
-    const selectOptions = screen.getAllByTestId('select-option')
+    const selectOptions = screen.getAllByRole('option')
     userEvent.click(selectOptions[1])
 
     expect(onSelectMock).toHaveBeenCalledWith('bar')
-    expect(screen.queryAllByTestId('select-options')).toHaveLength(0)
+    expect(screen.queryAllByRole('option')).toHaveLength(0)
   })
 
   test('should hide select options when clicked outside', () => {
     renderWithThemeProvider(Select, {options: mockOptions, selectedValue: 'foo', onSelect: onSelectMock})
 
-    const selectButton = screen.getByTestId('select-button')
+    const selectButton = screen.getByRole('button')
     userEvent.click(selectButton)
 
-    expect(screen.getByTestId('select-options')).toBeInTheDocument()
+    expect(screen.getByText(/Bar/i)).toBeInTheDocument()
     userEvent.click(document.body)
 
-    expect(screen.queryByTestId('select-options')).not.toBeInTheDocument()
+    expect(screen.queryByText(/Bar/i)).not.toBeInTheDocument()
   })
 
   test('should hide select options when pressed Escape', () => {
     renderWithThemeProvider(Select, {options: mockOptions, selectedValue: 'foo', onSelect: onSelectMock})
 
-    const selectButton = screen.getByTestId('select-button')
+    const selectButton = screen.getByRole('button')
     userEvent.click(selectButton)
 
-    expect(screen.getByTestId('select-options')).toBeInTheDocument()
+    expect(screen.getByText(/Bar/i)).toBeInTheDocument()
     userEvent.keyboard('{Escape}')
 
-    expect(screen.queryByTestId('select-options')).not.toBeInTheDocument()
+    expect(screen.queryByText(/Bar/i)).not.toBeInTheDocument()
   })
 })

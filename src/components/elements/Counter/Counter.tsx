@@ -37,19 +37,17 @@ export class Counter extends React.Component<CounterProps, CounterState> {
       CounterStyled,
       null,
       createElement(SquareButton, {
-        text: '–',
         mode: 'outlined',
         disabled: isDisabled,
         onClick: this.handleDecrement,
         testId: 'decrement-button'
-      }),
+      }, '–'),
       createElement('span', {'data-testid': 'count-value'}, count),
       createElement(SquareButton, {
-        text: '+',
         mode: 'filled',
         onClick: this.handleIncrement,
         testId: 'increment-button'
-      })
+      }, '+')
     )
   }
 }

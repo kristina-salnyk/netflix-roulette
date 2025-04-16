@@ -13,6 +13,7 @@ module.exports = {
       '@constants': resolvePath('./src/constants'),
       '@icons': resolvePath('./src/assets/icons'),
       '@images': resolvePath('./src/assets/images'),
+      '@contexts': resolvePath('./src/contexts'),
     }
   },
 }

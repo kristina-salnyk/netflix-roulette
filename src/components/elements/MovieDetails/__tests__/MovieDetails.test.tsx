@@ -1,29 +1,46 @@
 import {screen} from '@testing-library/react'
 import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
 import {MovieDetails} from '@components/elements/MovieDetails'
+import {getYearFromDate} from '@utils/getYearFromDate'
+import {getFormattedDuration} from '@utils/getFormattedDuration'
 
 const mockMovie =
     {
       id: '1',
       title: 'Inception',
-      releaseYear: 2010,
+      releaseDate: '2010-07-16',
       imageUrl: 'https://m.media-amazon.com/images/S/pv-target-images/cc72ff2193c0f7a85322aee988d6fe1ae2cd9f8800b6ff6e8462790fe2aacaf3.jpg',
       genres: ['Action', 'Sci-Fi'],
       rating: 7.8,
-      duration: '2h 28m',
+      duration: 148,
       description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
     }
 
+jest.mock('@utils/getYearFromDate', () => ({
+  getYearFromDate: jest.fn(),
+}))
+
+jest.mock('@utils/getFormattedDuration', () => ({
+  getFormattedDuration: jest.fn(() => '2h 28m'),
+}))
+
 describe('MovieDetails', () => {
-  test('should render component', () => {
-    renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-    expect(screen.getByTestId('movie-details')).toBeInTheDocument()
+  beforeEach(() => {
+    (getYearFromDate as jest.Mock).mockReturnValue(2010);
+    (getFormattedDuration as jest.Mock).mockReturnValue('2h 28m')
   })
 
-  test('should render component with movie image', () => {
+  test('should render component', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
 
-    const movieImage = screen.getByTestId('movie-image')
+    const movieDetails = screen.getByRole('region', {name: /Movie details/i})
+    expect(movieDetails).toBeInTheDocument()
+  })
+
+  test('should render movie image', () => {
+    renderWithThemeProvider(MovieDetails, {movie: mockMovie})
+
+    const movieImage = screen.getByAltText(/Inception/i)
     expect(movieImage).toBeInTheDocument()
     expect(movieImage).toHaveAttribute('src', mockMovie.imageUrl)
   })
@@ -31,48 +48,33 @@ describe('MovieDetails', () => {
   test('should render movie title', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
 
-    const movieTitle = screen.getByTestId('movie-title')
+    const movieTitle = screen.getByRole('heading', {name: /Inception/i})
     expect(movieTitle).toBeInTheDocument()
-    expect(movieTitle).toHaveTextContent(/Inception/i)
   })
 
   test('should render movie rating', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-
-    const movieRating = screen.getByTestId('movie-rating')
-    expect(movieRating).toBeInTheDocument()
-    expect(movieRating).toHaveTextContent(/7.8/i)
+    expect(screen.getByText(/7.8/i)).toBeInTheDocument()
   })
 
   test('should render movie genres', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-
-    const movieGenres = screen.getByTestId('movie-genres')
-    expect(movieGenres).toBeInTheDocument()
-    expect(movieGenres).toHaveTextContent(/Action, Sci-Fi/i)
+    expect(screen.getByText(/Action, Sci-Fi/i)).toBeInTheDocument()
   })
 
   test('should render movie release year', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-
-    const movieReleaseYear = screen.getByTestId('movie-release-year')
-    expect(movieReleaseYear).toBeInTheDocument()
-    expect(movieReleaseYear).toHaveTextContent(/2010/i)
+    expect(screen.getByText(/2010/i)).toBeInTheDocument()
   })
 
   test('should render movie duration', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-
-    const movieDuration = screen.getByTestId('movie-duration')
-    expect(movieDuration).toBeInTheDocument()
-    expect(movieDuration).toHaveTextContent(/2h 28m/i)
+    expect(screen.getByText(/2h 28m/i)).toBeInTheDocument()
   })
 
   test('should render movie description', () => {
     renderWithThemeProvider(MovieDetails, {movie: mockMovie})
-
-    const movieDescription = screen.getByTestId('movie-description')
-    expect(movieDescription).toBeInTheDocument()
+    expect(screen.getByText(mockMovie.description)).toBeInTheDocument()
   })
 
 })

@@ -2,6 +2,7 @@ import React, {FC, useEffect, useState} from 'react'
 import {Movie} from '@type/Movie'
 import moviePlaceholder from '@images/movie-placeholder.png'
 import {MenuIcon} from '@icons/MenuIcon'
+import {getYearFromDate} from '@utils/getYearFromDate'
 import {
   MenuButton,
   MenuOptions,
@@ -31,7 +32,7 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
   }, [movie.imageUrl])
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent | KeyboardEvent) => {
+    const handleOutsideClick = (event: MouseEvent | KeyboardEvent) => {
       if (event instanceof MouseEvent) {
         setIsMenuOpen(false)
       } else if (event.key === 'Escape') {
@@ -39,11 +40,11 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
       }
     }
 
-    document.addEventListener('click', handleClickOutside)
-    document.addEventListener('keydown', handleClickOutside)
+    document.addEventListener('click', handleOutsideClick)
+    document.addEventListener('keydown', handleOutsideClick)
     return () => {
-      document.removeEventListener('click', handleClickOutside)
-      document.removeEventListener('keydown', handleClickOutside)
+      document.removeEventListener('click', handleOutsideClick)
+      document.removeEventListener('keydown', handleOutsideClick)
     }
   }, [])
 
@@ -70,27 +71,28 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
     setIsMenuOpen(false)
   }
 
+  const releaseYear = getYearFromDate(movie.releaseDate)
+
   return (
-    <MovieTileStyled onClick={handleMovieClick} data-testid='movie-tile'>
+    <MovieTileStyled role='group' aria-label='Movie tile' onClick={handleMovieClick}>
       <MovieImage src={movieImage || moviePlaceholder}
         onError={() => setMovieImage(moviePlaceholder)}
-        alt={movie.title}
-        data-testid='movie-image'/>
+        alt={movie.title}/>
       <MovieDescription>
-        <MovieTitle data-testid='movie-title'>{movie.title}</MovieTitle>
-        <MovieRelease data-testid='movie-release-year'>{movie.releaseYear}</MovieRelease>
+        <MovieTitle>{movie.title}</MovieTitle>
+        {releaseYear && <MovieRelease>{releaseYear}</MovieRelease>}
       </MovieDescription>
-      <MovieGenres data-testid='movie-genres'>{movie.genres.join(', ')}</MovieGenres>
+      <MovieGenres>{movie.genres.join(', ')}</MovieGenres>
       <TileMenu className='menu'>
-        <MenuButton type='button' onClick={handleMenuToggle} data-testid='menu-button'>
+        <MenuButton type='button' onClick={handleMenuToggle}>
           <MenuIcon/>
         </MenuButton>
-        {isMenuOpen && <MenuOptions data-testid='menu-options'>
+        {isMenuOpen && <MenuOptions>
           <li>
-            <Option onClick={handleEditClick} data-testid='edit-button'>Edit</Option>
+            <Option onClick={handleEditClick}>Edit</Option>
           </li>
           <li>
-            <Option onClick={handleDeleteClick} data-testid='delete-button'>Delete</Option>
+            <Option onClick={handleDeleteClick}>Delete</Option>
           </li>
         </MenuOptions>
         }

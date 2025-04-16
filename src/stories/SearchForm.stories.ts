@@ -3,7 +3,7 @@ import {fn} from '@storybook/test'
 import {SearchForm} from '@components/elements/SearchForm'
 
 const meta = {
-  title: 'SearchForm',
+  title: 'Library/SearchForm',
   component: SearchForm,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],

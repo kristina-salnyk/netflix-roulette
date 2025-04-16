@@ -3,7 +3,7 @@ import {fn} from '@storybook/test'
 import {TabButton} from '@components/elements/TabButton'
 
 const meta = {
-  title: 'TabButton',
+  title: 'Library/TabButton',
   component: TabButton,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
@@ -16,15 +16,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    text: 'Tab',
+    children: 'Tab',
   },
 }
 
 export const WithSelectedClass: Story = {
   args: {
-    text: 'Tab',
+    children: 'Tab',
     className: 'selected',
-
   },
 }
 

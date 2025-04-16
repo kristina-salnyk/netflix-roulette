@@ -3,7 +3,7 @@ import {fn} from '@storybook/test'
 import {SquareButton} from '@components/elements/SquareButton'
 
 const meta = {
-  title: 'SquareButton',
+  title: 'Library/SquareButton',
   component: SquareButton,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
@@ -16,21 +16,21 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    text: '+',
+    children: '+',
     mode: 'filled',
   },
 }
 
 export const Secondary: Story = {
   args: {
-    text: '+',
+    children: '+',
     mode: 'outlined',
   },
 }
 
 export const Disabled: Story = {
   args: {
-    text: '+',
+    children: '+',
     mode: 'filled',
     disabled: true,
   }

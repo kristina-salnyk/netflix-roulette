@@ -1,7 +1,7 @@
 import React, {FC, FormEvent} from 'react'
 import {Button} from '@components/elements/Button'
 import {Input} from '@components/elements/Input'
-import {SearchFormStyled} from './SearchForm.styled'
+import {InputWrapper, SearchFormStyled} from './SearchForm.styled'
 
 interface SearchFormProps {
     initialQuery?: string;
@@ -13,17 +13,17 @@ export const SearchForm: FC<SearchFormProps> = ({initialQuery, onSearch}) => {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
-    const query = formData.get('query')?.toString()
+    const query = formData.get('query')?.toString() || ''
 
-    if (query) {
-      onSearch(query)
-    }
+    onSearch(query)
   }
 
   return (
     <SearchFormStyled onSubmit={handleSearch}>
-      <Input placeholder='What do you want to watch?' defaultValue={initialQuery} name='query'/>
-      <Button type='submit' text='Search' mode='filled'/>
+      <InputWrapper>
+        <Input placeholder='What do you want to watch?' defaultValue={initialQuery} name='query'/>
+      </InputWrapper>
+      <Button type='submit' mode='filled'>Search</Button>
     </SearchFormStyled>
   )
 }

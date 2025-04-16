@@ -3,7 +3,7 @@ import {fn} from '@storybook/test'
 import {Input} from '@components/elements/Input'
 
 const meta = {
-  title: 'Input',
+  title: 'Library/Input',
   component: Input,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
@@ -33,6 +33,14 @@ export const WithInputType: Story = {
     name: 'password',
     type: 'password',
     placeholder: 'Enter password',
+  },
+}
+
+export const WithLabel: Story = {
+  args: {
+    name: 'title',
+    label: 'Title',
+    placeholder: 'Enter title',
   },
 }
 

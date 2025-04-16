@@ -4,7 +4,7 @@ import {Select} from '@components/elements/Select'
 import {SelectOption} from '@type/SelectOption'
 
 const meta = {
-  title: 'Select',
+  title: 'Library/Select',
   component: Select,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],

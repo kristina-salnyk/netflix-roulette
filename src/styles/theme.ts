@@ -17,6 +17,7 @@ const theme = Object.freeze({
     4: '4px',
     8: '8px',
     16: '16px',
+    24: '24px',
     30: '30px',
     32: '32px',
     48: '48px',
@@ -26,6 +27,7 @@ const theme = Object.freeze({
   shape: {
     borderWidth: {s: '1px', m: '2px', xl: '4px'},
     borderRadius: {s: '4px', m: '8px', xl: '50px'},
+    boxShadow: '0px 10px 50px 0px #0000000D, 00px 10px 20px 0px #0000000D, 0px 2px 10px 0px #00000012, 0px 0px 2px 0px #0000001A',
   },
   animation: {
     opacity: 0.8,
