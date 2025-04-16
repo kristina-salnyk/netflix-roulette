@@ -28,11 +28,11 @@ export const MoviesProvider = ({children}: { children: ReactNode }) => {
 
   const deleteMovieById = useCallback((movieId: string) => {
     setMovies(prevMovies => prevMovies.filter(item => item.id !== movieId))
-  }, [])
+  }, [setMovies])
 
   const editMovieById = useCallback((movieId: string, movie: Movie) => {
     setMovies(prevMovies => prevMovies.map(item => item.id === movieId ? movie : item))
-  }, [])
+  }, [setMovies])
 
   const value = useMemo(() => ({
     movies,

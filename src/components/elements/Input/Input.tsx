@@ -10,15 +10,7 @@ export const Input: FC<InputProps> = ({type = 'text', label, ...props}) => {
   const ref = useRef<HTMLInputElement>(null)
 
   const handleButtonClick = () => {
-    if (!ref.current) {
-      return
-    }
-
-    if (ref.current.showPicker) {
-      ref.current.showPicker()
-    } else {
-      ref.current.blur()
-    }
+    ref.current?.showPicker()
   }
 
   return (
