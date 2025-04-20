@@ -5,15 +5,15 @@ import {SortControlStyled, SortLabel} from './SortControl.styled'
 
 interface SortControlProps {
     options: SelectOption[]
-    sortBy: string
+    sortCriterion: string
     onSelect: (value: string) => void
 }
 
-export const SortControl: FC<SortControlProps> = ({options, sortBy, onSelect}) => {
+export const SortControl: FC<SortControlProps> = ({options, sortCriterion, onSelect}) => {
   return (
     <SortControlStyled>
       <SortLabel>Sort by</SortLabel>
-      <Select options={options} selectedValue={sortBy} onSelect={onSelect}/>
+      <Select options={options} selectedValue={sortCriterion} onSelect={onSelect}/>
     </SortControlStyled>
   )
 }

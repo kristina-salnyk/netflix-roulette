@@ -1,8 +1,10 @@
-import React, {FC, useEffect, useState} from 'react'
+import React, {FC} from 'react'
 import {Movie} from '@type/Movie'
 import moviePlaceholder from '@images/movie-placeholder.png'
 import {MenuIcon} from '@icons/MenuIcon'
 import {getYearFromDate} from '@utils/getYearFromDate'
+import {useMovieImage} from '@hooks/useMovieImage'
+import {useSelect} from '@hooks/useSelect'
 import {
   MenuButton,
   MenuOptions,
@@ -24,51 +26,24 @@ interface MovieTileProps {
 }
 
 export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClick, onEditClick}) => {
-  const [movieImage, setMovieImage] = useState('')
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-  useEffect(() => {
-    setMovieImage(movie.imageUrl || moviePlaceholder)
-  }, [movie.imageUrl])
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent | KeyboardEvent) => {
-      if (event instanceof MouseEvent) {
-        setIsMenuOpen(false)
-      } else if (event.key === 'Escape') {
-        setIsMenuOpen(false)
-      }
-    }
-
-    document.addEventListener('click', handleOutsideClick)
-    document.addEventListener('keydown', handleOutsideClick)
-    return () => {
-      document.removeEventListener('click', handleOutsideClick)
-      document.removeEventListener('keydown', handleOutsideClick)
-    }
-  }, [])
-
+  const {movieImage, onError} = useMovieImage(movie.imageUrl)
+  const {isOpen: isMenuOpen, handleClose: handleMenuClose, handleToggle: handleMenuToggle} = useSelect()
 
   const handleMovieClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
     onMovieClick(movie.id)
   }
 
-  const handleMenuToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation()
-    setIsMenuOpen(prev => !prev)
-  }
-
   const handleEditClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
     onEditClick(movie.id)
-    setIsMenuOpen(false)
+    handleMenuClose()
   }
 
   const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
     onDeleteClick(movie.id)
-    setIsMenuOpen(false)
+    handleMenuClose()
   }
 
   const releaseYear = getYearFromDate(movie.releaseDate)
@@ -76,7 +51,7 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
   return (
     <MovieTileStyled role='group' aria-label='Movie tile' onClick={handleMovieClick}>
       <MovieImage src={movieImage || moviePlaceholder}
-        onError={() => setMovieImage(moviePlaceholder)}
+        onError={onError}
         alt={movie.title}/>
       <MovieDescription>
         <MovieTitle>{movie.title}</MovieTitle>

@@ -2,8 +2,13 @@ import styled from 'styled-components'
 import {transparentize} from 'polished'
 import {MOVIE_IMAGE_HEIGHT, MOVIE_IMAGE_WIDTH, RATING_ICON_HEIGHT, RATING_ICON_WIDTH} from '@constants'
 
-export const MovieDetailsStyled = styled.div`
-    padding: ${({theme}) => theme.spacing[32]};
+export const MovieDetailsStyled = styled.section`
+    padding: 100px 0 ${({theme}) => theme.spacing[20]};
+    background-color: ${({theme}) => theme.colors.darkGray};
+    border-bottom: ${({theme}) => `${theme.shape.borderWidth.xxl} solid ${theme.colors.border}`};
+`
+
+export const MovieDetailsContent = styled.div`
     display: flex;
     gap: ${({theme}) => theme.spacing[32]};
 `

@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Meta, StoryObj} from '@storybook/react'
 import {Dialog} from '@components/elements/Dialog'
 import {MovieForm} from '@components/elements/MovieForm'
-import {DialogButton, DialogTextContent} from '@components/elements/MovieList/MovieList.styled'
+import {DialogButton, DialogTextContent} from '@components/pages/MovieListPage/components/MovieList/MovieList.styled'
 
 const meta: Meta = {
   title: 'Use Cases/DialogUseCases',

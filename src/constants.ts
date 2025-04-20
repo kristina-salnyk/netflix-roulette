@@ -1,3 +1,5 @@
+export const HEADER_HEIGHT = 100
+
 export const MOVIE_IMAGE_WIDTH = 322
 export const MOVIE_IMAGE_HEIGHT = 455
 
@@ -9,24 +11,30 @@ export const MOVIE_TILE_HEIGHT = 455
 
 export const DIALOG_WIDTH = 580
 
+export const LOADER_WIDTH = 100
+
+export const SEARCH_FORM_HEIGHT = 500
+
 export const MOVIE_FORM_LEFT_COLUMN_WIDTH = 480
 export const MOVIE_FORM_RIGHT_COLUMN_WIDTH = 300
 
 export const SEARCH_FORM_WIDTH = 800
 
+export const BASE_URL = 'http://localhost:4000'
+
 export const DEFAULT_GENRE = 'All'
-export const GENRES = ['All', 'Action', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Thriller']
+export const GENRES = ['All', 'Action', 'Comedy', 'Drama', 'Fantasy', 'Thriller', 'Science Fiction', 'Romance']
 
 export const SORT_VALUES = {
-  RELEASE_YEAR: 'releaseYear',
-  RATING: 'rating',
+  RELEASE_YEAR: 'release_date',
+  RATING: 'vote_average',
   TITLE: 'title',
 }
 
 export const SORT_OPTIONS = [
-  {label: 'Release date', value: SORT_VALUES.RELEASE_YEAR},
-  {label: 'Rating', value: SORT_VALUES.RATING},
-  {label: 'Title', value: SORT_VALUES.TITLE},
+  {label: 'Release date', value: SORT_VALUES.RELEASE_YEAR, order: 'desc'},
+  {label: 'Rating', value: SORT_VALUES.RATING, order: 'desc'},
+  {label: 'Title', value: SORT_VALUES.TITLE, order: 'asc'},
 ]
 
 export const MOVIES = [

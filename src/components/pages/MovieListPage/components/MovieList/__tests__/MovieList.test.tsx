@@ -1,7 +1,7 @@
 import {screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
-import {MovieList} from '@components/elements/MovieList'
+import {MovieList} from '@components/pages/MovieListPage/components/MovieList'
 import {filterSortMovieList} from '@utils/filterSortMovieList'
 import {useMovies} from '@contexts/MoviesContext'
 
