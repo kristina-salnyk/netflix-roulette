@@ -20,11 +20,14 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.8.4",
     "clsx": "^2.1.1",
     "focus-trap-react": "^11.0.3",
     "polished": "^4.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-loader-spinner": "^6.1.6",
+    "react-query": "^3.39.3",
     "react-scripts": "5.0.1",
     "styled-components": "^6.1.16",
     "web-vitals": "^2.1.4"
@@ -89,7 +92,9 @@
       "^@constants(.*)$": "<rootDir>/src/constants",
       "^@icons(.*)$": "<rootDir>/src/assets/icons/$1",
       "^@images(.*)$": "<rootDir>/src/assets/images/$1",
-      "^@contexts(.*)$": "<rootDir>/src/contexts/$1"
+      "^@contexts(.*)$": "<rootDir>/src/contexts/$1",
+      "^@hooks(.*)$": "<rootDir>/src/hooks/$1",
+      "^@services(.*)$": "<rootDir>/src/services/$1"
     }
   }
 }

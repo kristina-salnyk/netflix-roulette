@@ -8,8 +8,9 @@ const theme = Object.freeze({
     accent: '#F65261',
     lightGray: '#555555',
     darkGray: '#424242',
-    black: '#232323',
+    black: '#000000',
     white: '#FFFFFF',
+    background: '#232323',
     control: '#323232',
     border: '#979797',
   },
@@ -17,6 +18,7 @@ const theme = Object.freeze({
     4: '4px',
     8: '8px',
     16: '16px',
+    20: '20px',
     24: '24px',
     30: '30px',
     32: '32px',
@@ -25,7 +27,7 @@ const theme = Object.freeze({
     128: '128px'
   },
   shape: {
-    borderWidth: {s: '1px', m: '2px', xl: '4px'},
+    borderWidth: {s: '1px', m: '2px', xl: '4px', xxl: '8px'},
     borderRadius: {s: '4px', m: '8px', xl: '50px'},
     boxShadow: '0px 10px 50px 0px #0000000D, 00px 10px 20px 0px #0000000D, 0px 2px 10px 0px #00000012, 0px 0px 2px 0px #0000001A',
   },
@@ -56,6 +58,7 @@ const theme = Object.freeze({
       medium: 500,
       semiBold: 600,
       bold: 700,
+      black: 900,
     },
   },
 })

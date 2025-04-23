@@ -17,13 +17,13 @@ type Story = StoryObj<typeof meta>;
 export const WithGenreList: Story = {
   args: {
     genres: ['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror'],
-    selectedGenre: 'Action',
+    activeGenre: 'Action',
   },
 }
 
 export const WithEmptyGenreList: Story = {
   args: {
     genres: [],
-    selectedGenre: '',
+    activeGenre: '',
   },
 }

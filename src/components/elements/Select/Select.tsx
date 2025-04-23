@@ -1,5 +1,6 @@
-import React, {FC, useEffect, useState} from 'react'
+import React, {FC} from 'react'
 import {SelectOption} from '@type/SelectOption'
+import {useSelect} from '@hooks/useSelect'
 import {Option, SelectButton, SelectIcon, SelectOptions, SelectStyled} from './Select.styled'
 
 interface SelectProps {
@@ -9,34 +10,12 @@ interface SelectProps {
 }
 
 export const Select: FC<SelectProps> = ({options, selectedValue, onSelect}) => {
-  const [isOpen, setIsOpen] = useState(false)
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent | KeyboardEvent) => {
-      if (event instanceof MouseEvent) {
-        setIsOpen(false)
-      } else if (event.key === 'Escape') {
-        setIsOpen(false)
-      }
-    }
-
-    document.addEventListener('click', handleOutsideClick)
-    document.addEventListener('keydown', handleOutsideClick)
-    return () => {
-      document.removeEventListener('click', handleOutsideClick)
-      document.removeEventListener('keydown', handleOutsideClick)
-    }
-  }, [])
-
-  const handleToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation()
-    setIsOpen((prevState) => !prevState)
-  }
+  const {isOpen, handleToggle, handleClose} = useSelect()
 
   const handleSelect = (event: React.MouseEvent<HTMLDivElement>, value: string) => {
     event.stopPropagation()
     onSelect(value)
-    setIsOpen(false)
+    handleClose()
   }
 
   const option = options.find(option => option.value === selectedValue)

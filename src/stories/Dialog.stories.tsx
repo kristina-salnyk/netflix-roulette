@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Meta, StoryFn} from '@storybook/react'
 import {Dialog} from '@components/elements/Dialog'
 import {Button} from '@components/elements/Button'
-import {DialogButton, DialogTextContent} from '@components/elements/MovieList/MovieList.styled'
+import {DialogButton, DialogTextContent} from '@components/pages/MovieListPage/components/MovieList/MovieList.styled'
 import {MovieForm} from '@components/elements/MovieForm'
 
 const meta = {

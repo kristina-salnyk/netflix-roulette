@@ -14,6 +14,8 @@ module.exports = {
       '@icons': resolvePath('./src/assets/icons'),
       '@images': resolvePath('./src/assets/images'),
       '@contexts': resolvePath('./src/contexts'),
+      '@hooks': resolvePath('./src/hooks'),
+      '@services': resolvePath('./src/services'),
     }
   },
 }

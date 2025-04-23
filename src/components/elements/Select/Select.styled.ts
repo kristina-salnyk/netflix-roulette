@@ -17,6 +17,7 @@ export const SelectButton = styled.button`
     text-transform: uppercase;
     border: none;
     cursor: pointer;
+    transition: opacity ${({theme}) => theme.animation.cubicBezier};
 
     &:hover {
         opacity: ${({theme}) => theme.animation.opacity};
@@ -46,6 +47,7 @@ export const Option = styled.div`
     color: ${({theme}) => transparentize(0.4, theme.colors.white)};
     text-transform: uppercase;
     cursor: pointer;
+    transition: opacity ${({theme}) => theme.animation.cubicBezier};
 
     &:hover {
         opacity: ${({theme}) => theme.animation.opacity};

@@ -1,6 +1,6 @@
 import {screen} from '@testing-library/react'
 import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
-import {MovieDetails} from '@components/elements/MovieDetails'
+import {MovieDetails} from '@components/pages/MovieListPage/components/MovieDetails'
 import {getYearFromDate} from '@utils/getYearFromDate'
 import {getFormattedDuration} from '@utils/getFormattedDuration'
 

@@ -5,18 +5,18 @@ import {GenreSelectStyled} from './GenreSelect.styled'
 
 interface GenreSelectProps {
     genres: string[];
-    selectedGenre: string;
+    activeGenre: string;
     onSelect: (genre: string) => void;
     className?: string;
 }
 
-export const GenreSelect: FC<GenreSelectProps> = ({genres, selectedGenre, onSelect, className}) => {
+export const GenreSelect: FC<GenreSelectProps> = ({genres, activeGenre, onSelect, className}) => {
   return (
     <GenreSelectStyled className={className}>
       {genres.map((genre) => (
         <li key={genre}>
           <TabButton onClick={() => onSelect(genre)}
-            className={clsx({'selected': genre === selectedGenre})}>{genre}</TabButton>
+            className={clsx({'selected': genre === activeGenre})}>{genre}</TabButton>
         </li>
       ))}
     </GenreSelectStyled>

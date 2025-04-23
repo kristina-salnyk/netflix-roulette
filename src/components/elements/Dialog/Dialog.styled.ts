@@ -11,13 +11,13 @@ export const Overlay = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: ${({theme}) => transparentize(0.2, theme.colors.black)};
+    background-color: ${({theme}) => transparentize(0.2, theme.colors.background)};
     z-index: 1200;
     overflow: auto;
 `
 
 export const DialogStyled = styled.div`
-    background-color: ${({theme}) => theme.colors.black};
+    background-color: ${({theme}) => theme.colors.background};
     box-shadow: ${({theme}) => theme.shape.boxShadow};
     min-width: ${DIALOG_WIDTH}px;
     position: relative;

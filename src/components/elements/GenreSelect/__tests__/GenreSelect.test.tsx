@@ -14,7 +14,7 @@ describe('GenreSelect', () => {
   })
 
   it('should highlight selected genre', () => {
-    renderWithThemeProvider(GenreSelect, {genres: genresMock, selectedGenre: 'Comedy'})
+    renderWithThemeProvider(GenreSelect, {genres: genresMock, activeGenre: 'Comedy'})
     expect(screen.getByText('Comedy')).toHaveClass('selected')
   })
 

@@ -2,8 +2,13 @@ import styled from 'styled-components'
 import {MOVIE_TILE_WIDTH} from '@constants'
 import {Button} from '@components/elements/Button'
 
+export const MovieListStyled = styled.section`
+    padding: ${({theme}) => theme.spacing[20]} 0 ${({theme}) => theme.spacing[48]};
+    background-color: ${({theme}) => theme.colors.darkGray};
+`
+
 export const ListControls = styled.div`
-    margin: ${({theme}) => theme.spacing[32]} 0;
+    margin-bottom: ${({theme}) => theme.spacing[24]};
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -11,7 +16,7 @@ export const ListControls = styled.div`
     border-bottom: ${({theme}) => `${theme.shape.borderWidth.m} solid ${theme.colors.border}`};
 `
 
-export const MovieListStyled = styled.ul`
+export const MovieListContent = styled.ul`
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(${MOVIE_TILE_WIDTH}px, 1fr));

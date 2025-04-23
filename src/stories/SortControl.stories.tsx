@@ -26,7 +26,7 @@ export const Default: Story = () => {
   return (
     <SortControl
       options={mockOptions}
-      sortBy={sortBy}
+      sortCriterion={sortBy}
       onSelect={setSortBy}
     />
   )

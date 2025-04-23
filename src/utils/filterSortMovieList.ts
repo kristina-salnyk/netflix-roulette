@@ -1,7 +1,7 @@
 import {Movie} from '@type/Movie'
 import {DEFAULT_GENRE, SORT_VALUES} from '@constants'
 
-export const filterSortMovieList = (movies: Movie[], searchQuery: string, selectedGenre: string, sortBy: string) => {
+export const filterSortMovieList = (movies: Movie[], searchQuery: string, selectedGenre: string, sortCriterion: string) => {
   const filteredMovies = movies.filter((movie: Movie) => {
     const filteredByGenre = (selectedGenre === DEFAULT_GENRE) || movie.genres.includes(selectedGenre)
 
@@ -14,7 +14,7 @@ export const filterSortMovieList = (movies: Movie[], searchQuery: string, select
   })
 
   return filteredMovies.sort((a, b) => {
-    switch (sortBy) {
+    switch (sortCriterion) {
       case SORT_VALUES.RELEASE_YEAR: {
         const dateA = new Date(a.releaseDate).getTime()
         const dateB = new Date(b.releaseDate).getTime()
