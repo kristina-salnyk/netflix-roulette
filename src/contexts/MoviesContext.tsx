@@ -45,7 +45,7 @@ export const MoviesProvider = ({children}: { children: ReactNode }) => {
   }, [getMovieById, selectedMovieId])
 
   const addMovie = useCallback((movie: Movie) => {
-    setMovies(prevMovies => [...prevMovies, movie])
+    setMovies(prevMovies => [movie, ...prevMovies])
   }, [])
 
   const value = useMemo(() => ({

@@ -1,12 +1,19 @@
-import React, {useState} from 'react'
+import React, {ReactNode, useEffect} from 'react'
 import {Meta, StoryObj} from '@storybook/react'
 import {Dialog} from '@components/elements/Dialog'
+import {DialogProvider, useDialog} from '@contexts/DialogContext'
 import {MovieForm} from '@components/elements/MovieForm'
-import {DialogButton, DialogTextContent} from '@components/pages/MovieListPage/components/MovieList/MovieList.styled'
 
 const meta: Meta = {
   title: 'Use Cases/DialogUseCases',
   component: Dialog,
+  decorators: [
+    (Story) => (
+      <DialogProvider>
+        <Story/>
+      </DialogProvider>
+    ),
+  ],
 }
 
 export default meta
@@ -23,60 +30,59 @@ const mockMovie =
       description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
     }
 
-const StoryWrapper = ({children}: { children: (open: boolean, setOpen: (v: boolean) => void) => React.ReactNode }) => {
-  const [open, setOpen] = useState(true)
+const StoryWrapper = ({children, title, component, onConfirm,}: {
+    children: ReactNode
+    title: string
+    component: React.ReactNode
+    onConfirm?: () => void
+}) => {
+  const {openDialog, closeDialog} = useDialog()
 
-  return (
-    <>
-      <div id="dialog-root"/>
-      {children(open, setOpen)}
-    </>
-  )
-}
+  useEffect(() => {
+    openDialog({
+      title,
+      component,
+      onConfirm: onConfirm,
+    })
+  }, [title, component, onConfirm, openDialog, closeDialog])
 
-export const AddMovie: StoryObj = {
-  render: () => (
-    <StoryWrapper>
-      {(open, setOpen) =>
-        open && (
-          <Dialog title="Add Movie" onClose={() => setOpen(false)}>
-            <MovieForm onSubmit={() => setOpen(false)}/>
-          </Dialog>
-        )
-      }
-    </StoryWrapper>
-  ),
-}
-
-export const EditMovie: StoryObj = {
-  render: () => {
-    return (
-      <StoryWrapper>
-        {(open, setOpen) =>
-          open && (
-            <Dialog title="Edit Movie" onClose={() => setOpen(false)}>
-              <MovieForm initialMovie={mockMovie}
-                onSubmit={() => setOpen(false)}/>
-            </Dialog>
-          )
-        }
-      </StoryWrapper>
-    )
-  },
+  return (<>{children}</>)
 }
 
 export const DeleteMovie: StoryObj = {
   render: () => (
-    <StoryWrapper>
-      {(open, setOpen) =>
-        open && (
-          <Dialog title="Delete Movie" onClose={() => setOpen(false)}>
-            <DialogTextContent>Are you sure you want to delete this movie?</DialogTextContent>
-            <DialogButton mode='filled'
-              onClick={() => setOpen(false)}>Confirm</DialogButton>
-          </Dialog>
-        )
-      }
+    <StoryWrapper
+      title="Delete movie"
+      component="Are you sure you want to delete this movie?"
+      onConfirm={() => {
+      }}
+    >
+      <Dialog/>
+    </StoryWrapper>
+  ),
+}
+
+export const EditMovieForm: StoryObj = {
+  render: () => (
+    <StoryWrapper
+      title="Edit movie"
+      component={<MovieForm initialMovie={mockMovie}
+        onSubmit={() => {
+        }}/>}
+    >
+      <Dialog/>
+    </StoryWrapper>
+  ),
+}
+
+export const AddMovieForm: StoryObj = {
+  render: () => (
+    <StoryWrapper
+      title="Add movie"
+      component={<MovieForm onSubmit={() => {
+      }}/>}
+    >
+      <Dialog/>
     </StoryWrapper>
   ),
 }

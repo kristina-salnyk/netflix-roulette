@@ -4,6 +4,7 @@ import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
 import {MovieList} from '@components/pages/MovieListPage/components/MovieList'
 import {filterSortMovieList} from '@utils/filterSortMovieList'
 import {useMovies} from '@contexts/MoviesContext'
+import {useDialog} from '@contexts/DialogContext'
 
 const mockMovies = [
   {
@@ -42,10 +43,12 @@ jest.mock('@utils/filterSortMovieList', () => ({
 }))
 
 jest.mock('@contexts/MoviesContext')
+const useMoviesMock = useMovies as jest.MockedFunction<typeof useMovies>
 
 const onMovieClickMock = jest.fn()
 
-const useMoviesMock = useMovies as jest.MockedFunction<typeof useMovies>
+jest.mock('@contexts/DialogContext')
+const useDialogMock = useDialog as jest.MockedFunction<typeof useDialog>
 
 describe('MovieList', () => {
   beforeEach(() => {
@@ -54,9 +57,18 @@ describe('MovieList', () => {
       deleteMovieById: jest.fn(),
       getMovieById: jest.fn(),
       editMovieById: jest.fn(),
-    })
+    } as unknown as ReturnType<typeof useMovies>)
+
+    useDialogMock.mockReturnValue({
+      openDialog: jest.fn(),
+      closeDialog: jest.fn(),
+    } as unknown as ReturnType<typeof useDialog>)
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+  
   test('should render component', () => {
     (filterSortMovieList as jest.Mock).mockReturnValueOnce(mockMovies)
     renderWithThemeProvider(MovieList, {searchQuery: '', onMovieClick: onMovieClickMock})
