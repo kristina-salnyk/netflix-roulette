@@ -1,6 +1,7 @@
 import {screen} from '@testing-library/react'
-import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
-import {MovieDetails} from '@components/pages/MovieListPage/components/MovieDetails'
+import {renderWithProviders} from '@utils/renderWithProviders'
+import MovieDetails from '@components/pages/MovieListPage/components/MovieDetails/MovieDetails'
+import {useQuery} from 'react-query'
 import {getYearFromDate} from '@utils/getYearFromDate'
 import {getFormattedDuration} from '@utils/getFormattedDuration'
 
@@ -16,29 +17,58 @@ const mockMovie =
       description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
     }
 
+const mockQueryData = {
+  data: {
+    id: '1',
+    title: mockMovie.title,
+    release_date: mockMovie.releaseDate,
+    poster_path: mockMovie.imageUrl,
+    genres: mockMovie.genres,
+    vote_average: mockMovie.rating,
+    runtime: mockMovie.duration,
+    overview: mockMovie.description,
+  },
+  isLoading: false,
+  isError: false,
+}
+
+jest.mock('@services/api/fetchMovie', () => ({
+  fetchMovie: jest.fn(() => Promise.resolve(mockMovie)),
+}))
+
+jest.mock('react-query', () => ({
+  ...jest.requireActual('react-query'),
+  useQuery: jest.fn(),
+}))
+
 jest.mock('@utils/getYearFromDate', () => ({
   getYearFromDate: jest.fn(),
 }))
 
 jest.mock('@utils/getFormattedDuration', () => ({
-  getFormattedDuration: jest.fn(() => '2h 28m'),
+  getFormattedDuration: jest.fn(),
 }))
 
 describe('MovieDetails', () => {
   beforeEach(() => {
-    (getYearFromDate as jest.Mock).mockReturnValue(2010);
+    (useQuery as jest.Mock).mockReturnValue(mockQueryData);
+    (getYearFromDate as jest.Mock).mockReturnValue('2010');
     (getFormattedDuration as jest.Mock).mockReturnValue('2h 28m')
   })
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   test('should render component', () => {
-    renderWithThemeProvider(MovieDetails, {movie: mockMovie})
+    renderWithProviders(MovieDetails)
 
     const movieDetails = screen.getByRole('region', {name: /Movie details/i})
     expect(movieDetails).toBeInTheDocument()
   })
 
   test('should render movie image', () => {
-    renderWithThemeProvider(MovieDetails, {movie: mockMovie})
+    renderWithProviders(MovieDetails)
 
     const movieImage = screen.getByAltText(/Inception/i)
     expect(movieImage).toBeInTheDocument()
@@ -46,35 +76,54 @@ describe('MovieDetails', () => {
   })
 
   test('should render movie title', () => {
-    renderWithThemeProvider(MovieDetails, {movie: mockMovie})
+    renderWithProviders(MovieDetails)
 
     const movieTitle = screen.getByRole('heading', {name: /Inception/i})
     expect(movieTitle).toBeInTheDocument()
   })
 
   test('should render movie rating', () => {
-    renderWithThemeProvider(MovieDetails, {movie: mockMovie})
+    renderWithProviders(MovieDetails)
     expect(screen.getByText(/7.8/i)).toBeInTheDocument()
   })
 
   test('should render movie genres', () => {
-    renderWithThemeProvider(MovieDetails, {movie: mockMovie})
+    renderWithProviders(MovieDetails)
     expect(screen.getByText(/Action, Sci-Fi/i)).toBeInTheDocument()
   })
 
   test('should render movie release year', () => {
-    renderWithThemeProvider(MovieDetails, {movie: mockMovie})
+    renderWithProviders(MovieDetails)
     expect(screen.getByText(/2010/i)).toBeInTheDocument()
   })
 
   test('should render movie duration', () => {
-    renderWithThemeProvider(MovieDetails, {movie: mockMovie})
+    renderWithProviders(MovieDetails)
     expect(screen.getByText(/2h 28m/i)).toBeInTheDocument()
   })
 
   test('should render movie description', () => {
-    renderWithThemeProvider(MovieDetails, {movie: mockMovie})
+    renderWithProviders(MovieDetails)
     expect(screen.getByText(mockMovie.description)).toBeInTheDocument()
   })
 
+  test('should render loader when isLoading is true', () => {
+    (useQuery as jest.Mock).mockReturnValue({
+      ...mockQueryData,
+      isLoading: true,
+    })
+    renderWithProviders(MovieDetails)
+
+    expect(screen.getByRole('status')).toBeInTheDocument()
+  })
+
+  test('should render error message when isError is true', () => {
+    (useQuery as jest.Mock).mockReturnValue({
+      ...mockQueryData,
+      isError: true,
+    })
+    renderWithProviders(MovieDetails)
+
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+  })
 })

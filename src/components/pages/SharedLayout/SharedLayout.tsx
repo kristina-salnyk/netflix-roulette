@@ -1,17 +1,17 @@
-import React, {FC, ReactNode} from 'react'
+import React, {Suspense} from 'react'
+import {Outlet} from 'react-router'
 import {Header} from '@components/elements/Header'
 import {Dialog} from '@components/elements/Dialog'
+import {Loader} from '@components/elements/Loader'
 
-interface SharedLayoutProps {
-    children: ReactNode;
-}
-
-export const SharedLayout: FC<SharedLayoutProps> = ({children}) => {
+export const SharedLayout = () => {
   return (
     <>
       <Header/>
       <main>
-        {children}
+        <Suspense fallback={<Loader/>}>
+          <Outlet/>
+        </Suspense>
       </main>
       <Dialog/>
     </>

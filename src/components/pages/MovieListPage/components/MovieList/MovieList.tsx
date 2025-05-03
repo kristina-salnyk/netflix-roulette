@@ -15,7 +15,6 @@ import {ListControls, ListItem, MovieListContent, MovieListStyled} from './Movie
 interface MovieListProps {
     sortCriterion: string
     activeGenre: string
-    onMovieClick: (movieId: string) => void;
     onSortCriterionSelect: (sortCriterion: string) => void;
     onGenreSelect: (genre: string) => void;
     isLoading: boolean
@@ -25,7 +24,6 @@ interface MovieListProps {
 export const MovieList: FC<MovieListProps> = ({
   sortCriterion,
   activeGenre,
-  onMovieClick,
   onSortCriterionSelect,
   onGenreSelect,
   isLoading,
@@ -75,13 +73,11 @@ export const MovieList: FC<MovieListProps> = ({
             {movies.map(item => (
               <ListItem key={item.id}>
                 <MovieTile movie={item}
-                  onMovieClick={onMovieClick}
                   onEditClick={handleEditDialogOpen}
                   onDeleteClick={handleDeleteDialogOpen}/>
               </ListItem>
             ))}
-          </MovieListContent>)
-        }
+          </MovieListContent>)}
       </Container>
     </MovieListStyled>
   )

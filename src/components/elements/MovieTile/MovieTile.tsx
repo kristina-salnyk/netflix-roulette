@@ -1,4 +1,5 @@
 import React, {FC} from 'react'
+import {useLocation} from 'react-router'
 import {Movie} from '@type/Movie'
 import moviePlaceholder from '@images/movie-placeholder.png'
 import {MenuIcon} from '@icons/MenuIcon'
@@ -20,36 +21,28 @@ import {
 
 interface MovieTileProps {
     movie: Movie,
-    onMovieClick: (movieId: string) => void;
     onEditClick: (movieId: string) => void;
     onDeleteClick: (movieId: string) => void;
 }
 
-export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClick, onEditClick}) => {
+export const MovieTile: FC<MovieTileProps> = ({movie, onDeleteClick, onEditClick}) => {
   const {movieImage, onError} = useMovieImage(movie.imageUrl)
   const {isOpen: isMenuOpen, handleClose: handleMenuClose, handleToggle: handleMenuToggle} = useSelect()
+  const location = useLocation()
 
-  const handleMovieClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleMenuItemClick = (event: React.MouseEvent<HTMLDivElement>, onClick: (movieId: string) => void) => {
+    event.preventDefault()
     event.stopPropagation()
-    onMovieClick(movie.id)
-  }
-
-  const handleEditClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation()
-    onEditClick(movie.id)
-    handleMenuClose()
-  }
-
-  const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation()
-    onDeleteClick(movie.id)
+    onClick(movie.id)
     handleMenuClose()
   }
 
   const releaseYear = getYearFromDate(movie.releaseDate)
 
   return (
-    <MovieTileStyled role='group' aria-label='Movie tile' onClick={handleMovieClick}>
+    <MovieTileStyled role='group'
+      aria-label='Movie tile'
+      to={{pathname: `/movies/${movie.id}`, search: location.search}}>
       <MovieImage src={movieImage || moviePlaceholder}
         onError={onError}
         alt={movie.title}/>
@@ -64,10 +57,10 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onMovieClick, onDeleteClic
         </MenuButton>
         {isMenuOpen && <MenuOptions>
           <li>
-            <Option onClick={handleEditClick}>Edit</Option>
+            <Option onClick={(event) => handleMenuItemClick(event, onEditClick)}>Edit</Option>
           </li>
           <li>
-            <Option onClick={handleDeleteClick}>Delete</Option>
+            <Option onClick={(event) => handleMenuItemClick(event, onDeleteClick)}>Delete</Option>
           </li>
         </MenuOptions>
         }

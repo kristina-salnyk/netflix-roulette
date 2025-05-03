@@ -1,4 +1,5 @@
 import React, {FC, useId} from 'react'
+import {useLocation, useParams} from 'react-router'
 import {Movie} from '@type/Movie'
 import {Logo} from '@components/elements/Logo'
 import {Button} from '@components/elements/Button'
@@ -9,13 +10,11 @@ import {useDialog} from '@contexts/DialogContext'
 import {HeaderStyled, SearchButton} from './Header.styled'
 
 export const Header: FC = () => {
-  const {selectedMovieId, setSelectedMovieId, addMovie} = useMovies()
+  const {addMovie} = useMovies()
   const id = useId()
   const {openDialog, closeDialog} = useDialog()
-
-  const handleSearchToggle = () => {
-    setSelectedMovieId('')
-  }
+  const {movieId} = useParams()
+  const location = useLocation()
 
   const handleMovieFormSubmit = (movie: Movie) => {
     const newMovie = {...movie, id}
@@ -33,10 +32,8 @@ export const Header: FC = () => {
   return (
     <HeaderStyled>
       <Logo/>
-      {selectedMovieId ?
-        <SearchButton type='button' onClick={handleSearchToggle}>
-          <SearchIcon/>
-        </SearchButton> :
+      {movieId ?
+        <SearchButton to={{pathname: '/', search: location.search}}><SearchIcon/></SearchButton> :
         <Button mode='outlined' onClick={handleAddMovieClick}>+ Add movie</Button>}
     </HeaderStyled>
   )

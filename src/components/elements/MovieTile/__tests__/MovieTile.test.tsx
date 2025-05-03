@@ -1,6 +1,5 @@
 import {screen} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
+import {renderWithProviders} from '@utils/renderWithProviders'
 import {MovieTile} from '@components/elements/MovieTile'
 import {getYearFromDate} from '@utils/getYearFromDate'
 
@@ -16,11 +15,12 @@ const mockMovie =
       description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
     }
 
-const onMovieClickMock = jest.fn()
-
 jest.mock('@utils/getYearFromDate', () => ({
   getYearFromDate: jest.fn(),
 }))
+
+const onEditClickMock = jest.fn()
+const onDeleteClickMock = jest.fn()
 
 describe('MovieTile', () => {
   beforeEach(() => {
@@ -28,12 +28,20 @@ describe('MovieTile', () => {
   })
 
   test('should render component', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
+    renderWithProviders(MovieTile, {
+      movie: mockMovie,
+      onEditClick: onEditClickMock,
+      onDeleteClick: onDeleteClickMock
+    })
     expect(screen.getByRole('group', {name: /Movie tile/i})).toBeInTheDocument()
   })
 
   test('should render movie image', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
+    renderWithProviders(MovieTile, {
+      movie: mockMovie,
+      onEditClick: onEditClickMock,
+      onDeleteClick: onDeleteClickMock
+    })
 
     const movieImage = screen.getByAltText(/Inception/i)
     expect(movieImage).toBeInTheDocument()
@@ -41,28 +49,31 @@ describe('MovieTile', () => {
   })
 
   test('should render movie title', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
+    renderWithProviders(MovieTile, {
+      movie: mockMovie,
+      onEditClick: onEditClickMock,
+      onDeleteClick: onDeleteClickMock
+    })
 
     const movieTitle = screen.getByRole('heading', {name: /Inception/i})
     expect(movieTitle).toBeInTheDocument()
   })
 
   test('should render movie release year', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
+    renderWithProviders(MovieTile, {
+      movie: mockMovie,
+      onEditClick: onEditClickMock,
+      onDeleteClick: onDeleteClickMock
+    })
     expect(screen.getByText(/2010/i)).toBeInTheDocument()
   })
 
   test('should render movie genres', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
+    renderWithProviders(MovieTile, {
+      movie: mockMovie,
+      onEditClick: onEditClickMock,
+      onDeleteClick: onDeleteClickMock
+    })
     expect(screen.getByText(/Action, Sci-Fi/i)).toBeInTheDocument()
-  })
-
-  test('should call onClick when movie tile is clicked', () => {
-    renderWithThemeProvider(MovieTile, {movie: mockMovie, onMovieClick: onMovieClickMock})
-
-    const movieTile = screen.getByRole('group', {name: /Movie tile/i})
-    userEvent.click(movieTile)
-
-    expect(onMovieClickMock).toHaveBeenCalledWith('1')
   })
 })

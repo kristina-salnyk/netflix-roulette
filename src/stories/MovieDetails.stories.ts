@@ -1,5 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/react'
-import {MovieDetails} from '@components/pages/MovieListPage/components/MovieDetails'
+import MovieDetails from '@components/pages/MovieListPage/components/MovieDetails/MovieDetails'
 
 const meta = {
   title: 'Library/MovieDetails',

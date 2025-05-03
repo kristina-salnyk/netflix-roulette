@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {Link} from 'react-router'
 import {HEADER_HEIGHT} from '@constants'
 
 export const HeaderStyled = styled.header`
@@ -12,11 +13,9 @@ export const HeaderStyled = styled.header`
     justify-content: space-between;
     z-index: 1;
 `
-export const SearchButton = styled.button`
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+export const SearchButton = styled(Link)`
+    display: flex;
+    align-items: center;
     transition: opacity ${({theme}) => theme.animation.cubicBezier};
 
     &:hover {

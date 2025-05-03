@@ -21,6 +21,7 @@ export const useSelect = () => {
   }, [])
 
   const handleToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
     event.stopPropagation()
     setIsOpen(prev => !prev)
   }

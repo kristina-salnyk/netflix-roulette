@@ -9,7 +9,6 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {},
   args: {
-    onMovieClick: fn(),
     onEditClick: fn(),
     onDeleteClick: fn()
   },
