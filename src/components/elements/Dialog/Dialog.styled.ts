@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import {transparentize} from 'polished'
 import {DIALOG_WIDTH} from '@constants'
+import {Button} from '@components/elements/Button'
 
 export const Overlay = styled.div`
     position: fixed;
@@ -48,4 +49,14 @@ export const DialogCloseButton = styled.button`
     background-color: transparent;
     border: none;
     cursor: pointer;
+`
+export const DialogTextContent = styled.p`
+    font-size: ${({theme}) => theme.typography.size[20]};
+    font-weight: ${({theme}) => theme.typography.weight.light};
+    color: ${({theme}) => theme.colors.white};
+`
+
+export const DialogButton = styled(Button)`
+    margin-top: ${({theme}) => theme.spacing[48]};
+    float: right;
 `

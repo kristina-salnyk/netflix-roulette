@@ -7,7 +7,6 @@ const meta = {
   component: TextArea,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
-  argTypes: {},
   args: {onChange: fn()},
 } satisfies Meta<typeof TextArea>
 

@@ -8,8 +8,6 @@ const meta = {
   component: SortControl,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
-  argTypes: {},
-  args: {},
 } satisfies Meta<typeof SortControl>
 
 export default meta

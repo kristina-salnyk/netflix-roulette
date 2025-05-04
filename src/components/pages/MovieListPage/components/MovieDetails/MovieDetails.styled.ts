@@ -26,7 +26,7 @@ export const MovieInfo = styled.div`
 export const MovieHeading = styled.div`
     color: ${({theme}) => theme.colors.white};
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 `
 
 export const MovieTitle = styled.h2`

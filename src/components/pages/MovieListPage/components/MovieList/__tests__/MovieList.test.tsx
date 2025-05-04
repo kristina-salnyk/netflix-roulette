@@ -1,9 +1,9 @@
+import React from 'react'
 import {screen} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
+import {renderWithProviders} from '@utils/renderWithProviders'
 import {MovieList} from '@components/pages/MovieListPage/components/MovieList'
-import {filterSortMovieList} from '@utils/filterSortMovieList'
 import {useMovies} from '@contexts/MoviesContext'
+import {useDialog} from '@contexts/DialogContext'
 
 const mockMovies = [
   {
@@ -37,55 +37,73 @@ const mockMovies = [
     description: 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity\'s survival.',
   }]
 
-jest.mock('@utils/filterSortMovieList', () => ({
-  filterSortMovieList: jest.fn(),
-}))
-
 jest.mock('@contexts/MoviesContext')
-
-const onMovieClickMock = jest.fn()
-
 const useMoviesMock = useMovies as jest.MockedFunction<typeof useMovies>
 
+jest.mock('@contexts/DialogContext')
+const useDialogMock = useDialog as jest.MockedFunction<typeof useDialog>
+
+jest.mock('@components/elements/MovieTile', () => ({
+  __esModule: true,
+  MovieTile: () => <div role="group" aria-label="Movie tile"/>,
+}))
+
 describe('MovieList', () => {
+  const defaultProps = {
+    sortCriterion: 'title',
+    activeGenre: 'All',
+    onSortCriterionSelect: jest.fn(),
+    onGenreSelect: jest.fn(),
+    isLoading: false,
+    isError: false
+  }
+
   beforeEach(() => {
     useMoviesMock.mockReturnValue({
       movies: mockMovies,
       deleteMovieById: jest.fn(),
       getMovieById: jest.fn(),
       editMovieById: jest.fn(),
-    })
+    } as unknown as ReturnType<typeof useMovies>)
+
+    useDialogMock.mockReturnValue({
+      openDialog: jest.fn(),
+      closeDialog: jest.fn(),
+    } as unknown as ReturnType<typeof useDialog>)
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
   test('should render component', () => {
-    (filterSortMovieList as jest.Mock).mockReturnValueOnce(mockMovies)
-    renderWithThemeProvider(MovieList, {searchQuery: '', onMovieClick: onMovieClickMock})
+    renderWithProviders(MovieList, defaultProps)
 
     expect(screen.getByRole('list', {name: /Movie list/i})).toBeInTheDocument()
   })
 
   test('should render list controls', () => {
-    (filterSortMovieList as jest.Mock).mockReturnValueOnce(mockMovies)
-    renderWithThemeProvider(MovieList, {searchQuery: '', onMovieClick: onMovieClickMock})
+    renderWithProviders(MovieList, defaultProps)
 
     expect(screen.getByRole('region', {name: /List controls/i})).toBeInTheDocument()
   })
 
   test('should render movie tiles', () => {
-    (filterSortMovieList as jest.Mock).mockReturnValueOnce(mockMovies)
-    renderWithThemeProvider(MovieList, {searchQuery: '', onMovieClick: onMovieClickMock})
+    renderWithProviders(MovieList, defaultProps)
 
     const movieTiles = screen.getAllByRole('group', {name: /Movie tile/i})
     expect(movieTiles).toHaveLength(3)
   })
 
-  test('should call onClick when movie tile is clicked', () => {
-    (filterSortMovieList as jest.Mock).mockReturnValueOnce(mockMovies)
-    renderWithThemeProvider(MovieList, {searchQuery: '', onMovieClick: onMovieClickMock})
+  test('should render loader when isLoading is true', () => {
+    renderWithProviders(MovieList, {...defaultProps, isLoading: true})
 
-    const movieTiles = screen.getAllByRole('group', {name: /Movie tile/i})
-    userEvent.click(movieTiles[0])
+    expect(screen.getByRole('status')).toBeInTheDocument()
+  })
 
-    expect(onMovieClickMock).toHaveBeenCalledWith('1')
+  test('should render error message when isError is true', () => {
+    renderWithProviders(MovieList, {...defaultProps, isError: true})
+
+    expect(screen.getByRole('alert')).toBeInTheDocument()
   })
 })

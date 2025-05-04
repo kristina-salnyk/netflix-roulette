@@ -1,29 +1,38 @@
-import React, {FC, ReactNode} from 'react'
+import React from 'react'
 import {createPortal} from 'react-dom'
 import FocusTrap from 'focus-trap-react'
 import {CloseIcon} from '@icons/CloseIcon'
-import {DialogCloseButton, DialogStyled, DialogTitle, DialogWrapper, Overlay} from './Dialog.styled'
-
-interface DialogProps {
-    title: string
-    children: ReactNode
-    onClose: () => void
-}
+import {useDialog} from '@contexts/DialogContext'
+import {
+  DialogButton,
+  DialogCloseButton,
+  DialogStyled,
+  DialogTextContent,
+  DialogTitle,
+  DialogWrapper,
+  Overlay
+} from './Dialog.styled'
 
 const dialogRoot = document.getElementById('dialog-root')
 
-export const Dialog: FC<DialogProps> = ({title, children, onClose}) => {
+export const Dialog = () => {
+  const {isOpen, title, component, onConfirm, closeDialog} = useDialog()
+
+  if (!isOpen) return null
+
   return (
     dialogRoot && createPortal(
       <Overlay>
         <FocusTrap>
           <DialogStyled role='dialog'>
             <DialogWrapper>
-              <DialogCloseButton aria-label='Close' onClick={onClose}>
+              <DialogCloseButton aria-label='Close' onClick={closeDialog}>
                 <CloseIcon/>
               </DialogCloseButton>
               <DialogTitle>{title}</DialogTitle>
-              {children}
+              {typeof component === 'string' ? (
+                <DialogTextContent>{component}</DialogTextContent>) : component}
+              {onConfirm && <DialogButton mode='filled' onClick={onConfirm}>Confirm</DialogButton>}
             </DialogWrapper>
           </DialogStyled>
         </FocusTrap>

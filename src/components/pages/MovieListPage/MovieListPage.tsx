@@ -1,18 +1,25 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {Suspense, useCallback, useEffect, useMemo} from 'react'
 import {useQuery} from 'react-query'
+import {Outlet, useSearchParams} from 'react-router'
 import {Movie} from '@type/Movie'
-import {GENRES, SORT_OPTIONS} from '@constants'
-import {MovieList} from 'src/components/pages/MovieListPage/components/MovieList'
-import {MovieDetails} from 'src/components/pages/MovieListPage/components/MovieDetails'
+import {MovieList} from '@components/pages/MovieListPage/components/MovieList'
+import {Loader} from '@components/elements/Loader'
 import {useMovies} from '@contexts/MoviesContext'
-import {MovieSearch} from 'src/components/pages/MovieListPage/components/MovieSearch'
 import {fetchMovies, MoviesResponse} from '@services/api/fetchMovies'
+import {getSearchValueByParam} from '@utils/getSearchValueByParam'
+import {DEFAULT_GENRE, GENRES, SORT_OPTIONS, SORT_VALUES} from '@constants'
 
-export const MovieListPage = () => {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [sortCriterion, setSortCriterion] = useState(SORT_OPTIONS[0].value)
-  const [activeGenre, setActiveGenre] = useState(GENRES[0])
-  const {getSelectedMovie, setSelectedMovieId, setMovies} = useMovies()
+const MovieListPage = () => {
+  const {setMovies} = useMovies()
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const searchQuery = searchParams.get('query') ?? ''
+  const genreParam = searchParams.get('genre') ?? ''
+  const sortParam = searchParams.get('sortBy') ?? ''
+
+  const activeGenre = useMemo(() => getSearchValueByParam(genreParam, GENRES, DEFAULT_GENRE), [genreParam])
+  const sortCriterion = useMemo(() => getSearchValueByParam(sortParam, Object.values(SORT_VALUES), SORT_OPTIONS[0].value), [sortParam])
+
   const {data, isLoading, isError} = useQuery<MoviesResponse>({
     queryKey: ['movies', searchQuery, sortCriterion, activeGenre],
     queryFn: ({signal}) => fetchMovies(sortCriterion, searchQuery, activeGenre, signal),
@@ -39,16 +46,27 @@ export const MovieListPage = () => {
     }
   }, [setMovies, data])
 
-  const selectedMovie = useMemo(() => getSelectedMovie(), [getSelectedMovie])
+  const setSortCriterion = useCallback((sort: string) => {
+    setSearchParams(prevParams => {
+      prevParams.set('sortBy', sort)
+      return prevParams
+    })
+  }, [setSearchParams])
+
+  const setActiveGenre = useCallback((genre: string) => {
+    setSearchParams(prevParams => {
+      prevParams.set('genre', genre.toLowerCase())
+      return prevParams
+    })
+  }, [setSearchParams])
 
   return (
     <>
-      {selectedMovie ?
-        <MovieDetails movie={selectedMovie}/> :
-        <MovieSearch searchQuery={searchQuery} onSearch={setSearchQuery}/>}
+      <Suspense fallback={<Loader/>}>
+        <Outlet/>
+      </Suspense>
       <MovieList sortCriterion={sortCriterion}
         activeGenre={activeGenre}
-        onMovieClick={setSelectedMovieId}
         onSortCriterionSelect={setSortCriterion}
         onGenreSelect={setActiveGenre}
         isLoading={isLoading}
@@ -56,3 +74,5 @@ export const MovieListPage = () => {
     </>
   )
 }
+
+export default MovieListPage

@@ -21,9 +21,12 @@ export const SearchForm: FC<SearchFormProps> = ({initialQuery, onSearch}) => {
   return (
     <SearchFormStyled onSubmit={handleSearch}>
       <InputWrapper>
-        <Input placeholder='What do you want to watch?' defaultValue={initialQuery} name='query'/>
+        <Input placeholder='What do you want to watch?'
+          defaultValue={initialQuery}
+          name='query'
+          data-testid='search-input'/>
       </InputWrapper>
-      <Button type='submit' mode='filled'>Search</Button>
+      <Button type='submit' mode='filled' data-testid='search-button'>Search</Button>
     </SearchFormStyled>
   )
 }

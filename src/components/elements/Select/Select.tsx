@@ -22,7 +22,7 @@ export const Select: FC<SelectProps> = ({options, selectedValue, onSelect}) => {
 
   return (
     <SelectStyled>
-      <SelectButton type='button' onClick={handleToggle}>
+      <SelectButton type='button' onClick={handleToggle} data-testid="select-button">
         <span>{option?.label}</span>
         <SelectIcon>&#9660;</SelectIcon>
       </SelectButton>

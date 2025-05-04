@@ -11,7 +11,7 @@ interface SortControlProps {
 
 export const SortControl: FC<SortControlProps> = ({options, sortCriterion, onSelect}) => {
   return (
-    <SortControlStyled>
+    <SortControlStyled data-testid="sort-select">
       <SortLabel>Sort by</SortLabel>
       <Select options={options} selectedValue={sortCriterion} onSelect={onSelect}/>
     </SortControlStyled>

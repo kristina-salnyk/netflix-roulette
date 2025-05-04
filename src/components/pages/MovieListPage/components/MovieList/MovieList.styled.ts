@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import {MOVIE_TILE_WIDTH} from '@constants'
-import {Button} from '@components/elements/Button'
 
 export const MovieListStyled = styled.section`
     padding: ${({theme}) => theme.spacing[20]} 0 ${({theme}) => theme.spacing[48]};
@@ -28,14 +27,4 @@ export const MovieListContent = styled.ul`
 export const ListItem = styled.li`
     display: flex;
     justify-content: center;
-`
-export const DialogTextContent = styled.p`
-    font-size: ${({theme}) => theme.typography.size[20]};
-    font-weight: ${({theme}) => theme.typography.weight.light};
-    color: ${({theme}) => theme.colors.white};
-`
-
-export const DialogButton = styled(Button)`
-    margin-top: ${({theme}) => theme.spacing[48]};
-    float: right;
 `

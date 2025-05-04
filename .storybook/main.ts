@@ -11,7 +11,8 @@ const config: StorybookConfig = {
     '@storybook/preset-create-react-app',
     '@storybook/addon-onboarding',
     '@storybook/addon-interactions',
-    '@storybook/addon-themes'
+    '@storybook/addon-themes',
+    'storybook-addon-remix-react-router'
   ],
   'framework': {
     'name': '@storybook/react-webpack5',

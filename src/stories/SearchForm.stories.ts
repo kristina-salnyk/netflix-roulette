@@ -7,16 +7,13 @@ const meta = {
   component: SearchForm,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
-  argTypes: {},
   args: {onSearch: fn()},
 } satisfies Meta<typeof SearchForm>
 
 export default meta
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {},
-}
+export const Default: Story = {}
 
 export const WithInitials: Story = {
   args: {
