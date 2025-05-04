@@ -25,6 +25,7 @@ export const MovieDescription = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: ${({theme}) => theme.spacing[16]};
 `
 
 export const MovieTitle = styled.h3`

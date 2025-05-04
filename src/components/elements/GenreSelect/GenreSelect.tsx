@@ -12,7 +12,7 @@ interface GenreSelectProps {
 
 export const GenreSelect: FC<GenreSelectProps> = ({genres, activeGenre, onSelect, className}) => {
   return (
-    <GenreSelectStyled className={className}>
+    <GenreSelectStyled className={className} data-testid="genre-select">
       {genres.map((genre) => (
         <li key={genre}>
           <TabButton onClick={() => onSelect(genre)}

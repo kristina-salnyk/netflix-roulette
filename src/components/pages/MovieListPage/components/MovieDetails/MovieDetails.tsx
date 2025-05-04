@@ -55,7 +55,7 @@ const MovieDetails = () => {
   const duration = getFormattedDuration(movie?.duration ?? 0)
 
   return (
-    <MovieDetailsStyled>
+    <MovieDetailsStyled data-testid="movie-details">
       <Container>
         {isLoading && <Loader/>}
         {!isLoading && isError && <InlineMessage text='Something went wrong. Please try again later'/>}
@@ -67,7 +67,7 @@ const MovieDetails = () => {
               alt={movie?.title}/>
             <MovieInfo>
               <MovieHeading>
-                <MovieTitle>{movie?.title}</MovieTitle>
+                <MovieTitle data-testid="movie-title">{movie?.title}</MovieTitle>
                 <MovieRating>{movie?.rating}</MovieRating>
               </MovieHeading>
               <MovieGenres>{movie?.genres.join(', ')}</MovieGenres>

@@ -42,15 +42,16 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onDeleteClick, onEditClick
   return (
     <MovieTileStyled role='group'
       aria-label='Movie tile'
-      to={{pathname: `/movies/${movie.id}`, search: location.search}}>
+      to={{pathname: `/movies/${movie.id}`, search: location.search}}
+      data-testid="movie-tile">
       <MovieImage src={movieImage || moviePlaceholder}
         onError={onError}
         alt={movie.title}/>
       <MovieDescription>
-        <MovieTitle>{movie.title}</MovieTitle>
+        <MovieTitle data-testid="movie-title">{movie.title}</MovieTitle>
         {releaseYear && <MovieRelease>{releaseYear}</MovieRelease>}
       </MovieDescription>
-      <MovieGenres>{movie.genres.join(', ')}</MovieGenres>
+      <MovieGenres data-testid="movie-genres">{movie.genres.join(', ')}</MovieGenres>
       <TileMenu className='menu'>
         <MenuButton type='button' onClick={handleMenuToggle}>
           <MenuIcon/>
