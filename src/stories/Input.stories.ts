@@ -7,7 +7,6 @@ const meta = {
   component: Input,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
-  argTypes: {},
   args: {onChange: fn()},
 } satisfies Meta<typeof Input>
 

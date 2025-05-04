@@ -7,7 +7,6 @@ const meta = {
   component: SquareButton,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
-  argTypes: {},
   args: {onClick: fn()},
 } satisfies Meta<typeof SquareButton>
 

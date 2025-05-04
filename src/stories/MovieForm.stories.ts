@@ -7,7 +7,6 @@ const meta = {
   component: MovieForm,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
-  argTypes: {},
   args: {onSubmit: fn()},
 } satisfies Meta<typeof MovieForm>
 
@@ -26,9 +25,7 @@ const mockMovie =
       description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
     }
 
-export const Default: Story = {
-  args: {},
-}
+export const Default: Story = {}
 
 export const WithInitials: Story = {
   args: {

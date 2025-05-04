@@ -8,8 +8,6 @@ const meta = {
   component: Select,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
-  argTypes: {},
-  args: {},
 } satisfies Meta<typeof Select>
 
 export default meta

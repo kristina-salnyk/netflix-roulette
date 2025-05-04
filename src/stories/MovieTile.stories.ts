@@ -1,17 +1,18 @@
 import type {Meta, StoryObj} from '@storybook/react'
 import {fn} from '@storybook/test'
+import {withRouter} from 'storybook-addon-remix-react-router'
 import {MovieTile} from '@components/elements/MovieTile'
 
 const meta = {
   title: 'Library/MovieTile',
   component: MovieTile,
   parameters: {layout: 'centered'},
+  decorators: [withRouter],
   tags: ['autodocs'],
-  argTypes: {},
   args: {
     onEditClick: fn(),
     onDeleteClick: fn()
-  },
+  }
 } satisfies Meta<typeof MovieTile>
 
 export default meta

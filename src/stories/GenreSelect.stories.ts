@@ -7,7 +7,6 @@ const meta = {
   component: GenreSelect,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
-  argTypes: {},
   args: {onSelect: fn()},
 } satisfies Meta<typeof GenreSelect>
 
@@ -16,7 +15,7 @@ type Story = StoryObj<typeof meta>;
 
 export const WithGenreList: Story = {
   args: {
-    genres: ['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror'],
+    genres: ['All', 'Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror'],
     activeGenre: 'Action',
   },
 }

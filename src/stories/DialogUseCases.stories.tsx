@@ -30,7 +30,7 @@ const mockMovie =
       description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
     }
 
-const StoryWrapper = ({children, title, component, onConfirm,}: {
+const StoryWrapper = ({children, title, component, onConfirm}: {
     children: ReactNode
     title: string
     component: React.ReactNode
