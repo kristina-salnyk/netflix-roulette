@@ -8,7 +8,7 @@ export const Loader = () => {
   const theme = useTheme()
 
   return (
-    <LoaderStyled>
+    <LoaderStyled role="status">
       <RotatingLines
         strokeColor={theme.colors.accent}
         strokeWidth='5'

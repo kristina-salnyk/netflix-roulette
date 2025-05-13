@@ -1,4 +1,5 @@
 import type {Preview} from '@storybook/react'
+import {initialize, mswLoader} from 'msw-storybook-addon'
 
 import {createGlobalStyle, ThemeProvider} from 'styled-components'
 import {withThemeFromJSXProvider} from '@storybook/addon-themes'
@@ -45,8 +46,9 @@ const GlobalStyles = createGlobalStyle`
         margin: 0;
         padding: 0;
     }
-
 `
+
+initialize()
 
 const preview: Preview = {
   parameters: {
@@ -57,7 +59,6 @@ const preview: Preview = {
       },
     },
   },
-
   decorators: [withThemeFromJSXProvider({
     themes: {
       light: theme,
@@ -65,12 +66,12 @@ const preview: Preview = {
     defaultTheme: 'light',
     Provider: ThemeProvider,
     GlobalStyles,
-  })]
+  })],
+  loaders: [mswLoader]
 }
 
 const dialogRoot = document.createElement('div')
 dialogRoot.id = 'dialog-root'
 document.body.appendChild(dialogRoot)
-
 
 export default preview

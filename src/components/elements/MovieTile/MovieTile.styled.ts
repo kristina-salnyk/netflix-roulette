@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import {transparentize} from 'polished'
+import {Link} from 'react-router'
 import {MOVIE_TILE_HEIGHT, MOVIE_TILE_WIDTH} from '@constants'
 
-export const MovieTileStyled = styled.div`
+export const MovieTileStyled = styled(Link)`
     position: relative;
     width: ${MOVIE_TILE_WIDTH}px;
     cursor: pointer;
@@ -24,6 +25,7 @@ export const MovieDescription = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: ${({theme}) => theme.spacing[16]};
 `
 
 export const MovieTitle = styled.h3`

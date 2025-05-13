@@ -7,7 +7,7 @@ interface InlineMessageProps {
 
 export const InlineMessage: FC<InlineMessageProps> = ({text}) => {
   return (
-    <InlineMessageStyled>
+    <InlineMessageStyled role="alert">
       <InlineMessageText>{text}</InlineMessageText>
     </InlineMessageStyled>
   )
