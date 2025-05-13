@@ -14,6 +14,7 @@ import {
 interface MovieFormProps {
     initialMovie?: Movie
     onSubmit: (movie: Movie) => void
+    onClose?: () => void
 }
 
 export const MovieForm: FC<MovieFormProps> = ({initialMovie, onSubmit}) => {

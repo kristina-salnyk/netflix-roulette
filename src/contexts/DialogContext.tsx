@@ -6,6 +6,7 @@ interface DialogContextState {
     title: string,
     component: ReactNode,
     onConfirm?: () => void
+    onClose?: () => void
 }
 
 type OpenDialogParams = Omit<DialogContextState, 'isOpen'>
@@ -31,26 +32,34 @@ export const DialogProvider = ({children}: { children: ReactNode }) => {
     title: '',
     component: null,
     onConfirm: undefined,
+    onClose: undefined,
   })
+
   useDialogScroll(context.isOpen)
 
-  const openDialog = useCallback(({title, component, onConfirm}: OpenDialogParams) => {
+  const openDialog = useCallback(({title, component, onConfirm, onClose}: OpenDialogParams) => {
+    if (context.isOpen) return
+
     setContext({
       isOpen: true,
       title,
       component,
       onConfirm,
+      onClose
     })
-  }, [setContext])
+  }, [context.isOpen, setContext])
 
   const closeDialog = useCallback(() => {
+    context.onClose?.()
+
     setContext({
       isOpen: false,
       title: '',
       component: null,
       onConfirm: undefined,
+      onClose: undefined,
     })
-  }, [setContext])
+  }, [setContext, context])
 
   const value = useMemo(() => ({
     isOpen: context.isOpen,
