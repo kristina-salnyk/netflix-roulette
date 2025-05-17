@@ -11,7 +11,8 @@ export const MOVIE_TILE_HEIGHT = 455
 
 export const DIALOG_WIDTH = 580
 
-export const LOADER_WIDTH = 100
+export const LOADER_WIDTH = 30
+export const LOADER_MARGIN = 10
 
 export const SEARCH_FORM_HEIGHT = 500
 

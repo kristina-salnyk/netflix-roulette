@@ -1,9 +1,9 @@
 import {screen} from '@testing-library/react'
 import {renderWithProviders} from '@utils/renderWithProviders'
 import MovieDetails from '@components/pages/MovieListPage/components/MovieDetails/MovieDetails'
-import {useQuery} from 'react-query'
 import {getYearFromDate} from '@utils/getYearFromDate'
 import {getFormattedDuration} from '@utils/getFormattedDuration'
+import {useMovieData} from '@hooks/useMovieData'
 
 const mockMovie =
     {
@@ -36,9 +36,8 @@ jest.mock('@services/api/fetchMovie', () => ({
   fetchMovie: jest.fn(() => Promise.resolve(mockMovie)),
 }))
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
+jest.mock('@hooks/useMovieData', () => ({
+  useMovieData: jest.fn(),
 }))
 
 jest.mock('@utils/getYearFromDate', () => ({
@@ -51,7 +50,7 @@ jest.mock('@utils/getFormattedDuration', () => ({
 
 describe('MovieDetails', () => {
   beforeEach(() => {
-    (useQuery as jest.Mock).mockReturnValue(mockQueryData);
+    (useMovieData as jest.Mock).mockReturnValue(mockQueryData);
     (getYearFromDate as jest.Mock).mockReturnValue('2010');
     (getFormattedDuration as jest.Mock).mockReturnValue('2h 28m')
   })
@@ -108,7 +107,7 @@ describe('MovieDetails', () => {
   })
 
   test('should render loader when isLoading is true', () => {
-    (useQuery as jest.Mock).mockReturnValue({
+    (useMovieData as jest.Mock).mockReturnValue({
       ...mockQueryData,
       isLoading: true,
     })
@@ -118,7 +117,7 @@ describe('MovieDetails', () => {
   })
 
   test('should render error message when isError is true', () => {
-    (useQuery as jest.Mock).mockReturnValue({
+    (useMovieData as jest.Mock).mockReturnValue({
       ...mockQueryData,
       isError: true,
     })

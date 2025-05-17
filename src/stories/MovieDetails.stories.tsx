@@ -1,7 +1,5 @@
-import React from 'react'
 import type {Meta, StoryObj} from '@storybook/react'
 import {http, HttpResponse} from 'msw'
-import {QueryClient, QueryClientProvider} from 'react-query'
 import {reactRouterParameters, withRouter} from 'storybook-addon-remix-react-router'
 import MovieDetails from '@components/pages/MovieListPage/components/MovieDetails/MovieDetails'
 import {BASE_URL} from '@constants'
@@ -31,14 +29,16 @@ const meta = {
         http.get(`${BASE_URL}/movies/1`, () => {
           return HttpResponse.json(mockMovieResponse)
         }),
-      ],
-    },
+        http.get(`${BASE_URL}/movies/2`, () => {
+          return HttpResponse.json({
+            ...mockMovieResponse,
+            id: 2,
+            poster_path: 'https://example.com/invalid-image.jpg',
+          })
+        }),],
+    }
   },
-  decorators: [(Story) => (
-    <QueryClientProvider client={new QueryClient()}>
-      <Story/>
-    </QueryClientProvider>
-  ), withRouter],
+  decorators: [withRouter],
   tags: ['autodocs'],
 } satisfies Meta<typeof MovieDetails>
 
@@ -49,17 +49,9 @@ export const Default: Story = {}
 
 export const WithUnavailableImage: Story = {
   parameters: {
-    msw: {
-      handlers: [
-        http.get(`${BASE_URL}/movies/1`, () => {
-          return HttpResponse.json({
-            ...mockMovieResponse,
-            poster_path: 'https://example.com/invalid-image.jpg',
-          })
-        }),
-      ],
-    },
+    reactRouter: reactRouterParameters({
+      location: {pathParams: {movieId: '2'}},
+      routing: {path: 'movies/:movieId'}
+    }),
   }
 }
-
-

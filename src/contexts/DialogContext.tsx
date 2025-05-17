@@ -38,8 +38,6 @@ export const DialogProvider = ({children}: { children: ReactNode }) => {
   useDialogScroll(context.isOpen)
 
   const openDialog = useCallback(({title, component, onConfirm, onClose}: OpenDialogParams) => {
-    if (context.isOpen) return
-
     setContext({
       isOpen: true,
       title,
@@ -47,7 +45,7 @@ export const DialogProvider = ({children}: { children: ReactNode }) => {
       onConfirm,
       onClose
     })
-  }, [context.isOpen, setContext])
+  }, [setContext])
 
   const closeDialog = useCallback(() => {
     context.onClose?.()

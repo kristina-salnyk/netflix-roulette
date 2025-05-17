@@ -6,7 +6,7 @@ import {Movie} from '@type/Movie'
 import {useMovies} from '@contexts/MoviesContext'
 
 const AddMovieForm = () => {
-  const {openDialog, closeDialog} = useDialog()
+  const {isOpen, openDialog, closeDialog} = useDialog()
   const navigate = useNavigate()
   const {addMovie} = useMovies()
   const id = useId()
@@ -18,10 +18,6 @@ const AddMovieForm = () => {
     closeDialog()
   }, [addMovie, closeDialog, id])
 
-  const handleClose = useCallback(() => {
-    navigate(-1)
-  }, [navigate])
-
   useEffect(() => {
     if (!dialogOpenedRef.current) {
       dialogOpenedRef.current = true
@@ -29,10 +25,18 @@ const AddMovieForm = () => {
       openDialog({
         title: 'Add movie',
         component: <MovieForm onSubmit={handleMovieFormSubmit}/>,
-        onClose: handleClose
+        onClose: () => {
+          navigate('/')
+        },
       })
     }
-  }, [handleClose, handleMovieFormSubmit, openDialog])
+
+    return () => {
+      if (isOpen) {
+        closeDialog()
+      }
+    }
+  }, [closeDialog, handleMovieFormSubmit, isOpen, navigate, openDialog])
 
   return null
 }

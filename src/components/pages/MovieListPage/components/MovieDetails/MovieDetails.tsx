@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {useParams} from 'react-router'
-import {useQuery} from 'react-query'
 import {Movie} from '@type/Movie'
 import moviePlaceholder from '@images/movie-placeholder.png'
 import {getFormattedDuration} from '@utils/getFormattedDuration'
@@ -9,7 +8,7 @@ import {Container} from '@components/elements/Container'
 import {Loader} from '@components/elements/Loader'
 import {InlineMessage} from '@components/elements/InlineMessage'
 import {useMovieImage} from '@hooks/useMovieImage'
-import {fetchMovie, MovieResponse} from '@services/api/fetchMovie'
+import {useMovieData} from '@hooks/useMovieData'
 import {
   MovieDescription,
   MovieDetailsContent,
@@ -27,12 +26,7 @@ const MovieDetails = () => {
   const {movieId} = useParams()
   const [movie, setMovie] = useState<Movie | null>(null)
   const {movieImage, onError} = useMovieImage(movie?.imageUrl ?? '')
-
-  const {data, isLoading, isError} = useQuery<MovieResponse | null>({
-    queryKey: ['movie', movieId],
-    queryFn: ({signal}) => fetchMovie(movieId, signal),
-    keepPreviousData: true,
-  })
+  const {data, isLoading, isError} = useMovieData(movieId)
 
   useEffect(() => {
     if (data) {
