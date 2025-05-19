@@ -1,15 +1,17 @@
 import useSWR from 'swr'
-import {fetchMovie, MovieResponse} from '@services/api/fetchMovie'
+import {fetchMovie} from '@services/api/fetchMovie'
+import {MovieData} from '@type/MovieData'
 
-export const useMovieData = (movieId?: string) => {
-  const key = ['movie', movieId]
+export const useMovieData = (movieId?: number) => {
+  const id = movieId?.toString()
+  const key = ['movie', id]
 
   const fetcher = async () => {
     const controller = new AbortController()
-    return await fetchMovie(movieId, controller.signal)
+    return await fetchMovie(id, controller.signal)
   }
 
-  const {data, error, isLoading} = useSWR<MovieResponse | null>(key, fetcher, {
+  const {data, error, isLoading} = useSWR<MovieData | null>(key, fetcher, {
     keepPreviousData: true,
   })
 

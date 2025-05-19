@@ -25,14 +25,14 @@ const MovieListPage = () => {
     if (data) {
       const movies = data.data.map((item) => {
         const movie: Movie = {
-          id: item.id.toString(),
+          id: item.id,
           title: item.title,
+          posterPath: item.poster_path,
+          voteAverage: item.vote_average,
+          runtime: item.runtime,
           releaseDate: item.release_date,
-          imageUrl: item.poster_path,
+          overview: item.overview,
           genres: item.genres,
-          rating: item.vote_average,
-          duration: item.runtime,
-          description: item.overview,
         }
         return movie
       })

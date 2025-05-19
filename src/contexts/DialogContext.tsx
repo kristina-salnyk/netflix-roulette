@@ -1,4 +1,4 @@
-import React, {createContext, ReactNode, useCallback, useContext, useMemo, useState} from 'react'
+import React, {createContext, ReactNode, useCallback, useContext, useMemo, useRef, useState} from 'react'
 import {useDialogScroll} from '@hooks/useDialog'
 
 interface DialogContextState {
@@ -34,17 +34,22 @@ export const DialogProvider = ({children}: { children: ReactNode }) => {
     onConfirm: undefined,
     onClose: undefined,
   })
+  const dialogOpenedRef = useRef(false)
 
   useDialogScroll(context.isOpen)
 
   const openDialog = useCallback(({title, component, onConfirm, onClose}: OpenDialogParams) => {
-    setContext({
-      isOpen: true,
-      title,
-      component,
-      onConfirm,
-      onClose
-    })
+    if (!dialogOpenedRef.current) {
+      dialogOpenedRef.current = true
+
+      setContext({
+        isOpen: true,
+        title,
+        component,
+        onConfirm,
+        onClose
+      })
+    }
   }, [setContext])
 
   const closeDialog = useCallback(() => {
@@ -57,6 +62,8 @@ export const DialogProvider = ({children}: { children: ReactNode }) => {
       onConfirm: undefined,
       onClose: undefined,
     })
+
+    dialogOpenedRef.current = false
   }, [setContext, context])
 
   const value = useMemo(() => ({

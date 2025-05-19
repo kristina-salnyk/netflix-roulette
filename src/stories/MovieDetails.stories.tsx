@@ -7,12 +7,12 @@ import {BASE_URL} from '@constants'
 const mockMovieResponse = {
   id: 1,
   title: 'Inception',
-  release_date: '2020-05-01',
   poster_path: 'https://m.media-amazon.com/images/S/pv-target-images/cc72ff2193c0f7a85322aee988d6fe1ae2cd9f8800b6ff6e8462790fe2aacaf3.jpg',
-  genres: ['Action', 'Sci-Fi'],
   vote_average: 7.8,
   runtime: 210,
-  overview: 'A thief who steals corporate secrets through dream-sharing tech...',
+  release_date: '2020-05-01',
+  overview: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
+  genres: ['Action', 'Sci-Fi'],
 }
 
 const meta = {
@@ -21,7 +21,7 @@ const meta = {
   parameters: {
     layout: 'centered',
     reactRouter: reactRouterParameters({
-      location: {pathParams: {movieId: '1'}},
+      location: {pathParams: {movieId: 1}},
       routing: {path: 'movies/:movieId'}
     }),
     msw: {
@@ -50,7 +50,7 @@ export const Default: Story = {}
 export const WithUnavailableImage: Story = {
   parameters: {
     reactRouter: reactRouterParameters({
-      location: {pathParams: {movieId: '2'}},
+      location: {pathParams: {movieId: 2}},
       routing: {path: 'movies/:movieId'}
     }),
   }

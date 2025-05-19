@@ -22,8 +22,8 @@ export const filterSortMovieList = (movies: Movie[], searchQuery: string, select
       }
       case SORT_VALUES.TITLE:
         return a.title.localeCompare(b.title)
-      case SORT_VALUES.RATING:
-        return b.rating - a.rating
+      case SORT_VALUES.VOTE_AVERAGE:
+        return b.voteAverage - a.voteAverage
     }
     return 0
   })

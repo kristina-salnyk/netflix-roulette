@@ -11,7 +11,7 @@ export const Header: FC = () => {
   const navigate = useNavigate()
 
   const handleAddMovieClick = () => {
-    navigate('/new')
+    navigate(`/new${location.search}`)
   }
 
   return (

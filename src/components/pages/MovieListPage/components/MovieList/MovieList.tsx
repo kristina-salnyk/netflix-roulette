@@ -1,5 +1,4 @@
 import React, {FC} from 'react'
-import {Movie} from '@type/Movie'
 import {GENRES, SORT_OPTIONS} from '@constants'
 import {MovieTile} from '@components/elements/MovieTile'
 import {GenreSelect} from '@components/elements/GenreSelect'
@@ -11,6 +10,7 @@ import {InlineMessage} from '@components/elements/InlineMessage'
 import {useDialog} from '@contexts/DialogContext'
 import {MovieForm} from '@components/elements/MovieForm'
 import {ListControls, ListItem, MovieListContent, MovieListStyled} from './MovieList.styled'
+import {MovieData} from '@type/MovieData'
 
 interface MovieListProps {
     sortCriterion: string
@@ -29,10 +29,10 @@ export const MovieList: FC<MovieListProps> = ({
   isLoading,
   isError
 }) => {
-  const {movies, deleteMovieById, getMovieById, editMovieById} = useMovies()
+  const {movies, deleteMovieById, getMovieById} = useMovies()
   const {openDialog, closeDialog} = useDialog()
 
-  const handleDeleteDialogOpen = (movieId: string) => {
+  const handleDeleteDialogOpen = (movieId: number) => {
     openDialog({
       title: 'Delete movie',
       component: 'Are you sure you want to delete this movie?',
@@ -40,21 +40,21 @@ export const MovieList: FC<MovieListProps> = ({
     })
   }
 
-  const handleEditDialogOpen = (movieId: string) => {
+  const handleEditDialogOpen = (movieId: number) => {
     const movie = getMovieById(movieId)
     openDialog({
       title: 'Edit movie',
-      component: <MovieForm initialMovie={movie} onSubmit={handleMovieFormSubmit}/>,
+      component: <MovieForm initialMovie={movie} onMovieEdit={handleMovieEdit}/>,
     })
   }
 
-  const handleDeleteClick = (movieId: string) => {
+  const handleDeleteClick = (movieId: number) => {
     deleteMovieById(movieId)
     closeDialog()
   }
 
-  const handleMovieFormSubmit = (movie: Movie) => {
-    editMovieById(movie.id, movie)
+  const handleMovieEdit = (movie: MovieData) => {
+    console.log(movie)
     closeDialog()
   }
 

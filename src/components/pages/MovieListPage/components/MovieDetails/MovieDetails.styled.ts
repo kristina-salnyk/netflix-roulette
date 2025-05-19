@@ -13,7 +13,7 @@ export const MovieDetailsContent = styled.div`
     gap: ${({theme}) => theme.spacing[32]};
 `
 
-export const MovieImage = styled.img`
+export const MoviePoster = styled.img`
     width: ${MOVIE_IMAGE_WIDTH}px;
     height: ${MOVIE_IMAGE_HEIGHT}px;
     object-fit: cover;
@@ -57,7 +57,7 @@ export const MovieMeta = styled.div`
     gap: ${({theme}) => theme.spacing[48]};
 `
 
-export const MovieDescription = styled.p`
+export const MovieOverview = styled.p`
     margin-top: ${({theme}) => theme.spacing[16]};
     font-size: ${({theme}) => theme.typography.size[20]};
     font-weight: ${({theme}) => theme.typography.weight.light};

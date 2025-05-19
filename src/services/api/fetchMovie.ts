@@ -1,18 +1,8 @@
 import api from './api'
 import {AxiosError} from 'axios'
+import {MovieData} from '@type/MovieData'
 
-export interface MovieResponse {
-    id: number,
-    title: string,
-    vote_average: number,
-    release_date: string,
-    poster_path: string,
-    overview: string,
-    genres: string[]
-    runtime: number,
-}
-
-export const fetchMovie = async (movieId = '', signal?: AbortSignal): Promise<MovieResponse | null> => {
+export const fetchMovie = async (movieId = '', signal?: AbortSignal): Promise<MovieData | null> => {
   try {
     const response = await api.get(`/movies/${movieId}`, {signal})
     return response.data

@@ -4,14 +4,14 @@ import {Movie} from '@type/Movie'
 import moviePlaceholder from '@images/movie-placeholder.png'
 import {MenuIcon} from '@icons/MenuIcon'
 import {getYearFromDate} from '@utils/getYearFromDate'
-import {useMovieImage} from '@hooks/useMovieImage'
+import {useMoviePoster} from '@hooks/useMoviePoster'
 import {useSelect} from '@hooks/useSelect'
 import {
   MenuButton,
   MenuOptions,
-  MovieDescription,
   MovieGenres,
-  MovieImage,
+  MovieOverview,
+  MoviePoster,
   MovieRelease,
   MovieTileStyled,
   MovieTitle,
@@ -21,16 +21,16 @@ import {
 
 interface MovieTileProps {
     movie: Movie,
-    onEditClick: (movieId: string) => void;
-    onDeleteClick: (movieId: string) => void;
+    onEditClick: (movieId: number) => void;
+    onDeleteClick: (movieId: number) => void;
 }
 
 export const MovieTile: FC<MovieTileProps> = ({movie, onDeleteClick, onEditClick}) => {
-  const {movieImage, onError} = useMovieImage(movie.imageUrl)
+  const {moviePoster, onError} = useMoviePoster(movie.posterPath)
   const {isOpen: isMenuOpen, handleClose: handleMenuClose, handleToggle: handleMenuToggle} = useSelect()
   const location = useLocation()
 
-  const handleMenuItemClick = (event: React.MouseEvent<HTMLDivElement>, onClick: (movieId: string) => void) => {
+  const handleMenuItemClick = (event: React.MouseEvent<HTMLDivElement>, onClick: (movieId: number) => void) => {
     event.preventDefault()
     event.stopPropagation()
     onClick(movie.id)
@@ -44,13 +44,13 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onDeleteClick, onEditClick
       aria-label='Movie tile'
       to={{pathname: `/movies/${movie.id}`, search: location.search}}
       data-testid="movie-tile">
-      <MovieImage src={movieImage || moviePlaceholder}
+      <MoviePoster src={moviePoster || moviePlaceholder}
         onError={onError}
         alt={movie.title}/>
-      <MovieDescription>
+      <MovieOverview>
         <MovieTitle data-testid="movie-title">{movie.title}</MovieTitle>
         {releaseYear && <MovieRelease>{releaseYear}</MovieRelease>}
-      </MovieDescription>
+      </MovieOverview>
       <MovieGenres data-testid="movie-genres">{movie.genres.join(', ')}</MovieGenres>
       <TileMenu className='menu'>
         <MenuButton type='button' onClick={handleMenuToggle}>
