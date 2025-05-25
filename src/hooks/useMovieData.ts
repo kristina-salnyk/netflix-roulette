@@ -1,19 +1,28 @@
+import {fetchMovieRequest} from '@services/api/fetchMovieRequest'
 import useSWR from 'swr'
-import {fetchMovie} from '@services/api/fetchMovie'
-import {MovieData} from '@type/MovieData'
+import {useRef} from 'react'
 
 export const useMovieData = (movieId?: number) => {
-  const id = movieId?.toString()
-  const key = ['movie', id]
+  const abortControllerRef = useRef<AbortController | null>(null)
 
   const fetcher = async () => {
+    abortControllerRef.current?.abort()
+
     const controller = new AbortController()
-    return await fetchMovie(id, controller.signal)
+    abortControllerRef.current = controller
+
+    if (!movieId) {
+      return null
+    }
+
+    try {
+      return await fetchMovieRequest(movieId, controller.signal)
+    } finally {
+      abortControllerRef.current = null
+    }
   }
 
-  const {data, error, isLoading} = useSWR<MovieData | null>(key, fetcher, {
-    keepPreviousData: true,
-  })
+  const {data, error, isLoading} = useSWR(movieId ? `/movies/${movieId}` : null, fetcher)
 
   return {
     data,

@@ -47,7 +47,7 @@ export const DialogProvider = ({children}: { children: ReactNode }) => {
         title,
         component,
         onConfirm,
-        onClose
+        onClose,
       })
     }
   }, [setContext])

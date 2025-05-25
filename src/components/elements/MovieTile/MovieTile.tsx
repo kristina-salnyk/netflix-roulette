@@ -33,7 +33,9 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onDeleteClick, onEditClick
   const handleMenuItemClick = (event: React.MouseEvent<HTMLDivElement>, onClick: (movieId: number) => void) => {
     event.preventDefault()
     event.stopPropagation()
+
     onClick(movie.id)
+
     handleMenuClose()
   }
 
@@ -43,7 +45,8 @@ export const MovieTile: FC<MovieTileProps> = ({movie, onDeleteClick, onEditClick
     <MovieTileStyled role='group'
       aria-label='Movie tile'
       to={{pathname: `/movies/${movie.id}`, search: location.search}}
-      data-testid="movie-tile">
+      data-testid="movie-tile"
+      onClick={() => window.scrollTo({left: 0, top: 0, behavior: 'smooth'})}>
       <MoviePoster src={moviePoster || moviePlaceholder}
         onError={onError}
         alt={movie.title}/>

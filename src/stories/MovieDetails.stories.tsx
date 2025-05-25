@@ -3,6 +3,8 @@ import {http, HttpResponse} from 'msw'
 import {reactRouterParameters, withRouter} from 'storybook-addon-remix-react-router'
 import MovieDetails from '@components/pages/MovieListPage/components/MovieDetails/MovieDetails'
 import {BASE_URL} from '@constants'
+import {MoviesProvider} from '@contexts/MoviesContext'
+import React from 'react'
 
 const mockMovieResponse = {
   id: 1,
@@ -38,7 +40,11 @@ const meta = {
         }),],
     }
   },
-  decorators: [withRouter],
+  decorators: [withRouter, (Story) => (
+    <MoviesProvider>
+      <Story/>
+    </MoviesProvider>
+  )],
   tags: ['autodocs'],
 } satisfies Meta<typeof MovieDetails>
 

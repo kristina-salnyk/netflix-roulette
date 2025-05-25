@@ -1,9 +1,9 @@
 import React from 'react'
 import {screen} from '@testing-library/react'
-import {renderWithProviders} from '@utils/renderWithProviders'
-import {MovieList} from '@components/pages/MovieListPage/components/MovieList'
 import {useMovies} from '@contexts/MoviesContext'
 import {useDialog} from '@contexts/DialogContext'
+import {MovieList} from '@components/pages/MovieListPage/components/MovieList'
+import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
 
 const mockMovies = [
   {
@@ -48,6 +48,44 @@ jest.mock('@components/elements/MovieTile', () => ({
   MovieTile: () => <div role="group" aria-label="Movie tile"/>,
 }))
 
+jest.mock('react-router', () => ({
+  useLocation: () => ({search: ''}),
+  useNavigate: () => jest.fn(),
+}))
+
+jest.mock('@hooks/useUpdateMovie', () => ({
+  useUpdateMovie: () => ({
+    trigger: jest.fn(),
+    isLoading: false,
+  }),
+}))
+
+jest.mock('@hooks/useDeleteMovie', () => ({
+  useDeleteMovie: () => ({
+    trigger: jest.fn(),
+    isLoading: false,
+  }),
+}))
+
+jest.mock('@hooks/useMovieData', () => ({
+  useMovieData: () => ({
+    data: null,
+    isLoading: false,
+  }),
+}))
+
+jest.mock('react-toastify', () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}))
+
+Object.defineProperty(global, 'scrollTo', {
+  value: jest.fn(),
+  writable: true,
+})
+
 describe('MovieList', () => {
   const defaultProps = {
     sortCriterion: 'title',
@@ -61,9 +99,6 @@ describe('MovieList', () => {
   beforeEach(() => {
     useMoviesMock.mockReturnValue({
       movies: mockMovies,
-      deleteMovieById: jest.fn(),
-      getMovieById: jest.fn(),
-      editMovieById: jest.fn(),
     } as unknown as ReturnType<typeof useMovies>)
 
     useDialogMock.mockReturnValue({
@@ -77,32 +112,32 @@ describe('MovieList', () => {
   })
 
   test('should render component', () => {
-    renderWithProviders(MovieList, defaultProps)
+    renderWithThemeProvider(MovieList, defaultProps)
 
     expect(screen.getByRole('list', {name: /Movie list/i})).toBeInTheDocument()
   })
 
   test('should render list controls', () => {
-    renderWithProviders(MovieList, defaultProps)
+    renderWithThemeProvider(MovieList, defaultProps)
 
     expect(screen.getByRole('region', {name: /List controls/i})).toBeInTheDocument()
   })
 
   test('should render movie tiles', () => {
-    renderWithProviders(MovieList, defaultProps)
+    renderWithThemeProvider(MovieList, defaultProps)
 
     const movieTiles = screen.getAllByRole('group', {name: /Movie tile/i})
     expect(movieTiles).toHaveLength(3)
   })
 
   test('should render loader when isLoading is true', () => {
-    renderWithProviders(MovieList, {...defaultProps, isLoading: true})
+    renderWithThemeProvider(MovieList, {...defaultProps, isLoading: true})
 
     expect(screen.getByRole('status')).toBeInTheDocument()
   })
 
   test('should render error message when isError is true', () => {
-    renderWithProviders(MovieList, {...defaultProps, isError: true})
+    renderWithThemeProvider(MovieList, {...defaultProps, isError: true})
 
     expect(screen.getByRole('alert')).toBeInTheDocument()
   })

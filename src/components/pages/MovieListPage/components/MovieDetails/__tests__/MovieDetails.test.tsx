@@ -4,6 +4,7 @@ import MovieDetails from '@components/pages/MovieListPage/components/MovieDetail
 import {getYearFromDate} from '@utils/getYearFromDate'
 import {getFormattedRuntime} from '@utils/getFormattedRuntime'
 import {useMovieData} from '@hooks/useMovieData'
+import {useMovies} from '@contexts/MoviesContext'
 
 const mockMovie = {
   id: 1,
@@ -31,7 +32,10 @@ const mockQueryData = {
   isError: false,
 }
 
-jest.mock('@services/api/fetchMovie', () => ({
+jest.mock('@contexts/MoviesContext')
+const useMoviesMock = useMovies as jest.MockedFunction<typeof useMovies>
+
+jest.mock('@services/api/fetchMovieRequest', () => ({
   fetchMovie: jest.fn(() => Promise.resolve(mockMovie)),
 }))
 
@@ -52,6 +56,11 @@ describe('MovieDetails', () => {
     (useMovieData as jest.Mock).mockReturnValue(mockQueryData);
     (getYearFromDate as jest.Mock).mockReturnValue('2010');
     (getFormattedRuntime as jest.Mock).mockReturnValue('2h 28m')
+
+    useMoviesMock.mockReturnValue({
+      selectedMovie: mockMovie,
+      setSelectedMovie: jest.fn(),
+    } as unknown as ReturnType<typeof useMovies>)
   })
 
   afterEach(() => {
@@ -115,11 +124,12 @@ describe('MovieDetails', () => {
     expect(screen.getByRole('status')).toBeInTheDocument()
   })
 
-  test('should render error message when isError is true', () => {
-    (useMovieData as jest.Mock).mockReturnValue({
-      ...mockQueryData,
-      isError: true,
-    })
+  test('should render error message when movie data is not received', () => {
+    useMoviesMock.mockReturnValue({
+      selectedMovie: null,
+      setSelectedMovie: jest.fn(),
+    } as unknown as ReturnType<typeof useMovies>)
+
     renderWithProviders(MovieDetails)
 
     expect(screen.getByRole('alert')).toBeInTheDocument()

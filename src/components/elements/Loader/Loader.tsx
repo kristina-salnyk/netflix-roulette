@@ -1,13 +1,17 @@
-import React from 'react'
+import React, {FC} from 'react'
 import {useTheme} from 'styled-components'
 import {LOADER_MARGIN, LOADER_WIDTH} from '@constants'
-import {LoaderStyled} from './Loader.styled'
+import {LoaderStyled, Overlay} from './Loader.styled'
 import {BeatLoader} from 'react-spinners'
 
-export const Loader = () => {
+interface LoaderProps {
+    fullScreen?: boolean
+}
+
+export const Loader: FC<LoaderProps> = ({fullScreen}) => {
   const theme = useTheme()
 
-  return (
+  const Content = (
     <LoaderStyled role="status">
       <BeatLoader
         color={theme.colors.accent}
@@ -17,5 +21,15 @@ export const Loader = () => {
       />
     </LoaderStyled>
   )
+
+  if (fullScreen) {
+    return (
+      <Overlay>
+        {Content}
+      </Overlay>
+    )
+  }
+
+  return Content
 }
 

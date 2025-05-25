@@ -1,21 +1,30 @@
-import {fetchMovies, MoviesResponse} from '@services/api/fetchMovies'
+import {fetchMoviesRequest} from '@services/api/fetchMoviesRequest'
 import useSWR from 'swr'
+import {useLocation} from 'react-router'
+import {useRef} from 'react'
 
 export const useMoviesData = (sort: string, query: string, genre: string) => {
-  const key = ['movies', query, sort, genre]
+  const abortControllerRef = useRef<AbortController | null>(null)
+  const location = useLocation()
 
   const fetcher = async () => {
+    abortControllerRef.current?.abort()
+
     const controller = new AbortController()
-    return await fetchMovies(sort, query, genre, controller.signal)
+    abortControllerRef.current = controller
+
+    try {
+      return await fetchMoviesRequest(sort, query, genre, controller.signal)
+    } finally {
+      abortControllerRef.current = null
+    }
   }
 
-  const {data, error, isLoading} = useSWR<MoviesResponse>(key, fetcher, {
-    keepPreviousData: true,
-  })
+  const {data, error, isLoading} = useSWR(`/movies${location.search}`, fetcher)
 
   return {
     data,
-    isLoading,
+    isLoading: isLoading,
     isError: !!error,
   }
 }

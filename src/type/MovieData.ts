@@ -1,4 +1,4 @@
-export interface MovieData {
+export interface MovieDataRequest {
     id: number
     title: string
     poster_path: string
@@ -9,5 +9,5 @@ export interface MovieData {
     genres: string[]
 }
 
-export type NewMovieData = Omit<MovieData, 'id'>
+export type MovieDataResponse = MovieDataRequest
 

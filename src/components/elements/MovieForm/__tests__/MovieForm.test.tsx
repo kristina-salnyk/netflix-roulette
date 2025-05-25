@@ -16,42 +16,42 @@ const mockMovie = {
 
 describe('MovieForm', () => {
   test('should render component', () => {
-    renderWithThemeProvider(MovieForm, {onMovieCreate: jest.fn()})
+    renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
     expect(screen.getByRole('form')).toBeInTheDocument()
   })
 
   test('should render title input', () => {
-    renderWithThemeProvider(MovieForm, {onMovieCreate: jest.fn()})
+    renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
     expect(screen.getByRole('textbox', {name: /Title/i})).toBeInTheDocument()
   })
 
   test('should render movie URl input', () => {
-    renderWithThemeProvider(MovieForm, {onMovieCreate: jest.fn()})
+    renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
     expect(screen.getByRole('textbox', {name: /Movie URL/i})).toBeInTheDocument()
   })
 
   test('should render release date input', () => {
-    renderWithThemeProvider(MovieForm, {onMovieCreate: jest.fn()})
+    renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
     expect(screen.getByLabelText(/Release date/i)).toBeInTheDocument()
   })
 
   test('should render rating input', () => {
-    renderWithThemeProvider(MovieForm, {onMovieCreate: jest.fn()})
+    renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
     expect(screen.getByRole('spinbutton', {name: /Rating/i})).toBeInTheDocument()
   })
 
   test('should render runtime input', () => {
-    renderWithThemeProvider(MovieForm, {onMovieCreate: jest.fn()})
+    renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
     expect(screen.getByRole('spinbutton', {name: /Runtime/i})).toBeInTheDocument()
   })
 
   test('should render overview input', () => {
-    renderWithThemeProvider(MovieForm, {onMovieCreate: jest.fn()})
+    renderWithThemeProvider(MovieForm, {onSubmit: jest.fn()})
     expect(screen.getByRole('textbox', {name: /Overview/i})).toBeInTheDocument()
   })
 
   test('should render form with initial movie data', () => {
-    renderWithThemeProvider(MovieForm, {initialMovie: mockMovie, onMovieEdit: jest.fn()})
+    renderWithThemeProvider(MovieForm, {initialMovie: mockMovie, onSubmit: jest.fn()})
 
     const movieTitleInput = screen.getByDisplayValue(/Inception/i)
     expect(movieTitleInput).toBeInTheDocument()
@@ -72,9 +72,9 @@ describe('MovieForm', () => {
     expect(movieOverviewInput).toBeInTheDocument()
   })
 
-  test('should call onMovieCreate with form data', async () => {
-    const onMovieCreateMock = jest.fn()
-    renderWithThemeProvider(MovieForm, {onMovieCreate: onMovieCreateMock})
+  test('should call onSubmit with form data', async () => {
+    const onSubmitMock = jest.fn()
+    renderWithThemeProvider(MovieForm, {onSubmit: onSubmitMock})
 
     const titleInput = screen.getByRole('textbox', {name: /Title/i})
     userEvent.type(titleInput, 'Inception')
@@ -98,7 +98,7 @@ describe('MovieForm', () => {
     userEvent.click(submitButton)
 
     await waitFor(() => {
-      expect(onMovieCreateMock).toHaveBeenCalledWith({
+      expect(onSubmitMock).toHaveBeenCalledWith({
         title: 'Inception',
         poster_path: 'https://example.com/image.jpg',
         vote_average: 8.5,
@@ -106,7 +106,7 @@ describe('MovieForm', () => {
         release_date: '2010-01-01',
         overview: 'A mind-bending thriller',
         genres: ['Action', 'Drama']
-      })
+      }, undefined)
     })
   })
 })

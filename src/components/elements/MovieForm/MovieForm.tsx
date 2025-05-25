@@ -12,18 +12,16 @@ import {
 } from '@components/elements/MovieForm/MovieForm.styled'
 import {MovieFormInputs} from '@type/MovieFormInputs'
 import {SubmitHandler, useForm} from 'react-hook-form'
-import {MovieData, NewMovieData} from '@type/MovieData'
+import {MovieDataRequest} from '@type/MovieData'
 import {yupResolver} from '@hookform/resolvers/yup'
 import {schema} from '@components/elements/MovieForm/schema'
 
 interface MovieFormProps {
-    initialMovie?: Movie
-    onMovieCreate?: (movie: NewMovieData) => void
-    onMovieEdit?: (movie: MovieData) => void
-    onClose?: () => void
+    initialMovie?: Movie | null
+    onSubmit: (movie: Omit<MovieDataRequest, 'id'>, movieId?: number) => void
 }
 
-export const MovieForm: FC<MovieFormProps> = ({initialMovie, onMovieCreate, onMovieEdit}) => {
+export const MovieForm: FC<MovieFormProps> = ({initialMovie, onSubmit}) => {
   const {
     register,
     handleSubmit,
@@ -53,12 +51,8 @@ export const MovieForm: FC<MovieFormProps> = ({initialMovie, onMovieCreate, onMo
       overview: data.overview,
       genres: [...(initialMovie?.genres || ['Action', 'Drama'])],
     }
-
-    if (id) {
-      return onMovieEdit?.({...movie, id})
-    }
-
-    onMovieCreate?.(movie)
+    
+    onSubmit(movie, id)
   }
 
   const {ref: releaseDateRef, ...rest} = register('releaseDate')

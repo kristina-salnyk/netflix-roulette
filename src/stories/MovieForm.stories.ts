@@ -7,7 +7,7 @@ const meta = {
   component: MovieForm,
   parameters: {layout: 'centered'},
   tags: ['autodocs'],
-  args: {onMovieEdit: fn(), onMovieCreate: fn()},
+  args: {onSubmit: fn()},
 } satisfies Meta<typeof MovieForm>
 
 export default meta

@@ -1,8 +1,8 @@
 import api from './api'
 import {AxiosError} from 'axios'
-import {MovieData} from '@type/MovieData'
+import {MovieDataResponse} from '@type/MovieData'
 
-export const fetchMovie = async (movieId = '', signal?: AbortSignal): Promise<MovieData | null> => {
+export const fetchMovieRequest = async (movieId: number, signal?: AbortSignal): Promise<MovieDataResponse | null> => {
   try {
     const response = await api.get(`/movies/${movieId}`, {signal})
     return response.data

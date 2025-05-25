@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {useParams} from 'react-router'
 import {Movie} from '@type/Movie'
 import moviePlaceholder from '@images/movie-placeholder.png'
@@ -21,13 +21,14 @@ import {
   MovieRating,
   MovieTitle
 } from './MovieDetails.styled'
+import {useMovies} from '@contexts/MoviesContext'
 
 const MovieDetails = () => {
-  const {movieId = ''} = useParams()
-  const [movie, setMovie] = useState<Movie | null>(null)
-  const {moviePoster, onError} = useMoviePoster(movie?.posterPath ?? '')
-  const id = Number.parseInt(movieId)
-  const {data, isLoading, isError} = useMovieData(id)
+  const params = useParams()
+  const movieId = Number.parseInt(params.movieId ?? '')
+  const {selectedMovie, setSelectedMovie} = useMovies()
+  const {moviePoster, onError} = useMoviePoster(selectedMovie?.posterPath ?? '')
+  const {data, isLoading} = useMovieData(movieId)
 
   useEffect(() => {
     if (data) {
@@ -42,35 +43,39 @@ const MovieDetails = () => {
         genres: data.genres,
       }
 
-      setMovie(movie)
+      setSelectedMovie(movie)
     }
-  }, [setMovie, data])
 
-  const releaseYear = getYearFromDate(movie?.releaseDate ?? '')
-  const runtime = getFormattedRuntime(movie?.runtime ?? 0)
+    return () => {
+      setSelectedMovie(null)
+    }
+  }, [setSelectedMovie, data])
+
+  const releaseYear = getYearFromDate(selectedMovie?.releaseDate ?? '')
+  const runtime = getFormattedRuntime(selectedMovie?.runtime ?? 0)
 
   return (
     <MovieDetailsStyled data-testid="movie-details">
       <Container>
         {isLoading && <Loader/>}
-        {!isLoading && isError && <InlineMessage text='Something went wrong. Please try again later'/>}
-        {!isLoading && !isError && !movie && <InlineMessage text='Movie not found'/>}
-        {!isLoading && movie && (
+        {!isLoading && !selectedMovie &&
+                    <InlineMessage text='Failed to load movie details'/>}
+        {!isLoading && selectedMovie && (
           <MovieDetailsContent role="region" aria-label="Movie details">
             <MoviePoster src={moviePoster || moviePlaceholder}
               onError={onError}
-              alt={movie?.title}/>
+              alt={selectedMovie?.title}/>
             <MovieInfo>
               <MovieHeading>
-                <MovieTitle data-testid="movie-title">{movie?.title}</MovieTitle>
-                <MovieRating>{movie?.voteAverage}</MovieRating>
+                <MovieTitle data-testid="movie-title">{selectedMovie?.title}</MovieTitle>
+                <MovieRating>{selectedMovie?.voteAverage}</MovieRating>
               </MovieHeading>
-              <MovieGenres>{movie?.genres.join(', ')}</MovieGenres>
+              <MovieGenres>{selectedMovie?.genres.join(', ')}</MovieGenres>
               <MovieMeta>
                 {releaseYear && <span>{releaseYear}</span>}
                 {runtime && <span>{runtime}</span>}
               </MovieMeta>
-              <MovieOverview>{movie?.overview}</MovieOverview>
+              <MovieOverview>{selectedMovie?.overview}</MovieOverview>
             </MovieInfo>
           </MovieDetailsContent>)}
       </Container>

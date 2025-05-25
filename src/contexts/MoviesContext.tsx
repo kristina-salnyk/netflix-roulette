@@ -6,6 +6,8 @@ interface MoviesContextType {
     getMovieById: (movieId: number) => Movie | undefined
     deleteMovieById: (movieId: number) => void
     setMovies: (movies: Movie[]) => void
+    selectedMovie: Movie | null
+    setSelectedMovie: (movie: Movie | null) => void
 }
 
 const MoviesContext = createContext<MoviesContextType | undefined>(undefined)
@@ -20,6 +22,7 @@ export const useMovies = () => {
 
 export const MoviesProvider = ({children}: { children: ReactNode }) => {
   const [movies, setMovies] = useState<Movie[]>([])
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
 
   const getMovieById = useCallback((movieId: number) => {
     if (!movieId) return undefined
@@ -34,13 +37,17 @@ export const MoviesProvider = ({children}: { children: ReactNode }) => {
     movies,
     getMovieById,
     deleteMovieById,
-    setMovies
+    setMovies,
+    selectedMovie,
+    setSelectedMovie,
   }),
   [
     movies,
     getMovieById,
     deleteMovieById,
-    setMovies
+    setMovies,
+    selectedMovie,
+    setSelectedMovie,
   ])
 
   return (

@@ -66,7 +66,7 @@ export const EditMovieForm: StoryObj = {
     <StoryWrapper
       title="Edit movie"
       component={<MovieForm initialMovie={mockMovie}
-        onMovieEdit={() => {
+        onSubmit={() => {
         }}/>}
     >
       <Dialog/>
@@ -78,7 +78,7 @@ export const AddMovieForm: StoryObj = {
   render: () => (
     <StoryWrapper
       title="Add movie"
-      component={<MovieForm onMovieCreate={() => {
+      component={<MovieForm onSubmit={() => {
       }}/>}
     >
       <Dialog/>
