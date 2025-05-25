@@ -4,15 +4,14 @@ import FocusTrap from 'focus-trap-react'
 import {CloseIcon} from '@icons/CloseIcon'
 import {useDialog} from '@contexts/DialogContext'
 import {
+  ButtonStyled,
   DialogCloseButton,
-  DialogControls,
   DialogStyled,
   DialogTextContent,
   DialogTitle,
   DialogWrapper,
   Overlay
 } from './Dialog.styled'
-import {Button} from '@components/elements/Button'
 
 const dialogRoot = document.getElementById('dialog-root')
 
@@ -33,9 +32,7 @@ export const Dialog = () => {
               <DialogTitle>{title}</DialogTitle>
               {typeof component === 'string' ? (
                 <DialogTextContent>{component}</DialogTextContent>) : component}
-              <DialogControls>
-                {onConfirm && <Button mode='filled' onClick={onConfirm}>Confirm</Button>}
-              </DialogControls>
+              {onConfirm && <ButtonStyled mode='filled' onClick={onConfirm}>Confirm</ButtonStyled>}
             </DialogWrapper>
           </DialogStyled>
         </FocusTrap>

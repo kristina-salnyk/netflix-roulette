@@ -58,8 +58,7 @@ const MovieDetails = () => {
     <MovieDetailsStyled data-testid="movie-details">
       <Container>
         {isLoading && <Loader/>}
-        {!isLoading && !selectedMovie &&
-                    <InlineMessage text='Failed to load movie details'/>}
+        {!isLoading && !selectedMovie && <InlineMessage text='Failed to load movie details'/>}
         {!isLoading && selectedMovie && (
           <MovieDetailsContent role="region" aria-label="Movie details">
             <MoviePoster src={moviePoster || moviePlaceholder}
