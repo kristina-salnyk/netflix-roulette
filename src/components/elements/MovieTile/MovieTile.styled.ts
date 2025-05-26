@@ -15,12 +15,12 @@ export const MovieTileStyled = styled(Link)`
     }
 `
 
-export const MovieImage = styled.img`
+export const MoviePoster = styled.img`
     width: 100%;
     height: ${MOVIE_TILE_HEIGHT}px;
     object-fit: cover;
 `
-export const MovieDescription = styled.div`
+export const MovieOverview = styled.div`
     margin-top: ${({theme}) => theme.spacing[16]};
     display: flex;
     justify-content: space-between;

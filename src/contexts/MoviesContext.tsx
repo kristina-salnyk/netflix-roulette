@@ -3,11 +3,11 @@ import {Movie} from '@type/Movie'
 
 interface MoviesContextType {
     movies: Movie[]
-    getMovieById: (movieId: string) => Movie | undefined
-    deleteMovieById: (movieId: string) => void
-    editMovieById: (movieId: string, movie: Movie) => void
-    addMovie: (movie: Movie) => void
+    getMovieById: (movieId: number) => Movie | undefined
+    deleteMovieById: (movieId: number) => void
     setMovies: (movies: Movie[]) => void
+    selectedMovie: Movie | null
+    setSelectedMovie: (movie: Movie | null) => void
 }
 
 const MoviesContext = createContext<MoviesContextType | undefined>(undefined)
@@ -22,39 +22,32 @@ export const useMovies = () => {
 
 export const MoviesProvider = ({children}: { children: ReactNode }) => {
   const [movies, setMovies] = useState<Movie[]>([])
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
 
-  const getMovieById = useCallback((movieId: string) => {
+  const getMovieById = useCallback((movieId: number) => {
     if (!movieId) return undefined
     return movies.find(movie => movie.id === movieId)
   }, [movies])
 
-  const deleteMovieById = useCallback((movieId: string) => {
+  const deleteMovieById = useCallback((movieId: number) => {
     setMovies(prevMovies => prevMovies.filter(item => item.id !== movieId))
   }, [setMovies])
-
-  const editMovieById = useCallback((movieId: string, movie: Movie) => {
-    setMovies(prevMovies => prevMovies.map(item => item.id === movieId ? movie : item))
-  }, [setMovies])
-
-  const addMovie = useCallback((movie: Movie) => {
-    setMovies(prevMovies => [movie, ...prevMovies])
-  }, [])
 
   const value = useMemo(() => ({
     movies,
     getMovieById,
     deleteMovieById,
-    editMovieById,
-    addMovie,
-    setMovies
+    setMovies,
+    selectedMovie,
+    setSelectedMovie,
   }),
   [
     movies,
     getMovieById,
     deleteMovieById,
-    editMovieById,
-    addMovie,
-    setMovies
+    setMovies,
+    selectedMovie,
+    setSelectedMovie,
   ])
 
   return (

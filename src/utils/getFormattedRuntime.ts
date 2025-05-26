@@ -1,4 +1,4 @@
-export const getFormattedDuration = (minutes: number): string => {
+export const getFormattedRuntime = (minutes: number): string => {
   const hours = Math.floor(minutes / 60)
   const remainingMinutes = minutes % 60
 

@@ -1,13 +1,12 @@
 import React, {Suspense, useCallback, useEffect, useMemo} from 'react'
-import {useQuery} from 'react-query'
 import {Outlet, useSearchParams} from 'react-router'
 import {Movie} from '@type/Movie'
 import {MovieList} from '@components/pages/MovieListPage/components/MovieList'
 import {Loader} from '@components/elements/Loader'
 import {useMovies} from '@contexts/MoviesContext'
-import {fetchMovies, MoviesResponse} from '@services/api/fetchMovies'
 import {getSearchValueByParam} from '@utils/getSearchValueByParam'
 import {DEFAULT_GENRE, GENRES, SORT_OPTIONS, SORT_VALUES} from '@constants'
+import {useMoviesData} from '@hooks/useMoviesData'
 
 const MovieListPage = () => {
   const {setMovies} = useMovies()
@@ -20,24 +19,20 @@ const MovieListPage = () => {
   const activeGenre = useMemo(() => getSearchValueByParam(genreParam, GENRES, DEFAULT_GENRE), [genreParam])
   const sortCriterion = useMemo(() => getSearchValueByParam(sortParam, Object.values(SORT_VALUES), SORT_OPTIONS[0].value), [sortParam])
 
-  const {data, isLoading, isError} = useQuery<MoviesResponse>({
-    queryKey: ['movies', searchQuery, sortCriterion, activeGenre],
-    queryFn: ({signal}) => fetchMovies(sortCriterion, searchQuery, activeGenre, signal),
-    keepPreviousData: true,
-  })
+  const {data, isLoading, isError} = useMoviesData(sortCriterion, searchQuery, activeGenre)
 
   useEffect(() => {
     if (data) {
       const movies = data.data.map((item) => {
         const movie: Movie = {
-          id: item.id.toString(),
+          id: item.id,
           title: item.title,
+          posterPath: item.poster_path,
+          voteAverage: item.vote_average,
+          runtime: item.runtime,
           releaseDate: item.release_date,
-          imageUrl: item.poster_path,
+          overview: item.overview,
           genres: item.genres,
-          rating: item.vote_average,
-          duration: item.runtime,
-          description: item.overview,
         }
         return movie
       })

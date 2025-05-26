@@ -10,81 +10,92 @@ import {
   LeftColumn,
   RightColumn
 } from '@components/elements/MovieForm/MovieForm.styled'
+import {MovieFormInputs} from '@type/MovieFormInputs'
+import {SubmitHandler, useForm} from 'react-hook-form'
+import {MovieDataRequest} from '@type/MovieData'
+import {yupResolver} from '@hookform/resolvers/yup'
+import {schema} from '@components/elements/MovieForm/schema'
 
 interface MovieFormProps {
-    initialMovie?: Movie
-    onSubmit: (movie: Movie) => void
+    initialMovie?: Movie | null
+    onSubmit: (movie: Omit<MovieDataRequest, 'id'>, movieId?: number) => void
 }
 
 export const MovieForm: FC<MovieFormProps> = ({initialMovie, onSubmit}) => {
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const formData = new FormData(event.currentTarget)
-    const movie: Movie = {
-      id: initialMovie?.id || '',
-      title: formData.get('movie-title')?.toString() || '',
-      imageUrl: formData.get('movie-image-url')?.toString() || '',
-      rating: Number.parseFloat(formData.get('movie-rating')?.toString() || '0'),
-      duration: Number.parseFloat(formData.get('movie-duration')?.toString() || '0'),
-      description: formData.get('movie-description')?.toString() || '',
-      releaseDate: formData.get('movie-release-date')?.toString() || '',
-      genres: [...(initialMovie?.genres || [])]
+  const {
+    register,
+    handleSubmit,
+    formState: {errors},
+    clearErrors
+  } = useForm<MovieFormInputs>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      title: initialMovie?.title,
+      posterPath: initialMovie?.posterPath,
+      voteAverage: initialMovie?.voteAverage,
+      runtime: initialMovie?.runtime,
+      releaseDate: initialMovie?.releaseDate,
+      overview: initialMovie?.overview,
     }
+  })
 
-    onSubmit(movie)
+  const onFormSubmit: SubmitHandler<MovieFormInputs> = (data) => {
+    const id = initialMovie?.id
+
+    const movie = {
+      title: data.title,
+      poster_path: data.posterPath,
+      vote_average: data.voteAverage,
+      runtime: data.runtime,
+      release_date: data.releaseDate,
+      overview: data.overview,
+      genres: [...(initialMovie?.genres || ['Action', 'Drama'])],
+    }
+    
+    onSubmit(movie, id)
   }
+
+  const {ref: releaseDateRef, ...rest} = register('releaseDate')
 
   return (
   //TODO: Add custom multiple select for genres
-    <FormStyled role='form' onSubmit={handleFormSubmit}>
+    <FormStyled role='form' onSubmit={handleSubmit(onFormSubmit)}>
       <FormColumns>
         <LeftColumn>
-          <Input required
-            name='movie-title'
-            label='Tilte'
-            minLength={3}
-            maxLength={200}
-            defaultValue={initialMovie?.title}/>
+          <Input label='Title'
+            error={errors.title?.message}
+            {...register('title')}/>
           <Input maxLength={500}
-            name='movie-image-url'
             label='Movie URL'
             placeholder='https://'
-            defaultValue={initialMovie?.imageUrl}/>
+            error={errors.posterPath?.message}
+            {...register('posterPath')}/>
         </LeftColumn>
         <RightColumn>
-          <Input required
-            name='movie-release-date'
-            type='date'
+          <Input type='date'
             label='Release date'
-            defaultValue={initialMovie?.releaseDate}/>
-          <Input required
-            name='movie-rating'
-            type='number'
+            error={errors.releaseDate?.message}
+            {...rest}
+            ref={releaseDateRef}/>
+          <Input type='number'
             label='Rating'
-            min={0}
-            max={10}
             step={0.1}
-            defaultValue={initialMovie?.rating}/>
-          <Input required
-            name='movie-duration'
-            type='number'
+            error={errors.voteAverage?.message}
+            {...register('voteAverage')}/>
+          <Input type='number'
             label='Runtime'
-            min={0}
-            max={1000}
             placeholder='minutes'
-            defaultValue={initialMovie?.duration}/>
+            error={errors.runtime?.message}
+            {...register('runtime')}/>
         </RightColumn>
       </FormColumns>
-      <TextArea required
-        name='movie-description'
-        label='Overview'
+      <TextArea label='Overview'
         rows={4}
-        maxLength={1000}
-        placeholder='Movie description'
-        defaultValue={initialMovie?.description}/>
+        placeholder='Movie overview'
+        error={errors.overview?.message}
+        {...register('overview')}/>
       <FormControls>
-        <Button type='reset' mode='outlined'>Reset</Button>
+        <Button type='reset' mode='outlined' onClick={() => clearErrors()}>Reset</Button>
         <Button type='submit' mode='filled'>Submit</Button>
       </FormControls>
     </FormStyled>

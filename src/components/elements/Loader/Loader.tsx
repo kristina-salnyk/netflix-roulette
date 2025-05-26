@@ -1,22 +1,35 @@
-import React from 'react'
+import React, {FC} from 'react'
 import {useTheme} from 'styled-components'
-import {RotatingLines} from 'react-loader-spinner'
-import {LOADER_WIDTH} from '@constants'
-import {LoaderStyled} from './Loader.styled'
+import {LOADER_MARGIN, LOADER_WIDTH} from '@constants'
+import {LoaderStyled, Overlay} from './Loader.styled'
+import {BeatLoader} from 'react-spinners'
 
-export const Loader = () => {
+interface LoaderProps {
+    fullScreen?: boolean
+}
+
+export const Loader: FC<LoaderProps> = ({fullScreen}) => {
   const theme = useTheme()
 
-  return (
+  const Content = (
     <LoaderStyled role="status">
-      <RotatingLines
-        strokeColor={theme.colors.accent}
-        strokeWidth='5'
-        animationDuration='0.75'
-        width={LOADER_WIDTH.toString()}
-        visible={true}
+      <BeatLoader
+        color={theme.colors.accent}
+        size={LOADER_WIDTH}
+        margin={LOADER_MARGIN}
+        speedMultiplier={1.5}
       />
     </LoaderStyled>
   )
+
+  if (fullScreen) {
+    return (
+      <Overlay>
+        {Content}
+      </Overlay>
+    )
+  }
+
+  return Content
 }
 

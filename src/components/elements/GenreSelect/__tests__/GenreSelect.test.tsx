@@ -2,11 +2,11 @@ import {fireEvent, screen} from '@testing-library/react'
 import {renderWithThemeProvider} from '@utils/renderWithThemeProvider'
 import {GenreSelect} from '@components/elements/GenreSelect'
 
-const genresMock = ['Action', 'Comedy', 'Drama', 'Horror']
+const genresMock = ['All', 'Action', 'Comedy', 'Drama', 'Horror']
 
 describe('GenreSelect', () => {
   it('should render component with all genres', () => {
-    renderWithThemeProvider(GenreSelect, {genres: genresMock})
+    renderWithThemeProvider(GenreSelect, {genres: genresMock, onSelect: jest.fn()})
 
     genresMock.forEach(genre => {
       expect(screen.getByText(genre)).toBeInTheDocument()
@@ -14,7 +14,7 @@ describe('GenreSelect', () => {
   })
 
   it('should highlight selected genre', () => {
-    renderWithThemeProvider(GenreSelect, {genres: genresMock, activeGenre: 'Comedy'})
+    renderWithThemeProvider(GenreSelect, {genres: genresMock, activeGenre: 'Comedy', onSelect: jest.fn()})
     expect(screen.getByText('Comedy')).toHaveClass('selected')
   })
 
