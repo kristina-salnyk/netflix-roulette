@@ -27,3 +27,17 @@ export const TextAreaLabel = styled.label`
     color: ${({theme}) => theme.colors.accent};
     text-transform: uppercase;
 `
+
+export const TextAreaWrapper = styled.div`
+    position: relative;
+`
+
+export const InputError = styled.span`
+    margin-top: ${({theme}) => theme.spacing[4]};
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-size: ${({theme}) => theme.typography.size[14]};
+    font-weight: ${({theme}) => theme.typography.weight.regular};
+    color: ${({theme}) => theme.colors.accent};
+`

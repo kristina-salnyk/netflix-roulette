@@ -16,6 +16,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.0.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -26,12 +27,15 @@
     "polished": "^4.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-loader-spinner": "^6.1.6",
-    "react-query": "^3.39.3",
+    "react-hook-form": "^7.56.4",
     "react-router": "^7.5.3",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.17.0",
+    "react-toastify": "^11.0.5",
     "styled-components": "^6.1.16",
-    "web-vitals": "^2.1.4"
+    "swr": "^2.3.3",
+    "web-vitals": "^2.1.4",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",

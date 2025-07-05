@@ -1,20 +1,20 @@
-import React from 'react'
 import type {Meta, StoryObj} from '@storybook/react'
 import {http, HttpResponse} from 'msw'
-import {QueryClient, QueryClientProvider} from 'react-query'
 import {reactRouterParameters, withRouter} from 'storybook-addon-remix-react-router'
 import MovieDetails from '@components/pages/MovieListPage/components/MovieDetails/MovieDetails'
 import {BASE_URL} from '@constants'
+import {MoviesProvider} from '@contexts/MoviesContext'
+import React from 'react'
 
 const mockMovieResponse = {
   id: 1,
   title: 'Inception',
-  release_date: '2020-05-01',
   poster_path: 'https://m.media-amazon.com/images/S/pv-target-images/cc72ff2193c0f7a85322aee988d6fe1ae2cd9f8800b6ff6e8462790fe2aacaf3.jpg',
-  genres: ['Action', 'Sci-Fi'],
   vote_average: 7.8,
   runtime: 210,
-  overview: 'A thief who steals corporate secrets through dream-sharing tech...',
+  release_date: '2020-05-01',
+  overview: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
+  genres: ['Action', 'Sci-Fi'],
 }
 
 const meta = {
@@ -23,7 +23,7 @@ const meta = {
   parameters: {
     layout: 'centered',
     reactRouter: reactRouterParameters({
-      location: {pathParams: {movieId: '1'}},
+      location: {pathParams: {movieId: 1}},
       routing: {path: 'movies/:movieId'}
     }),
     msw: {
@@ -31,14 +31,20 @@ const meta = {
         http.get(`${BASE_URL}/movies/1`, () => {
           return HttpResponse.json(mockMovieResponse)
         }),
-      ],
-    },
+        http.get(`${BASE_URL}/movies/2`, () => {
+          return HttpResponse.json({
+            ...mockMovieResponse,
+            id: 2,
+            poster_path: 'https://example.com/invalid-image.jpg',
+          })
+        }),],
+    }
   },
-  decorators: [(Story) => (
-    <QueryClientProvider client={new QueryClient()}>
+  decorators: [withRouter, (Story) => (
+    <MoviesProvider>
       <Story/>
-    </QueryClientProvider>
-  ), withRouter],
+    </MoviesProvider>
+  )],
   tags: ['autodocs'],
 } satisfies Meta<typeof MovieDetails>
 
@@ -49,17 +55,9 @@ export const Default: Story = {}
 
 export const WithUnavailableImage: Story = {
   parameters: {
-    msw: {
-      handlers: [
-        http.get(`${BASE_URL}/movies/1`, () => {
-          return HttpResponse.json({
-            ...mockMovieResponse,
-            poster_path: 'https://example.com/invalid-image.jpg',
-          })
-        }),
-      ],
-    },
+    reactRouter: reactRouterParameters({
+      location: {pathParams: {movieId: 2}},
+      routing: {path: 'movies/:movieId'}
+    }),
   }
 }
-
-

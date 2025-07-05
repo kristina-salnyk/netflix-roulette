@@ -56,7 +56,7 @@ export const DialogTextContent = styled.p`
     color: ${({theme}) => theme.colors.white};
 `
 
-export const DialogButton = styled(Button)`
+export const ButtonStyled = styled(Button)`
     margin-top: ${({theme}) => theme.spacing[48]};
     float: right;
 `

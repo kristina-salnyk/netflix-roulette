@@ -1,15 +1,19 @@
 import React, {FC, TextareaHTMLAttributes} from 'react'
-import {TextAreaLabel, TextAreaStyled} from './TextArea.styled'
+import {InputError, TextAreaLabel, TextAreaStyled, TextAreaWrapper} from './TextArea.styled'
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
     label?: string;
+    error?: string;
 }
 
-export const TextArea: FC<TextAreaProps> = ({label, ...props}) => {
+export const TextArea: FC<TextAreaProps> = ({label, error, ...props}) => {
   return (
     <div>
       {label && <TextAreaLabel htmlFor={props.name}>{label}</TextAreaLabel>}
-      <TextAreaStyled id={props.name} {...props}></TextAreaStyled>
+      <TextAreaWrapper>
+        <TextAreaStyled id={props.name} {...props}></TextAreaStyled>
+        {error && <InputError>{error}</InputError>}
+      </TextAreaWrapper>
     </div>
   )
 }

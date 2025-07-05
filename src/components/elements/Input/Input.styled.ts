@@ -58,3 +58,12 @@ export const InputButton = styled.span`
     border: none;
     cursor: pointer;
 `
+export const InputError = styled.span`
+    margin-top: ${({theme}) => theme.spacing[4]};
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-size: ${({theme}) => theme.typography.size[14]};
+    font-weight: ${({theme}) => theme.typography.weight.regular};
+    color: ${({theme}) => theme.colors.accent};
+`

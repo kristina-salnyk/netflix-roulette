@@ -1,59 +1,66 @@
 import {screen} from '@testing-library/react'
 import {renderWithProviders} from '@utils/renderWithProviders'
 import MovieDetails from '@components/pages/MovieListPage/components/MovieDetails/MovieDetails'
-import {useQuery} from 'react-query'
 import {getYearFromDate} from '@utils/getYearFromDate'
-import {getFormattedDuration} from '@utils/getFormattedDuration'
+import {getFormattedRuntime} from '@utils/getFormattedRuntime'
+import {useMovieData} from '@hooks/useMovieData'
+import {useMovies} from '@contexts/MoviesContext'
 
-const mockMovie =
-    {
-      id: '1',
-      title: 'Inception',
-      releaseDate: '2010-07-16',
-      imageUrl: 'https://m.media-amazon.com/images/S/pv-target-images/cc72ff2193c0f7a85322aee988d6fe1ae2cd9f8800b6ff6e8462790fe2aacaf3.jpg',
-      genres: ['Action', 'Sci-Fi'],
-      rating: 7.8,
-      duration: 148,
-      description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
-    }
+const mockMovie = {
+  id: 1,
+  title: 'Inception',
+  posterPath: 'https://m.media-amazon.com/images/S/pv-target-images/cc72ff2193c0f7a85322aee988d6fe1ae2cd9f8800b6ff6e8462790fe2aacaf3.jpg',
+  voteAverage: 7.8,
+  runtime: 148,
+  releaseDate: '2010-01-01',
+  overview: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
+  genres: ['Action', 'Sci-Fi'],
+}
 
 const mockQueryData = {
   data: {
-    id: '1',
+    id: 1,
     title: mockMovie.title,
+    poster_path: mockMovie.posterPath,
+    vote_average: mockMovie.voteAverage,
+    runtime: mockMovie.runtime,
     release_date: mockMovie.releaseDate,
-    poster_path: mockMovie.imageUrl,
+    overview: mockMovie.overview,
     genres: mockMovie.genres,
-    vote_average: mockMovie.rating,
-    runtime: mockMovie.duration,
-    overview: mockMovie.description,
   },
   isLoading: false,
   isError: false,
 }
 
-jest.mock('@services/api/fetchMovie', () => ({
+jest.mock('@contexts/MoviesContext')
+const useMoviesMock = useMovies as jest.MockedFunction<typeof useMovies>
+
+jest.mock('@services/api/fetchMovieRequest', () => ({
   fetchMovie: jest.fn(() => Promise.resolve(mockMovie)),
 }))
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn(),
+jest.mock('@hooks/useMovieData', () => ({
+  useMovieData: jest.fn(),
 }))
 
 jest.mock('@utils/getYearFromDate', () => ({
   getYearFromDate: jest.fn(),
 }))
 
-jest.mock('@utils/getFormattedDuration', () => ({
-  getFormattedDuration: jest.fn(),
+jest.mock('@utils/getFormattedRuntime', () => ({
+  getFormattedRuntime: jest.fn(),
 }))
 
 describe('MovieDetails', () => {
   beforeEach(() => {
-    (useQuery as jest.Mock).mockReturnValue(mockQueryData);
+    (useMovieData as jest.Mock).mockReturnValue(mockQueryData);
     (getYearFromDate as jest.Mock).mockReturnValue('2010');
-    (getFormattedDuration as jest.Mock).mockReturnValue('2h 28m')
+    (getFormattedRuntime as jest.Mock).mockReturnValue('2h 28m')
+
+    useMoviesMock.mockReturnValue({
+      selectedMovie: mockMovie,
+      setSelectedMovie: jest.fn(),
+    } as unknown as ReturnType<typeof useMovies>)
   })
 
   afterEach(() => {
@@ -67,12 +74,12 @@ describe('MovieDetails', () => {
     expect(movieDetails).toBeInTheDocument()
   })
 
-  test('should render movie image', () => {
+  test('should render movie poster', () => {
     renderWithProviders(MovieDetails)
 
-    const movieImage = screen.getByAltText(/Inception/i)
-    expect(movieImage).toBeInTheDocument()
-    expect(movieImage).toHaveAttribute('src', mockMovie.imageUrl)
+    const moviePoster = screen.getByAltText(/Inception/i)
+    expect(moviePoster).toBeInTheDocument()
+    expect(moviePoster).toHaveAttribute('src', mockMovie.posterPath)
   })
 
   test('should render movie title', () => {
@@ -97,18 +104,18 @@ describe('MovieDetails', () => {
     expect(screen.getByText(/2010/i)).toBeInTheDocument()
   })
 
-  test('should render movie duration', () => {
+  test('should render movie runtime', () => {
     renderWithProviders(MovieDetails)
     expect(screen.getByText(/2h 28m/i)).toBeInTheDocument()
   })
 
-  test('should render movie description', () => {
+  test('should render movie overview', () => {
     renderWithProviders(MovieDetails)
-    expect(screen.getByText(mockMovie.description)).toBeInTheDocument()
+    expect(screen.getByText(mockMovie.overview)).toBeInTheDocument()
   })
 
   test('should render loader when isLoading is true', () => {
-    (useQuery as jest.Mock).mockReturnValue({
+    (useMovieData as jest.Mock).mockReturnValue({
       ...mockQueryData,
       isLoading: true,
     })
@@ -117,11 +124,12 @@ describe('MovieDetails', () => {
     expect(screen.getByRole('status')).toBeInTheDocument()
   })
 
-  test('should render error message when isError is true', () => {
-    (useQuery as jest.Mock).mockReturnValue({
-      ...mockQueryData,
-      isError: true,
-    })
+  test('should render error message when movie data is not received', () => {
+    useMoviesMock.mockReturnValue({
+      selectedMovie: null,
+      setSelectedMovie: jest.fn(),
+    } as unknown as ReturnType<typeof useMovies>)
+
     renderWithProviders(MovieDetails)
 
     expect(screen.getByRole('alert')).toBeInTheDocument()

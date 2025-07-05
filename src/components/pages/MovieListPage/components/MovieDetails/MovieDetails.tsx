@@ -1,81 +1,80 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {useParams} from 'react-router'
-import {useQuery} from 'react-query'
 import {Movie} from '@type/Movie'
 import moviePlaceholder from '@images/movie-placeholder.png'
-import {getFormattedDuration} from '@utils/getFormattedDuration'
+import {getFormattedRuntime} from '@utils/getFormattedRuntime'
 import {getYearFromDate} from '@utils/getYearFromDate'
 import {Container} from '@components/elements/Container'
 import {Loader} from '@components/elements/Loader'
 import {InlineMessage} from '@components/elements/InlineMessage'
-import {useMovieImage} from '@hooks/useMovieImage'
-import {fetchMovie, MovieResponse} from '@services/api/fetchMovie'
+import {useMoviePoster} from '@hooks/useMoviePoster'
+import {useMovieData} from '@hooks/useMovieData'
 import {
-  MovieDescription,
   MovieDetailsContent,
   MovieDetailsStyled,
   MovieGenres,
   MovieHeading,
-  MovieImage,
   MovieInfo,
   MovieMeta,
+  MovieOverview,
+  MoviePoster,
   MovieRating,
   MovieTitle
 } from './MovieDetails.styled'
+import {useMovies} from '@contexts/MoviesContext'
 
 const MovieDetails = () => {
-  const {movieId} = useParams()
-  const [movie, setMovie] = useState<Movie | null>(null)
-  const {movieImage, onError} = useMovieImage(movie?.imageUrl ?? '')
-
-  const {data, isLoading, isError} = useQuery<MovieResponse | null>({
-    queryKey: ['movie', movieId],
-    queryFn: ({signal}) => fetchMovie(movieId, signal),
-    keepPreviousData: true,
-  })
+  const params = useParams()
+  const movieId = Number.parseInt(params.movieId ?? '')
+  const {selectedMovie, setSelectedMovie} = useMovies()
+  const {moviePoster, onError} = useMoviePoster(selectedMovie?.posterPath ?? '')
+  const {data, isLoading} = useMovieData(movieId)
 
   useEffect(() => {
     if (data) {
       const movie: Movie = {
-        id: data.id.toString(),
+        id: data.id,
         title: data.title,
+        posterPath: data.poster_path,
+        voteAverage: data.vote_average,
+        runtime: data.runtime,
         releaseDate: data.release_date,
-        imageUrl: data.poster_path,
+        overview: data.overview,
         genres: data.genres,
-        rating: data.vote_average,
-        duration: data.runtime,
-        description: data.overview,
       }
 
-      setMovie(movie)
+      setSelectedMovie(movie)
     }
-  }, [setMovie, data])
 
-  const releaseYear = getYearFromDate(movie?.releaseDate ?? '')
-  const duration = getFormattedDuration(movie?.duration ?? 0)
+    return () => {
+      setSelectedMovie(null)
+    }
+  }, [setSelectedMovie, data])
+
+  const releaseYear = getYearFromDate(selectedMovie?.releaseDate ?? '')
+  const runtime = getFormattedRuntime(selectedMovie?.runtime ?? 0)
 
   return (
     <MovieDetailsStyled data-testid="movie-details">
       <Container>
         {isLoading && <Loader/>}
-        {!isLoading && isError && <InlineMessage text='Something went wrong. Please try again later'/>}
-        {!isLoading && !isError && !movie && <InlineMessage text='Movie not found'/>}
-        {!isLoading && movie && (
+        {!isLoading && !selectedMovie && <InlineMessage text='Failed to load movie details'/>}
+        {!isLoading && selectedMovie && (
           <MovieDetailsContent role="region" aria-label="Movie details">
-            <MovieImage src={movieImage || moviePlaceholder}
+            <MoviePoster src={moviePoster || moviePlaceholder}
               onError={onError}
-              alt={movie?.title}/>
+              alt={selectedMovie?.title}/>
             <MovieInfo>
               <MovieHeading>
-                <MovieTitle data-testid="movie-title">{movie?.title}</MovieTitle>
-                <MovieRating>{movie?.rating}</MovieRating>
+                <MovieTitle data-testid="movie-title">{selectedMovie?.title}</MovieTitle>
+                <MovieRating>{selectedMovie?.voteAverage}</MovieRating>
               </MovieHeading>
-              <MovieGenres>{movie?.genres.join(', ')}</MovieGenres>
+              <MovieGenres>{selectedMovie?.genres.join(', ')}</MovieGenres>
               <MovieMeta>
                 {releaseYear && <span>{releaseYear}</span>}
-                {duration && <span>{duration}</span>}
+                {runtime && <span>{runtime}</span>}
               </MovieMeta>
-              <MovieDescription>{movie?.description}</MovieDescription>
+              <MovieOverview>{selectedMovie?.overview}</MovieOverview>
             </MovieInfo>
           </MovieDetailsContent>)}
       </Container>
